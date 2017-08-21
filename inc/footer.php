@@ -39,6 +39,6 @@
     </ul>
     <!-- - - - - - - - - - - - - - End Social icons - - - - - - - - - - - - - - - - -->
     <div class="pull-right logoIwebFooter">
-        <a href="https://www.imagenwebhq.com/" title="Powered by ImagenWeb"><img src="images/logo-iweb-white.png" alt="logo imagen web"></a>
+        <a href="https://www.imagenwebhq.com/" class="tooltip_container"><span class="tooltip left">Powered by ImagenWeb</span><img src="images/logo-iweb-white.png" alt="logo imagen web"></a>
     </div>
 </footer>
