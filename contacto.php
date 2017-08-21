@@ -168,8 +168,7 @@
 
                                 <ul>
 
-                                    <li><span class="ci_item">Teléfono:</span> +1 800 603 6035</li>
-                                    <li><span class="ci_item">FAX:</span> (595 21) 214 353</li>
+                                    <li><span class="ci_item">Teléfono:</span> (595 21) 214 353</li>
                                     <li><span class="ci_item">E-mail:</span> <a href="mailto:info@cardumenelbagre.com">info@cardumenelbagre.com</a></li>
 
                                 </ul>
