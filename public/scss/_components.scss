@@ -623,7 +623,7 @@ ul.gallety-filters{
       @include make-md-column(4, 0);
       @include make-lg-column(3, 0);
 
-      &.gl-loading{min-height: 225px; background: url(assets/img/spinner_black.gif) center center no-repeat;}
+      &.gl-loading{min-height: 225px; background: url(public/assets/img/spinner_black.gif) center center no-repeat;}
       &.gl-double{
          @include make-sm-column(12, 0);
          @include make-md-column(8, 0);
@@ -790,7 +790,7 @@ ul.gallety-filters{
 
 .loading-spinner{
    display: inline-block; width: 32px; height: 32px; vertical-align: middle;
-   background:url(assets/img/spinner_black.gif);
+   background:url(public/assets/img/spinner_black.gif);
 }
 
 .cssanimations{

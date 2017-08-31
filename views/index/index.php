@@ -3,38 +3,33 @@
         <![endif]-->
 
 <div id="wrapper" class="no-menubar">
-
     <div id="main">
-
         <div class="section st-no-padding">
             <section>
                 <div class="ls-fullheight ls-nobullets">
                     <div id="background-video" class="background-video">
-                        <img src="placeholder.jpg" alt="" class="placeholder-image">
+                        <img src="<?= ASSETS ?>img/placeholder.jpg" alt="" class="placeholder-image">
+                        <a class="ls-l ls-mental-scrollunder" style="top:90%; left:50%; position: absolute; z-index: 999;" data-ls="offsetxin:0;durationin:2000;delayin:2000;easingin:easeOutElastic;rotatexin:-90;transformoriginin:50% top 0;offsetxout:-400;durationout:1000;"></a>
                     </div>
                 </div>
             </section>
         </div> <!-- section -->
-
-
         <div id="header" class="top-menu tm-fixonscroll">
             <header>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-2 tm-logo">
-                            <img src="assets/img/logo_white.png" class="logo" alt="Logo">
-                            <p class="tm-site-descr">Multipurpose Portfolio</p>
+                            <img src="<?= ASSETS ?>img/logo.png" class="logo" alt="Logo" style="width: 110px;">
                         </div>
                         <div class="col-md-10 tm-menu">
                             <nav class="top-main-menu-scrollspy">
-                                <ul class="top-main-menu mtmenu">
-                                    <li><a href="#aboutus">About Us</a></li>
-                                    <li><a href="#ourworks">Our Works</a></li>
-                                    <li><a href="#services">Services</a></li>
-                                    <li><a href="#testimonials">Testimonials</a></li>
-                                    <li><a href="#pricing">Pricing</a></li>
-                                    <li><a href="#blog">blog</a></li>
-                                    <li><a href="#contacts">Contact</a></li>
+                                <ul class="top-main-menu mtmenu sourcePro">
+                                    <li><a href="#nosotros">Quienes Somos</a></li>
+                                    <li><a href="#unidades">Unidades de negocio</a></li>
+                                    <li><a href="#trabajos">Trabajos</a></li>
+                                    <li><a href="#testimonials">Alianzas</a></li>
+                                    <li><a href="#pricing">Trabaja con nosotros</a></li>
+                                    <li><a href="#contacts">Contacto</a></li>
                                 </ul> <!-- top-main-menu -->
                             </nav>
                         </div>
@@ -42,44 +37,35 @@
                 </div> <!-- container -->
             </header>
         </div> <!-- header -->
-
-
-        <div id="aboutus" class="section st-bg-grey-lighter">
+        <div id="nosotros" class="section">
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3>Quiénes Somos</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem, viverra consectetur libero consequat a. Pellentesque finibus ac neque a efficitur. Pellentesque tortor purus, tempor ut massa non, ultrices blandit felis. Etiam porta orci sapien, vitae auctor augue sollicitudin quis. Nam a metus et leo pharetra feugiat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae mollis ligula. Praesent elit purus, dapibus non iaculis et, convallis quis enim. Vivamus eu est turpis. Vivamus posuere, purus laoreet malesuada sodales, felis magna pharetra massa, ac aliquet erat lacus a felis. Integer euismod urna vel quam iaculis, ac convallis tortor consequat.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="http://localhost/cardumenelbagre.com/public/assets/img/camara.jpg" class="img-responsive">
+                        </div>
+                    </div>
+                </div> <!-- container -->
+            </section>
+        </div> <!-- section -->
+        <div id="equipo" class="section st-bg-grey-lighter">
             <section>
                 <div class="section-title">
-                    <h2 data-animate="fadeInLeftBig">Creative Minds</h2>
-                    <p class="section-descr" data-animate="flipInX">We are team of creative photographers. We passionate with photography and other creative things. If you
-                        are looking professional photography theme with endless possibilities, you come in right place. This
-                        template consist of well-organized layers. Tons of features waiting for you. </p>
+                    <h2 data-animate="fadeInLeftBig">El Equipo</h2>
+                    <p class="section-descr" data-animate="flipInX">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem, viverra consectetur libero consequat a. Pellentesque finibus ac neque a efficitur. Pellentesque tortor purus, tempor ut massa non, ultrices blandit felis. Etiam porta orci sapien, vitae auctor augue sollicitudin quis. Nam a metus et leo pharetra feugiat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae mollis ligula. Praesent elit purus, dapibus non iaculis et, convallis quis enim. Vivamus eu est turpis. Vivamus posuere, purus laoreet malesuada sodales, felis magna pharetra massa, ac aliquet erat lacus a felis. Integer euismod urna vel quam iaculis, ac convallis tortor consequat.</p>
                 </div>
                 <div class="creative-minds">
                     <div class="row-cm">
-                        <div class="col-cm">
+                        <div class="col-md-8 col-md-offset-2">
                             <figure class="cm-item">
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption></figcaption>
+                                <img src="<?= ASSETS; ?>img/equipo" alt="">
                             </figure>
-                            <h4 class="cm-title" data-animate="fadeInDown">John Doe</h4>
-                            <p class="cm-descr">Graphic Designer</p>
-                        </div>
-                        <div class="col-cm active">
-                            <figure class="cm-item">
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption></figcaption>
-                            </figure>
-                            <h4 class="cm-title" data-animate="fadeInDown">MICHAEL DJONSON</h4>
-                            <p class="cm-descr">Creative photographer</p>
-                        </div>
-                        <div class="col-cm">
-                            <figure class="cm-item">
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption></figcaption>
-                            </figure>
-                            <h4 class="cm-title" data-animate="fadeInDown">Mariana Trench</h4>
-                            <p class="cm-descr">3D Animator</p>
                         </div>
                     </div>
-
                     <div class="container container-800 text-center">
                         <div class="social-block">
                             <a href=""><i class="fa fa-twitter"></i></a>
@@ -90,108 +76,61 @@
                             <a href=""><i class="fa fa-tumblr"></i></a>
                         </div>
                     </div>
-
                 </div>
-
             </section>
         </div> <!-- section -->
-
-
-        <div id="ourskills" class="section">
+        <div id="unidades" class="section">
             <section>
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h3>About Us</h3>
-                            <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you.</p>
-                            <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place.</p>
-                        </div>
-                        <div class="col-md-4">
-                            <h3>Our Goals</h3>
-                            <div id="accordion" data-animate="fadeInUp">
-                                <div class="accordion-group panel">
-                                    <a class="accordion-header" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                                        IMPRESSIVE TEMPLATE
-                                    </a>
-                                    <div id="collapse1" class="collapse in">
-                                        <div class="accordion-body">
-                                            <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-group panel">
-                                    <a class="accordion-header" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                                        TONS OF FEATURES
-                                    </a>
-                                    <div id="collapse2" class="collapse">
-                                        <div class="accordion-body">
-                                            <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-group panel">
-                                    <a class="accordion-header" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                                        CREATIVE LAYOUT
-                                    </a>
-                                    <div id="collapse3" class="collapse">
-                                        <div class="accordion-body">
-                                            <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="section-title">
+                        <h2 data-animate="fadeInDown">Unidades de Negocio</h2>
+                        <p class="section-descr">consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem.</p>
+                    </div>
+
+                    <div class="row services-block">
+                        <div class="col-md-4" data-animate="fadeInDown">
+                            <div class="services-item">
+                                <span class="sws-icon icon_camera_alt"></span>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                                <p>Nulla ut ligula cursus, egestas ligula mollis, pharetra turpis. Aliquam dapibus tortor purus, eget dignissim sem gravida vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus dolor arcu, mattis ac semper eu, volutpat ac enim. Proin neque metus, tristique nec auctor sit amet, pharetra imperdiet enim. Donec ultrices diam velit, ac imperdiet nibh tempor non.</p>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <h3>Our Skills</h3>
-
-                            <div class="progress-bar-block">
-                                <label>Landscape</label><div class="value">80%</div>
-                                <div class="progress">
-                                    <div class="progress-bar animate" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-                                    </div>
-                                </div>
+                        <div class="col-md-4" data-animate="fadeInDown">
+                            <div class="services-item">
+                                <span class="sws-icon sws-icon-sm icon_lightbulb_alt"></span>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                                <p>Nulla ut ligula cursus, egestas ligula mollis, pharetra turpis. Aliquam dapibus tortor purus, eget dignissim sem gravida vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus dolor arcu, mattis ac semper eu, volutpat ac enim. Proin neque metus, tristique nec auctor sit amet, pharetra imperdiet enim. Donec ultrices diam velit, ac imperdiet nibh tempor non.</p>
                             </div>
-
-                            <div class="progress-bar-block">
-                                <label>Animals</label><div class="value">75%</div>
-                                <div class="progress">
-                                    <div class="progress-bar animate" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-md-4" data-animate="fadeInDown">
+                            <div class="services-item">
+                                <span class="sws-icon sws-icon-sm icon_comment_alt"></span>
+                                <h5>Lorem ipsum dolor sit amet</h5>
+                                <p>Nulla ut ligula cursus, egestas ligula mollis, pharetra turpis. Aliquam dapibus tortor purus, eget dignissim sem gravida vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus dolor arcu, mattis ac semper eu, volutpat ac enim. Proin neque metus, tristique nec auctor sit amet, pharetra imperdiet enim. Donec ultrices diam velit, ac imperdiet nibh tempor non.</p>
                             </div>
-
-                            <div class="progress-bar-block">
-                                <label>People</label><div class="value">95%</div>
-                                <div class="progress">
-                                    <div class="progress-bar animate" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="progress-bar-block">
-                                <label>Creative Ideas</label><div class="value">100%</div>
-                                <div class="progress">
-                                    <div class="progress-bar animate" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
+
                 </div> <!-- container -->
             </section>
         </div> <!-- section -->
-
-
-        <div id="ourworks" class="section st-invert no-padding">
+        <div class="section st-padding-xl parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/frase1.jpg');">
+            <section>
+                <div class="container testimonial">
+                    <h3 class="citation-big" style="color:#fff;">“Lorem ipsum dolor sit amet, consectetur adipiscing elit.” </h3>
+                    <p class="author-big" style="color:#fff;">Lorem ipsum</p>
+                </div> <!-- container -->
+            </section>
+        </div> <!-- section -->
+        <div id="trabajos" class="section st-invert no-padding">
             <section>
 
                 <ul class="gallety-filters">
                     <li class="active"><a data-filter="*" href="#">All</a></li>
-                    <li><a data-filter="nature" href="#">Nature</a></li>
-                    <li><a data-filter="fashion" href="#">Fashion</a></li>
-                    <li><a data-filter="people" href="#">People</a></li>
-                    <li><a data-filter="animals" href="#">Animals</a></li>
+                    <li><a data-filter="nature" href="#">Guerrilla</a></li>
+                    <li><a data-filter="fashion" href="#">Categoria</a></li>
+                    <li><a data-filter="people" href="#">Categoria</a></li>
+                    <li><a data-filter="animals" href="#">Categoria</a></li>
                     <li class="gf-underline"></li>
                 </ul>
 
@@ -199,83 +138,19 @@
                     <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="people">
                         <a href="#">
                             <figure>
-                                <img src="images/gallery/thumbs700/33.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-picture-o"></i></p>
-                                            <p class="gl-item-title">Slider</p>
-                                            <p class="gl-item-category">People</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="people">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div id="carousel-gallery-1" class="carousel slide" data-ride="carousel">
-
-                                        <!-- Wrapper for slides -->
-                                        <div class="carousel-inner">
-                                            <div class="item active">
-                                                <img src="images/gallery/thumbs700/33.jpg" alt="slide">
-                                            </div>
-                                            <div class="item">
-                                                <img src="images/gallery/thumbs700/02.jpg" alt="slide">
-                                            </div>
-                                            <div class="item">
-                                                <img src="images/gallery/thumbs700/03.jpg" alt="slide">
-                                            </div>
-                                        </div>
-
-                                        <!-- Indicators -->
-                                        <ol class="carousel-indicators">
-                                            <li data-target="#carousel-gallery-1" data-slide-to="0" class="active"></li>
-                                            <li data-target="#carousel-gallery-1" data-slide-to="1"></li>
-                                            <li data-target="#carousel-gallery-1" data-slide-to="2"></li>
-                                        </ol>
-
-                                        <!-- Controls -->
-                                        <a class="left carousel-control" href="#carousel-post-1" data-slide="prev">
-                                            <span></span>
-                                        </a>
-                                        <a class="right carousel-control" href="#carousel-post-1" data-slide="next">
-                                            <span></span>
-                                        </a>
-
-                                    </div> <!-- carousel -->
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girl in the street</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="people">
-                        <a href="#">
-                            <figure>
-                                <img src="http://d.azelab.com/mental/Demo/images/hqdefault.jpg" alt="">
+                                <img src="<?= ASSETS; ?>img/trabajos/hinchas_resistencia.jpg" alt="">
                                 <figcaption>
                                     <div class="middle"><div class="middle-inner">
                                             <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                            <p class="gl-item-title">Youtube</p>
-                                            <p class="gl-item-category">People</p>
-                                        </div></div>
+                                        </div>
+                                    </div>
                                 </figcaption>
                             </figure>
+                            <div class="divTitulosPost">
+                                <p class="tipoEvento">Guerrilla</p>
+                                <p class="tituloPost">Hinchas de Resistencia</p>
+                                <p class="fechaPost">Julio-2017</p>
+                            </div>
                         </a>
                         <div class="gl-preview" style="diplay:none;" data-category="people">
                             <span class="glp-arrow"></span>
@@ -287,578 +162,11 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girl in the street</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
+                                    <h4>Hinchas de Resistencia</h4>
+                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
                                     <button class="btn btn-primary glp-readmore">Read More</button>
                                     <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="people">
-                        <a href="#">
-                            <figure>
-                                <img src="http://i.vimeocdn.com/video/475287645_640.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                            <p class="gl-item-title">Vimeo</p>
-                                            <p class="gl-item-category">People</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="people">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="http://player.vimeo.com/video/95384593" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girl in the street</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="people">
-                        <a href="#">
-                            <figure>
-                                <img src="video/thumbs/hac.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                            <p class="gl-item-title">Video JS</p>
-                                            <p class="gl-item-category">People</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="people">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <video class="video-js vjs-default-skin vjs-mental-skin" width="100%" height="100%" controls preload="none"
-                                               poster="video/thumbs/hac.jpg"
-                                               data-setup="{}">
-                                            <source src="video/hac.mp4" type="video/mp4" />
-                                            <!-- <source src="video/hac.webm" type='video/webm' /> -->
-                                            <source src="video/hac.ogv" type='video/ogg' />
-                                        </video>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girl in the street</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="people">
-                        <a href="#">
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Girl in the street</p>
-                                            <p class="gl-item-category">People</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="people">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girl in the street</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="people">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Tne Man</p>
-                                            <p class="gl-item-category">People</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Tne Man</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="people">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">The Girl</p>
-                                            <p class="gl-item-category">People</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>The Girl</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="nature">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Girt in the forest</p>
-                                            <p class="gl-item-category">Nature</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girt in the forest</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="nature">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Night River</p>
-                                            <p class="gl-item-category">Nature</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Night River</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="fashion">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Girl At Kitchen</p>
-                                            <p class="gl-item-category">Fashion</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girl At Kitchen</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="nature">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Lonely Desert</p>
-                                            <p class="gl-item-category">Nature</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Lonely Desert</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="nature">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Autumn Forest</p>
-                                            <p class="gl-item-category">Nature</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Autumn Forest</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="fashion">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Man in yellow jacket</p>
-                                            <p class="gl-item-category">Fashion</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Man in yellow jacket</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="fashion">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Man in blue shirt</p>
-                                            <p class="gl-item-category">Fashion</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Man in blue shirt</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="fashion">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Girl</p>
-                                            <p class="gl-item-category">Fashion</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girl</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="fashion">
-                        <a href="#"> 
-                            <figure>
-                                <img src="http://placehold.it/700x471" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-title">Girl</p>
-                                            <p class="gl-item-category">Fashion</p>
-                                        </div></div>
-                                </figcaption>
-                            </figure>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <figure>
-                                        <img src="http://placehold.it/700x471" alt="">
-                                        <a href="http://placehold.it/1280x1024" class="glp-zoom"></a>
-                                    </figure>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Girl</h4>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Share</p>
+                                        <p>Compartir</p>
                                         <a href="#"><i class="fa fa-twitter"></i></a>
                                         <a href="#"><i class="fa fa-facebook"></i></a>
                                         <a href="#"><i class="fa fa-google-plus"></i></a>
@@ -877,45 +185,6 @@
                 </div>
             </section>
         </div> <!-- section -->
-
-
-        <div id="services" class="section">
-            <section>
-                <div class="container">
-                    <div class="section-title">
-                        <h2 data-animate="fadeInDown">Our Services</h2>
-                        <p class="section-descr">We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                    </div>
-
-                    <div class="row services-block">
-                        <div class="col-md-4" data-animate="fadeInDown">
-                            <div class="services-item">
-                                <span class="sws-icon icon_camera_alt"></span>
-                                <h5>Photography</h5>
-                                <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4" data-animate="fadeInDown">
-                            <div class="services-item">
-                                <span class="sws-icon sws-icon-sm icon_lightbulb_alt"></span>
-                                <h5>Creative Ideas</h5>
-                                <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4" data-animate="fadeInDown">
-                            <div class="services-item">
-                                <span class="sws-icon sws-icon-sm icon_comment_alt"></span>
-                                <h5>Consulting</h5>
-                                <p>We are team of creative photographers. We passionate with photography and other creative things. If you are looking professional photography theme with endless possibilities, you come in right place. This template consist of well-organized layers. Tons of features waiting for you. </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div> <!-- container -->
-            </section>
-        </div> <!-- section -->
-
-
         <div id="testimonials" class="section st-bg-grey-lighter">
             <section>
                 <div class="container">
@@ -961,14 +230,7 @@
         </div> <!-- section -->
 
 
-        <div class="section st-padding-xl parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('http://placehold.it/1920x1080');">
-            <section>
-                <div class="container testimonial">
-                    <h3 class="citation-big">“You only live once, but if you do it right, once is enough.” </h3>
-                    <p class="author-big">Mae West</p>
-                </div> <!-- container -->
-            </section>
-        </div> <!-- section -->
+        
 
 
         <div id="pricing" class="section st-padding-lg">

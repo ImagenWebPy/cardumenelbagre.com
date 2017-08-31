@@ -14,7 +14,7 @@
         <link href='http://fonts.googleapis.com/css?family=Oxygen:400,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="<?= ASSETS; ?>css/style.css">
         <link rel="stylesheet" href="<?= PUBLIC_FILES; ?>plugins/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="<?= ASSETS; ?>layerslider/css/layerslider.css">
+        <link rel="stylesheet" href="<?= ASSETS; ?>plugins/layerslider/css/layerslider.css">
         <link rel="stylesheet" href="<?= ASSETS; ?>css/custom.css">
         <script src="<?= ASSETS; ?>js/vendor/modernizr-2.6.2.min.js"></script>
         <?php
