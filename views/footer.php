@@ -31,9 +31,41 @@
 <script src="<?= ASSETS; ?>js/plugins.js"></script>
 <script src="<?= ASSETS; ?>js/main.js"></script>
 <script src="<?= ASSETS; ?>js/jquery.youtubebackground.js"></script>
+
+<!--SLICK-->
+<script src="<?= PUBLIC_FILES; ?>plugins/slick/slick/slick.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwncHAgzJNmPsM9B3vjYk7y0tjoKR7tkg&callback=initMap"
+async defer></script>
+<script type="text/javascript">
+    var maps = [];
+    var markers = [];
+    function initMap() {
+        var $maps = $('#gmap');
+        $.each($maps, function (i, value) {
+            var uluru = {lat: parseFloat($(value).attr('data-latitud')), lng: parseFloat($(value).attr('data-longitud'))};
+            var mapDivId = $(value).attr('id');
+
+            maps[mapDivId] = new google.maps.Map(document.getElementById(mapDivId), {
+                zoom: 17,
+                center: uluru
+            });
+
+            markers[mapDivId] = new google.maps.Marker({
+                position: uluru,
+                map: maps[mapDivId]
+            });
+        })
+    }
+</script>
 <script>
     jQuery(function ($) {
-
+        $(".center").slick({
+            dots: true,
+            infinite: true,
+            centerMode: true,
+            slidesToShow: 3,
+            slidesToScroll: 3
+        });
         $('#background-video').YTPlayer({
             fitToBackground: true,
             videoId: '9lvptGdodCA',
