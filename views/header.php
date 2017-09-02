@@ -13,12 +13,15 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link href='http://fonts.googleapis.com/css?family=Oxygen:400,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="<?= ASSETS; ?>css/style.css">
+        <link rel="stylesheet" href="<?= PUBLIC_FILES; ?>plugins/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?= PUBLIC_FILES; ?>plugins/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<?= ASSETS; ?>plugins/layerslider/css/layerslider.css">
         <link rel="stylesheet" href="<?= PUBLIC_FILES; ?>plugins/slick/slick/slick.css">
         <link rel="stylesheet" href="<?= PUBLIC_FILES; ?>plugins/slick/slick/slick-theme.css">
+        <link rel="stylesheet" href="<?= PUBLIC_FILES; ?>plugins/file-upload/assets/css/html5fileupload.css">
         <link rel="stylesheet" href="<?= ASSETS; ?>css/custom.css">
         <script src="<?= ASSETS; ?>js/vendor/modernizr-2.6.2.min.js"></script>
+
         <?php
         #cargamos los css de las vistas
         if (isset($this->css)) {
@@ -31,11 +34,16 @@
                 echo '<link rel="stylesheet" href="' . URL . 'public/' . $public_css . '" type="text/css">';
             }
         }
+        ?>
+        <script src="<?= ASSETS; ?>js/vendor/jquery-1.10.2.min.js"></script>
+        <?php
         if (isset($this->publicHeader_js)) {
             foreach ($this->publicHeader_js as $public_js) {
                 echo '<script type="text/javascript" src="' . URL . 'public/' . $public_js . '"></script>';
             }
         }
         ?>
+        <!--FILE UPLOAD-->
+        <script src="<?= PUBLIC_FILES; ?>plugins/file-upload/assets/js/html5fileupload.min.js"></script>
     </head>
     <body data-spy="scroll" data-target=".top-main-menu-scrollspy" data-offset="60">

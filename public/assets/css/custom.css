@@ -85,6 +85,8 @@ source {
 .ytplayer-player {
     position: absolute;
 }
+.tiposArchivos {font-size: 10px; color: #7B7676;}
+.tiposArchivos img{ display: inline-block;}
 .sourcePro {font-family: 'SourceSansPro-Bold';}
 .SourceSansPro-Regular {font-family: 'SourceSansPro-Regular';}
 .Oswald-Regular {font-family: 'Oswald-Regular';}
@@ -93,7 +95,14 @@ source {
 .divTitulosPost .tipoEvento{color: #fff !important; font-family: 'Oswald-Bold'; text-transform: uppercase; font-weight: bold; line-height: 0px; margin-top: 5px; font-size: 10px;}
 .divTitulosPost .tituloPost{color: #fff !important; font-family: 'Oswald-Bold'; text-transform: uppercase; font-weight: bold; line-height: 15px; font-size: 18px;}
 .divTitulosPost .fechaPost{color: #fff !important; font-family: 'Oswald-Regular'; text-transform: uppercase; font-weight: bold; line-height: 5px; font-size: 9px;}
+.genericModal { margin-top: 50px;}
+.bg-black {color: #fff; background: #1A1A1A;}
+.masContenido {top:90%; left:50%; position: absolute; z-index: 999;}
+.modal-footer{ border: none !important;}
+#gmap{ height: 400px;}
+a:focus, a:hover { color: #C54C7B !important;}
+.ytp-pause-overlay{z-index: 0 !important;}
 /* For Screen Higher than 1400px */ 
 @media screen and (min-width: 1401px){
     .divTitulosPost{top: 255px;}
-} 
+}
