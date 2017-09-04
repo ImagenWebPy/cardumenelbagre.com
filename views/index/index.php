@@ -60,7 +60,7 @@
                     <div class="row-cm">
                         <div class="col-md-8 col-md-offset-2" data-animate="tada">
                             <figure class="cm-item">
-                                <img src="<?= ASSETS; ?>img/equipo" alt="">
+                                <img src="<?= ASSETS; ?>img/equipo.jpg" alt="">
                             </figure>
                         </div>
                     </div>
