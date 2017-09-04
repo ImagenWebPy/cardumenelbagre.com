@@ -14,6 +14,12 @@ switch ($host) {
         define('DB_PASS', '');
         define('DB_NAME', 'cardumen_db');
         break;
+    case '13.58.71.6':
+	define('URL', 'http://13.58.71.6/cardumenelbagre.com/');
+        define('DB_USER', 'web_desa');
+        define('DB_PASS', 'DesaIWEB123321');
+        define('DB_NAME', 'cardumen_db');
+        break;
     default :
         define('URL', 'http://192.168.90.195/institucional/');
         define('DB_USER', 'root');
