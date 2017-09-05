@@ -15,7 +15,7 @@ switch ($host) {
         define('DB_NAME', 'cardumen_db');
         break;
     case '13.58.71.6':
-	define('URL', 'http://13.58.71.6/cardumenelbagre.com/');
+        define('URL', 'http://13.58.71.6/cardumenelbagre.com/');
         define('DB_USER', 'web_desa');
         define('DB_PASS', 'DesaIWEB123321');
         define('DB_NAME', 'cardumen_db');
@@ -36,9 +36,11 @@ define('DB_HOST', 'localhost');
 define('HASH_PASSWORD_KEY', '!@123456789ABCDEFGHIJKLMNOPRSTWYZ[¿]{?}<->');
 
 // Constantes varias
+define('ADMIN_TITLE', 'Administrador Usados :: ');
 define('SITE_TITLE', 'Cardumen el Bagre :: ');
 define('ARCHIVOS', URL . 'public/archivos/');
 define('PUBLIC_FILES', URL . 'public/');
+define('PUBLIC_FOLDER', URL . 'public/');
 define('ASSETS', URL . 'public/assets/');
 define('CANT_REG_PAGINA', 16);
 
