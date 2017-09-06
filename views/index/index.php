@@ -8,7 +8,7 @@
             <section>
                 <div class="ls-fullheight ls-nobullets">
                     <div id="background-video" class="background-video">
-                        <img src="<?= ASSETS ?>img/placeholder.jpg" alt="" class="placeholder-image">
+                        <img src="<?= ASSETS ?>img/placeholder.jpg" alt="" class="placeholder-image" id="placeholderVideo">
                         <a class="ls-l ls-mental-scrollunder masContenido" style="display: none;" data-ls="offsetxin:0;durationin:2000;delayin:2000;easingin:easeOutElastic;rotatexin:-90;transformoriginin:50% top 0;offsetxout:-400;durationout:1000;"></a>
                     </div>
                 </div>

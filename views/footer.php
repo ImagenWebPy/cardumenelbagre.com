@@ -80,6 +80,7 @@ async defer></script>
                 // OnStateChange Data
                 if (event.data === 1) {
                     $('.ls-mental-scrollunder').css('display', 'block');
+                    $('#placeholderVideo').css('display', 'none');
                 }
             });
         }

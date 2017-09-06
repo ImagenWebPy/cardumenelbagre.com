@@ -10,18 +10,21 @@ $host = getHost();
 switch ($host) {
     case 'localhost':
         define('URL', 'http://localhost/cardumenelbagre.com/');
+        define('URL_ADMIN', 'http://localhost/cardumenelbagre.com/admin/');
         define('DB_USER', 'root');
         define('DB_PASS', '');
         define('DB_NAME', 'cardumen_db');
         break;
     case '13.58.71.6':
         define('URL', 'http://13.58.71.6/cardumenelbagre.com/');
+        define('URL_ADMIN', 'http://13.58.71.6/cardumenelbagre.com/admin/');
         define('DB_USER', 'web_desa');
         define('DB_PASS', 'DesaIWEB123321');
         define('DB_NAME', 'cardumen_db');
         break;
     default :
         define('URL', 'http://192.168.90.195/institucional/');
+        define('URL_ADMIN', 'http://192.168.90.195/institucional/admin/');
         define('DB_USER', 'root');
         define('DB_PASS', '');
         define('DB_NAME', 'cardumen_db');

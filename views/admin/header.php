@@ -1,3 +1,22 @@
+<?php
+$helper = new Helper();
+$pagina = $helper->getPage();
+$activeDashboard = '';
+$activeConfiguraciones = '';
+$activeContacto = '';
+$activeContactoPage = '';
+$activeContenido = '';
+$seccionActual = (!empty($pagina[1])) ? $pagina[1] : '';
+switch ($seccionActual) {
+    case 'contacto':
+        $activeContacto = 'active';
+        $activeContactoPage = 'active';
+        break;
+    default :
+        $activeDashboard = 'active';
+        break;
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,7 +44,7 @@
         }
         if (isset($this->public_css)) {
             foreach ($this->public_css as $public_css) {
-                echo '<link rel="stylesheet" href="' . URL . 'public/' . $public_css . '" type="text/css">';
+                echo '<link rel="stylesheet" href="' . URL . 'public/admin/' . $public_css . '" type="text/css">';
             }
         }
         ?>
@@ -34,7 +53,7 @@
         <?php
         if (isset($this->publicHeader_js)) {
             foreach ($this->publicHeader_js as $public_js) {
-                echo '<script type="text/javascript" src="' . URL . 'public/' . $public_js . '"></script>';
+                echo '<script type="text/javascript" src="' . URL . 'public/admin' . $public_js . '"></script>';
             }
         }
         ?>
@@ -110,17 +129,17 @@
                 <section class="sidebar">
                     <ul class="sidebar-menu">
                         <li class="header">MENU PRINCIPAL</li>
-                        <li class="active"><a href="<?= URL; ?>admin/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                        <li class="<?= $activeDashboard; ?>"><a href="<?= URL; ?>admin/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                         <li class="treeview"><a href="#"><i class="fa fa-gears" aria-hidden="true"></i> <span>Configuraciones</span> <i class="fa fa-angle-left pull-right"></i></a>
                             <ul class="treeview-menu">
-                                <li><a href="<?= URL; ?>admin/datos"><i class="fa fa-circle-o"></i> <span>Datos </span></a></li>
+                                <li><a href="<?= URL; ?>admin/datos"><i class="fa fa-circle-o"></i> <span>Datos Generales</span></a></li>
                                 <li><a href="<?= URL; ?>admin/metas"><i class="fa fa-circle-o"></i> <span>Meta Etiquetas   </span></a></li>
                                 <li><a href="<?= URL; ?>admin/usuarios"><i class="fa fa-circle-o"></i> <span>Usuarios </span></a></li>
                             </ul>
                         </li>
-                        <li class="treeview"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> <span>Contacto</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <li class="<?= $activeContacto; ?> treeview"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> <span>Contacto</span> <i class="fa fa-angle-left pull-right"></i></a>
                             <ul class="treeview-menu">
-                                <li><a href="<?= URL; ?>admin/contacto"><i class="fa fa-circle-o"></i> <span>Formulario de Contacto </span></a></li>
+                                <li class="<?= $activeContactoPage; ?>"><a href="<?= URL; ?>admin/contacto"><i class="fa fa-circle-o"></i> <span>Formulario de Contacto </span></a></li>
                             </ul>
                         </li>
                         <li class="treeview"><a href="#"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>Contenido</span> <i class="fa fa-angle-left pull-right"></i></a>

@@ -37,7 +37,7 @@ if (isset($this->external_js)) {
 }
 if (isset($this->public_js)) {
     foreach ($this->public_js as $public_js) {
-        echo '<script type="text/javascript" src="' . URL . 'public/' . $public_js . '"></script>';
+        echo '<script type="text/javascript" src="' . URL . 'public/admin/' . $public_js . '"></script>';
     }
 }
 if (isset($this->js)) {
