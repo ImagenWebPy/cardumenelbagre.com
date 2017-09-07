@@ -77,4 +77,50 @@ class Admin_Model extends Model {
         return json_encode($datos);
     }
 
+    public function quienesSomos() {
+        $sql = $this->db->select("select quienes_somos from quienes_somos where id = 1");
+        return utf8_encode($sql[0]['quienes_somos']);
+    }
+
+    public function elEquipo() {
+        $sql = $this->db->select("select el_equipo, img_equipo from quienes_somos where id = 1");
+        return $sql[0];
+    }
+
+    public function editQuienesSomos($data) {
+        $id = 1;
+        $update = array(
+            "quienes_somos" => utf8_decode($data['quiene_somos'])
+        );
+        $this->db->update('quienes_somos', $update, "id = $id");
+        return json_encode(true);
+    }
+    
+    public function editElEquipo($data) {
+        $id = 1;
+        $update = array(
+            "el_equipo" => utf8_decode($data['el_equipo'])
+        );
+        $this->db->update('quienes_somos', $update, "id = $id");
+        return json_encode(true);
+    }
+    
+    public function unlinkImgEquipo() {
+        $dir = 'public/assets/img/';
+        $sql = $this->db->select("select img_equipo from quienes_somos where id = 1");
+        unlink($dir . $sql[0]['img_equipo']);
+    }
+    
+    public function uploadImgEquipo($data) {
+        $update = array(
+            'img_equipo' => $data['img']
+        );
+        $this->db->update('quienes_somos', $update, "id = 1");
+        $contenido = '<img class="img-responsive" src="' . URL . 'public/assets/img/' . $data['img'] . '">';
+        $datos = array(
+            "result" => true,
+            'content' => $contenido
+        );
+        return $datos;
+    }
 }

@@ -3,7 +3,9 @@ $helper = new Helper();
 $pagina = $helper->getPage();
 $activeDashboard = '';
 $activeConfiguraciones = '';
+$activeContenido = '';
 $activeContacto = '';
+$activeQuienesomos = '';
 $activeContactoPage = '';
 $activeContenido = '';
 $seccionActual = (!empty($pagina[1])) ? $pagina[1] : '';
@@ -11,6 +13,10 @@ switch ($seccionActual) {
     case 'contacto':
         $activeContacto = 'active';
         $activeContactoPage = 'active';
+        break;
+    case 'quienes_somos':
+        $activeContenido = 'active';
+        $activeQuienesomos = 'active';
         break;
     default :
         $activeDashboard = 'active';
@@ -53,7 +59,7 @@ switch ($seccionActual) {
         <?php
         if (isset($this->publicHeader_js)) {
             foreach ($this->publicHeader_js as $public_js) {
-                echo '<script type="text/javascript" src="' . URL . 'public/admin' . $public_js . '"></script>';
+                echo '<script type="text/javascript" src="' . URL . 'public/admin/' . $public_js . '"></script>';
             }
         }
         ?>
@@ -142,9 +148,9 @@ switch ($seccionActual) {
                                 <li class="<?= $activeContactoPage; ?>"><a href="<?= URL; ?>admin/contacto"><i class="fa fa-circle-o"></i> <span>Formulario de Contacto </span></a></li>
                             </ul>
                         </li>
-                        <li class="treeview"><a href="#"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>Contenido</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <li class="<?= $activeContenido; ?> treeview"><a href="#"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>Contenido</span> <i class="fa fa-angle-left pull-right"></i></a>
                             <ul class="treeview-menu">
-                                <li><a href="<?= URL; ?>admin/quienes_somos"><i class="fa fa-circle-o"></i> <span>Quienes Somos </span></a></li>
+                                <li class="<?= $activeQuienesomos; ?>"><a href="<?= URL; ?>admin/quienes_somos"><i class="fa fa-circle-o"></i> <span>Quienes Somos </span></a></li>
                                 <li><a href="<?= URL; ?>admin/unidades_negocio"><i class="fa fa-circle-o"></i> <span>Unidades de Negocio </span></a></li>
                                 <li><a href="<?= URL; ?>admin/trabajos"><i class="fa fa-circle-o"></i> <span>Trabajos </span></a></li>
                                 <li><a href="<?= URL; ?>admin/clientes"><i class="fa fa-circle-o"></i> <span>Clientes </span></a></li>
