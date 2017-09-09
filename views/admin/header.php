@@ -6,6 +6,7 @@ $activeConfiguraciones = '';
 $activeContenido = '';
 $activeContacto = '';
 $activeQuienesomos = '';
+$activeUnidadesNegocio = '';
 $activeContactoPage = '';
 $activeContenido = '';
 $seccionActual = (!empty($pagina[1])) ? $pagina[1] : '';
@@ -17,6 +18,10 @@ switch ($seccionActual) {
     case 'quienes_somos':
         $activeContenido = 'active';
         $activeQuienesomos = 'active';
+        break;
+    case 'unidades_negocio':
+        $activeContenido = 'active';
+        $activeUnidadesNegocio = 'active';
         break;
     default :
         $activeDashboard = 'active';
@@ -151,7 +156,7 @@ switch ($seccionActual) {
                         <li class="<?= $activeContenido; ?> treeview"><a href="#"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>Contenido</span> <i class="fa fa-angle-left pull-right"></i></a>
                             <ul class="treeview-menu">
                                 <li class="<?= $activeQuienesomos; ?>"><a href="<?= URL; ?>admin/quienes_somos"><i class="fa fa-circle-o"></i> <span>Quienes Somos </span></a></li>
-                                <li><a href="<?= URL; ?>admin/unidades_negocio"><i class="fa fa-circle-o"></i> <span>Unidades de Negocio </span></a></li>
+                                <li class="<?= $activeUnidadesNegocio; ?>"><a href="<?= URL; ?>admin/unidades_negocio"><i class="fa fa-circle-o"></i> <span>Unidades de Negocio </span></a></li>
                                 <li><a href="<?= URL; ?>admin/trabajos"><i class="fa fa-circle-o"></i> <span>Trabajos </span></a></li>
                                 <li><a href="<?= URL; ?>admin/clientes"><i class="fa fa-circle-o"></i> <span>Clientes </span></a></li>
                                 <li><a href="<?= URL; ?>admin/trabaja_nosotros"><i class="fa fa-circle-o"></i> <span>Trabaja con Nosotros </span></a></li>

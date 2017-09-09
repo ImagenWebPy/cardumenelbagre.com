@@ -27,9 +27,26 @@ class Admin extends Controller {
             unset($_SESSION['message']);
     }
 
+    public function unidades_negocio() {
+        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
+        $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
+        $this->view->title = 'Contacto';
+        $this->view->render('admin/header');
+        $this->view->render('admin/unidades_negocio/index');
+        $this->view->render('admin/footer');
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
     public function cargarDTContacto() {
         header('Content-type: application/json; charset=utf-8');
         $data = $this->model->cargarDTContacto();
+        echo $data;
+    }
+
+    public function cargarDTUnidades() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = $this->model->cargarDTUnidades();
         echo $data;
     }
 
@@ -120,7 +137,74 @@ class Admin extends Controller {
             exit();
         }
     }
+
+    public function modalAgregarUnidad() {
+        header('Content-type: application/json; charset=utf-8');
+        $datos = $this->model->modalAgregarUnidad();
+        echo $datos;
+    }
+
+    public function frmAddUnidad() {
+        if (!empty($_POST)) {
+            $data = array(
+                'titulo' => $this->helper->cleanInput($_POST['unidad']['titulo']),
+                'contenido' => $_POST['unidad']['contenido'],
+                'estado' => (!empty($_POST['unidad']['estado'])) ? $_POST['unidad']['estado'] : 0
+            );
+            $datos = $this->model->frmAddUnidad($data);
+            if (!empty($datos)) {
+                Session::set('message', array(
+                    'type' => 'success',
+                    'mensaje' => 'Se ha agregado correctamente la Unidad de Negocio'
+                ));
+            } else {
+                Session::set('message', array(
+                    'type' => 'error',
+                    'mensaje' => 'Lo sentimos ha ocurrido un error...'
+                ));
+            }
+            header('Location:' . URL . 'admin/unidades_negocio/');
+        }
+    }
+
+    public function modalEditarUnidad() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEditarUnidad($data);
+        echo $datos;
+    }
+
+    public function editUnidad() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['unidad']['id']),
+            'titulo' => $this->helper->cleanInput($_POST['unidad']['titulo']),
+            'contenido' => $_POST['unidad']['contenido'],
+            'estado' => (!empty($_POST['unidad']['estado'])) ? $this->helper->cleanInput($_POST['unidad']['estado']) : 0
+        );
+        $data = $this->model->editUnidad($data);
+        echo json_encode($data);
+    }
+
+    public function modalEliminarUnidad() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEliminarUnidad($data);
+        echo $datos;
+    }
     
+    public function deleteUnidad() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $data = $this->model->deleteUnidad($data);
+        echo json_encode($data);
+    }
     
 
 }
