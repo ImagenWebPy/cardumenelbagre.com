@@ -1,3 +1,9 @@
+<?php
+$helper = new Helper();
+$quienesSomos = $helper->getDataQuienesSomos();
+$unidadesNegocio = $helper->getDataUnidadesNegocio();
+$clientes = $helper->getDataClientes();
+?>
 <!--[if lt IE 9]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -37,14 +43,15 @@
                 </div> <!-- container -->
             </header>
         </div> <!-- header -->
-        <div id="nosotros" class="section st-padding-xl parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/quienes-somos.jpg');">
+        <div id="nosotros" class="section st-padding-xl parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/<?= $quienesSomos['img_background']; ?>');">
             <section>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8">
                             <h3 class="Oswald" data-animate="flipInX" style="color:#ccc;">Quiénes Somos</h3>
-                            <p data-animate="fadeIn">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem, viverra consectetur libero consequat a. Pellentesque finibus ac neque a efficitur. Pellentesque tortor purus, tempor ut massa non, ultrices blandit felis. Etiam porta orci sapien, vitae auctor augue sollicitudin quis. Nam a metus et leo pharetra feugiat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae mollis ligula. Praesent elit purus, dapibus non iaculis et, convallis quis enim. Vivamus eu est turpis. Vivamus posuere, purus laoreet malesuada sodales, felis magna pharetra massa, ac aliquet erat lacus a felis. Integer euismod urna vel quam iaculis, ac convallis tortor consequat.</p>
-                            <p data-animate="fadeIn">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem, viverra consectetur libero consequat a. Pellentesque finibus ac neque a efficitur. Pellentesque tortor purus, tempor ut massa non, ultrices blandit felis. Etiam porta orci sapien, vitae auctor augue sollicitudin quis. Nam a metus et leo pharetra feugiat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae mollis ligula. Praesent elit purus, dapibus non iaculis et, convallis quis enim. Vivamus eu est turpis. Vivamus posuere, purus laoreet malesuada sodales, felis magna pharetra massa, ac aliquet erat lacus a felis. Integer euismod urna vel quam iaculis, ac convallis tortor consequat.</p>
+
+                            <?= utf8_encode($quienesSomos['quienes_somos']); ?>
+
                         </div>
                     </div>
                 </div> <!-- container -->
@@ -54,13 +61,15 @@
             <section>
                 <div class="section-title">
                     <h2 data-animate="fadeInLeftBig" class="Oswald">El Equipo</h2>
-                    <p class="section-descr" data-animate="flipInX">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem, viverra consectetur libero consequat a. Pellentesque finibus ac neque a efficitur. Pellentesque tortor purus, tempor ut massa non, ultrices blandit felis. Etiam porta orci sapien, vitae auctor augue sollicitudin quis. Nam a metus et leo pharetra feugiat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae mollis ligula. Praesent elit purus, dapibus non iaculis et, convallis quis enim. Vivamus eu est turpis. Vivamus posuere, purus laoreet malesuada sodales, felis magna pharetra massa, ac aliquet erat lacus a felis. Integer euismod urna vel quam iaculis, ac convallis tortor consequat.</p>
+                    <div class="col-md-8 col-centered">
+                        <?= utf8_encode($quienesSomos['el_equipo']); ?>
+                    </div>
                 </div>
                 <div class="creative-minds">
                     <div class="row-cm">
                         <div class="col-md-8 col-md-offset-2" data-animate="tada">
                             <figure class="cm-item">
-                                <img src="<?= ASSETS; ?>img/equipo.jpg" alt="">
+                                <img src="<?= ASSETS; ?>img/<?= $quienesSomos['img_equipo']; ?>" alt="">
                             </figure>
                         </div>
                     </div>
@@ -82,31 +91,21 @@
                 <div class="container">
                     <div class="section-title">
                         <h2 data-animate="fadeInDown" class="Oswald">Unidades de Negocio</h2>
-                        <p class="section-descr">consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem.</p>
                     </div>
 
                     <div class="row services-block">
-                        <div class="col-md-4" data-animate="fadeInDown">
-                            <div class="services-item">
-                                <span class="sws-icon icon_camera_alt"></span>
-                                <h5>Lorem ipsum dolor sit amet</h5>
-                                <p>Nulla ut ligula cursus, egestas ligula mollis, pharetra turpis. Aliquam dapibus tortor purus, eget dignissim sem gravida vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus dolor arcu, mattis ac semper eu, volutpat ac enim. Proin neque metus, tristique nec auctor sit amet, pharetra imperdiet enim. Donec ultrices diam velit, ac imperdiet nibh tempor non.</p>
+                        <?php $colServicio = (count($unidadesNegocio) == 2) ? TRUE : FALSE; ?>
+
+                        <?php foreach ($unidadesNegocio as $item): ?>
+                            <div class="col-md-4" data-animate="fadeInDown">
+                                <div class="services-item">
+                                    <span class="sws-icon icon_camera_alt"></span>
+                                    <h3 class="SourceSansPro-Regular"><?= utf8_encode($item['titulo']); ?></h3>
+                                    <p><?= utf8_encode($item['contenido']); ?></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4" data-animate="fadeInDown">
-                            <div class="services-item">
-                                <span class="sws-icon sws-icon-sm icon_lightbulb_alt"></span>
-                                <h5>Lorem ipsum dolor sit amet</h5>
-                                <p>Nulla ut ligula cursus, egestas ligula mollis, pharetra turpis. Aliquam dapibus tortor purus, eget dignissim sem gravida vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus dolor arcu, mattis ac semper eu, volutpat ac enim. Proin neque metus, tristique nec auctor sit amet, pharetra imperdiet enim. Donec ultrices diam velit, ac imperdiet nibh tempor non.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4" data-animate="fadeInDown">
-                            <div class="services-item">
-                                <span class="sws-icon sws-icon-sm icon_comment_alt"></span>
-                                <h5>Lorem ipsum dolor sit amet</h5>
-                                <p>Nulla ut ligula cursus, egestas ligula mollis, pharetra turpis. Aliquam dapibus tortor purus, eget dignissim sem gravida vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus dolor arcu, mattis ac semper eu, volutpat ac enim. Proin neque metus, tristique nec auctor sit amet, pharetra imperdiet enim. Donec ultrices diam velit, ac imperdiet nibh tempor non.</p>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
+
                     </div>
 
                 </div> <!-- container -->
@@ -115,8 +114,8 @@
         <div class="section st-padding-xl parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/frase1.jpg');">
             <section>
                 <div class="container testimonial" data-animate="bounceIn">
-                    <h3 class="citation-big" style="color:#fff;">“Lorem ipsum dolor sit amet, consectetur adipiscing elit.” </h3>
-                    <p class="author-big" style="color:#fff;">Lorem ipsum</p>
+                    <h3 class="citation-big" style="color:#fff;">“Tenemos mucho tiempo por delante para crear los sueños que aún ni siquiera imaginamos soñar.” </h3>
+                    <p class="author-big" style="color:#fff;">Steven Spielberg</p>
                 </div> <!-- container -->
             </section>
         </div> <!-- section -->
@@ -488,35 +487,13 @@
             <section>
                 <div class="container">
                     <h2 class="section-title Oswald" data-animate="fadeInDown">Clientes</h2>
-
+                    <p class="section-descr">Para nosotros los clientes se convierten en nuestros amigos porque más allá de una relación comercial, queremos asesorarlos, ayudarlos a crecer y acompañarlos en todo su proceso. ¡Acá le dejamos una muestra de nuestros amigos!</p>
                     <section class="center slider">
-                        <div>
-                            <img src="http://placehold.it/350x300?text=1">
-                        </div>
-                        <div>
-                            <img src="http://placehold.it/350x300?text=2">
-                        </div>
-                        <div>
-                            <img src="http://placehold.it/350x300?text=3">
-                        </div>
-                        <div>
-                            <img src="http://placehold.it/350x300?text=4">
-                        </div>
-                        <div>
-                            <img src="http://placehold.it/350x300?text=5">
-                        </div>
-                        <div>
-                            <img src="http://placehold.it/350x300?text=6">
-                        </div>
-                        <div>
-                            <img src="http://placehold.it/350x300?text=7">
-                        </div>
-                        <div>
-                            <img src="http://placehold.it/350x300?text=8">
-                        </div>
-                        <div>
-                            <img src="http://placehold.it/350x300?text=9">
-                        </div>
+                        <?php foreach ($clientes as $item): ?>
+                            <div>
+                                <img src="<?= ASSETS; ?>img/clientes/<?= $item['img']; ?>" alt="<?= utf8_encode($item['descripcion']); ?>">
+                            </div>
+                        <?php endforeach; ?>
                     </section>
 
                 </div> <!-- container -->
@@ -550,7 +527,7 @@
                                 <div class="row">
                                     <div class="col-sm-4 form-group">
                                         <label class="sr-only" for="input_name">Nombre *</label>
-                                        <input type="text" name="name" class="form-control validate[required]" id="input_name" placeholder="Name *">
+                                        <input type="text" name="name" class="form-control validate[required]" id="input_name" placeholder="Nombre *">
                                     </div>
                                     <div class="col-sm-4 form-group">
                                         <label class="sr-only" for="input_email">Email *</label>
@@ -558,30 +535,32 @@
                                     </div>
                                     <div class="col-sm-4 form-group">
                                         <label class="sr-only" for="input_subject">Asunto</label>
-                                        <input type="text" name="subject" class="form-control" id="input_subject" placeholder="Subject">
+                                        <input type="text" name="subject" class="form-control" id="input_subject" placeholder="Asunto">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="input_message">Mensaje</label>
-                                    <textarea name="message" class="form-control validate[required]" rows="7" id="input_message" placeholder="Message"></textarea>
+                                    <textarea name="message" class="form-control validate[required]" rows="7" id="input_message" placeholder="Mensaje"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-default btn-wide">Send</button>
+                                    <button type="submit" class="btn btn-default btn-wide">Enviar</button>
                                     <span class="loading-spinner" style="display:none;"></span>
                                 </div>
                             </form>
                         </div>
                         <div class="col-md-3 col-md-offset-1">
                             <h4 class="margin-btm-md sourcePro">Información</h4>
-                            <p class="address-block">
-                                Martinez Ramella,<br>
-                                1080<br>
-                                Asunción<br>
+                            <p>
+                                <i class="fa fa-map-marker" aria-hidden="true"></i> 
+                                Teniente Martínez Ramella nº 1080<br> c/ Herminio Giménez<br>
+                                Barrio Ciudad Nueva. Asunción<br>
                             </p>
-                            <p class="phone-block">
-                                (595 21) 214 353
+                            <p>
+                                <i class="fa fa-phone" aria-hidden="true"></i> 
+                                (+595)21 214 353
                             </p>
-                            <p class="email-block">
+                            <p>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
                                 <a href="mailto:info@cardumenelbagre.com">info@cardumenelbagre.com</a>
                             </p>
                         </div>

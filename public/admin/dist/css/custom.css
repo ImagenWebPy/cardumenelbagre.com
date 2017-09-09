@@ -1,2 +1,7 @@
 .btnSmall{ padding: 5px 5px; height: 45px; margin: 0 5px;}
 .pointer{cursor: pointer;}
+iframe{ width: 90%; margin: 0 auto; height: 440px;}
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}

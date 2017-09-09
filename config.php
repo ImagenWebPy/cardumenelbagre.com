@@ -41,7 +41,7 @@ define('HASH_PASSWORD_KEY', '!@123456789ABCDEFGHIJKLMNOPRSTWYZ[¿]{?}<->');
 // Constantes varias
 define('ADMIN_TITLE', 'Administrador Usados :: ');
 define('SITE_TITLE', 'Cardumen el Bagre :: ');
-define('ARCHIVOS', URL . 'public/archivos/');
+define('ARCHIVOS', URL . 'public/assets/img/trabajos/');
 define('PUBLIC_FILES', URL . 'public/');
 define('PUBLIC_FOLDER', URL . 'public/');
 define('ASSETS', URL . 'public/assets/');

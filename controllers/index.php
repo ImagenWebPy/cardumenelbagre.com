@@ -7,7 +7,7 @@ class Index extends Controller {
     }
 
     function index() {
-        $this->view->title = 'Inicio';
+        $this->view->title = 'Cardumen el Bagre';
         $this->view->description = 'Inicio';
         $this->view->keywords = 'Inicio';
         $this->view->render('header');

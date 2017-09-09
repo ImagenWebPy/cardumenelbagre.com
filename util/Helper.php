@@ -311,4 +311,143 @@ class Helper {
         return true;
     }
 
+    public function getCategorias() {
+        $sql = $this->db->select("select * from categoria");
+        return $sql;
+    }
+
+    public function loadGalleryImage($id, $tipo) {
+        $imagenes = $this->getFilesPost($id, $tipo);
+        $contenido = '';
+        foreach ($imagenes as $item) {
+            $id = $item['id'];
+            if ($item['img_principal'] == 1) {
+                $img_principal = '<a class="pointer btnImgPrincipal" id="imgPrincipal' . $id . '" data-id="' . $id . '"><span class="label label-success">Principal</span></a>';
+                $imgPrincipal = utf8_encode($item['descripcion']);
+            } else {
+                $img_principal = '<a class="pointer btnImgPrincipal" id="imgPrincipal' . $id . '" data-id="' . $id . '"><span class="label label-warning">Principal</span></a>';
+            }
+            if ($item['estado'] == 1) {
+                $mostrar = '<a class="pointer btnMostrarImg" id="mostrarImg' . $id . '" data-id="' . $id . '"><span class="label label-success">Visible</span></a>';
+            } else {
+                $mostrar = '<a class="pointer btnMostrarImg" id="mostrarImg' . $id . '" data-id="' . $id . '"><span class="label label-danger">Oculta</span></a>';
+            }
+            $contenido .= '     <div class="col-sm-3" id="imagenGaleria' . $id . '">
+                                    <img class="img-responsive" src="' . ARCHIVOS . utf8_encode($item['descripcion']) . '" alt="Photo">
+                                    <p>' . $img_principal . ' | ' . $mostrar . ' | <a class="pointer btnEliminarImg" data-id="' . $id . '" id="eliminarImg' . $id . '"><span class="label label-danger">Eliminar</span></a></p>
+                                </div>
+                                <!-- /.col -->';
+        }
+        return $contenido;
+    }
+
+    public function loadImage($id) {
+        $item = $this->getImage($id);
+        $id = $item[0]['id'];
+        $img_principal = '<a class="pointer btnImgPrincipal" id="imgPrincipal' . $id . '" data-id="' . $id . '"><span class="label label-warning">Principal</span></a>';
+        $mostrar = '<a class="pointer btnMostrarImg" id="mostrarImg' . $id . '" data-id="' . $id . '"><span class="label label-success">Visible</span></a>';
+        $contenido = '<div class="col-sm-3" id="imagenGaleria' . $id . '">
+                        <img class="img-responsive" src="' . ARCHIVOS . utf8_encode($item[0]['descripcion']) . '" alt="Photo">
+                        <p>' . $img_principal . ' | ' . $mostrar . ' | <a class="pointer btnEliminarImg" data-id="' . $id . '" id="eliminarImg' . $id . '"><span class="label label-danger">Eliminar</span></a></p>
+                      </div>
+                      <!-- /.col -->';
+        return $contenido;
+    }
+
+    public function getImage($id) {
+        $item = $this->db->select("select pa.id, 
+                                        pa.descripcion,
+                                        pa.img_principal,
+                                        pa.estado,
+                                        pa.id_post
+                                from post_archivo pa 
+                                where pa.id = $id");
+        return $item;
+    }
+
+    public function loadVideo($id) {
+        $video = $this->getFilesPost($id, 2);
+        $videos = $this->getArchivosPOst($id);
+        $imgVideo = '';
+        $contenido = '<iframe src="https://www.youtube.com/embed/' . utf8_encode($videos['video'][0]['archivo']) . '" frameborder="0" allowfullscreen></iframe>';
+        return $contenido;
+    }
+
+    /**
+     * Funcion que retorna los archivos relacionados un post
+     * @param int $idPost
+     * @param int $tipoArchivo (Imagen = 1,Video = 2)
+     * @return array
+     */
+    public function getFilesPost($idPost, $tipoArchivo) {
+        $sql = $this->db->select("select pa.id,
+                                        pa.descripcion,
+                                        pa.img_principal,
+                                        pa.estado
+                                from post_archivo pa 
+                                where pa.id_post = $idPost 
+                                and pa.id_tipo_archivo = $tipoArchivo");
+        return $sql;
+    }
+
+    public function getArchivosPOst($idPost) {
+        $contenido = $this->db->select("SELECT pa.descripcion,
+                                                pa.img_principal,
+                                                ta.descripcion as tipoArchivo
+                                        FROM post_archivo pa 
+                                        LEFT JOIN tipo_archivo ta on ta.id = pa.id_tipo_archivo
+                                        WHERE pa.id_post = $idPost;");
+        #verificamos que dentro de los archivos no haya ningun video
+        $video = false;
+        foreach ($contenido as $item) {
+            if ($item['tipoArchivo'] == 'Video') {
+                $video = true;
+            }
+        }
+        $data = array(
+            'tipo' => '',
+            'video' => array(),
+            'imagenes' => array()
+        );
+        if ($video == true) {
+            $data['tipo'] = 'video';
+            foreach ($contenido as $item) {
+                if ($item['tipoArchivo'] == 'Video') {
+                    $extension = strstr($item['descripcion'], '.', FALSE);
+                    $extension = str_replace('.', '', $extension);
+                    if ($extension == 'mp4') {
+                        $type = 'video/mp4';
+                    } else {
+                        $type = 'video/ogg';
+                    }
+                    array_push($data['video'], array('archivo' => $item['descripcion'], 'type' => $type));
+                } else {
+                    array_push($data['imagenes'], array('imagen' => $item['descripcion'], 'principal' => $item['img_principal']));
+                }
+            }
+        } else {
+            $data['tipo'] = 'imagen';
+            foreach ($contenido as $item) {
+                if ($item['tipoArchivo'] != 'video')
+                    array_push($data['imagenes'], array('imagen' => $item['descripcion'], 'principal' => $item['img_principal']));
+            }
+        }
+        return $data;
+    }
+
+    public function getDataQuienesSomos() {
+        $sql = $this->db->select("SELECT * FROM `quienes_somos`;");
+        return $sql[0];
+    }
+    
+    public function getDataUnidadesNegocio() {
+        $sql = $this->db->select("SELECT * FROM `unidades_negocio` where estado = 1;");
+        return $sql;
+    }
+    
+    public function getDataClientes() {
+        $sql = $this->db->select("SELECT * FROM `clientes` where estado = 1 ORDER BY RAND();");
+        return $sql;
+    }
+
 }

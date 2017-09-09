@@ -76,7 +76,7 @@ class Admin extends Controller {
     public function editQuienesSomos() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
-            'quiene_somos' => $this->helper->cleanInput($_POST['quieneSomos'])
+            'quiene_somos' => $_POST['quieneSomos']
         );
         $datos = $this->model->editQuienesSomos($data);
         echo $datos;
@@ -85,7 +85,7 @@ class Admin extends Controller {
     public function editElEquipo() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
-            'el_equipo' => $this->helper->cleanInput($_POST['elEquipo'])
+            'el_equipo' => $_POST['elEquipo']
         );
         $datos = $this->model->editElEquipo($data);
         echo $datos;
@@ -129,7 +129,7 @@ class Admin extends Controller {
             //echo json_encode(array('result'=>true));
         } else {
             $filename = basename($_SERVER['QUERY_STRING']);
-            $file_url = '/public/archivos/' . $filename;
+            $file_url = '/public/assets/img/trabajos/' . $filename;
             header('Content-Type: 				application/octet-stream');
             header("Content-Transfer-Encoding: 	Binary");
             header("Content-disposition: 		attachment; filename=\"" . basename($file_url) . "\"");
@@ -196,7 +196,7 @@ class Admin extends Controller {
         $datos = $this->model->modalEliminarUnidad($data);
         echo $datos;
     }
-    
+
     public function deleteUnidad() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -205,6 +205,34 @@ class Admin extends Controller {
         $data = $this->model->deleteUnidad($data);
         echo json_encode($data);
     }
-    
+
+    public function trabajos() {
+        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css", "plugins/html5fileupload/html5fileupload.css", "plugins/tagsinput/jquery.tagsinput.css", "plugins/datepicker/datepicker3.css", "plugins/daterangepicker/daterangepicker.css");
+        $this->view->publicHeader_js = array("plugins/html5fileupload/html5fileupload.min.js", "plugins/tagsinput/jquery.tagsinput.js");
+        $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js", "plugins/moment/moment.min.js", "plugins/daterangepicker/daterangepicker.js", "plugins/datepicker/bootstrap-datepicker.js");
+        $this->view->title = "Trabajos";
+
+        $this->view->render('admin/header');
+        $this->view->render('admin/trabajos/index');
+        $this->view->render('admin/footer');
+
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
+    public function listadoTrabajos() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = $this->model->listadoTrabajos();
+        echo $data;
+    }
+
+    public function mostrarModalEditarTrabajo() {
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['post'])
+        );
+        header('Content-type: application/json; charset=utf-8');
+        $datos = $this->model->mostrarModalEditarTrabajo($data);
+        echo $datos;
+    }
 
 }

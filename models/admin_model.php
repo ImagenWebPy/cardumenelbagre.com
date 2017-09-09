@@ -325,4 +325,207 @@ class Admin_Model extends Model {
         return $datos;
     }
 
+    public function listadoTrabajos() {
+        $sql = $this->db->select("select p.id,
+                                        p.fecha,
+                                        p.titulo,
+                                        p.estado,
+                                        c.descripcion as categoria
+                                from post p 
+                                LEFT JOIN post_categoria pc on pc.id_post = p.id
+                                LEFT JOIN categoria c on c.id = pc.id_categoria
+                                ORDER BY p.fecha DESC");
+        $datos = array();
+        foreach ($sql as $item) {
+            $idPost = $item['id'];
+            if ($item['estado'] == 1) {
+                $estado = '<span><a class="pointer label label-success linkListaEstadoTrabajo" id="estadoTrabajo' . $idPost . '" data-post="' . $idPost . '">Visible</a></span>';
+            } else {
+                $estado = '<span><a class="pointer label label-danger linkListaEstadoTrabajo" id="estadoTrabajo' . $idPost . '" data-post="' . $idPost . '">Oculto</a></span>';
+            }
+            $acciones = '<a class="btn btn-sm btnEditTrabajo" data-post="' . $idPost . '"><i class="fa fa-edit"></i>Editar</a> <a class="btn btn-sm btnDeletePost" data-post="' . $idPost . '"><i class="fa fa-trash"></i>Eliminar</a>';
+            array_push($datos, array(
+                'fecha' => date('d-m-Y', strtotime($item['fecha'])),
+                'titulo' => utf8_encode($item['titulo']),
+                'categoria' => utf8_encode($item['categoria']),
+                'estado' => $estado,
+                'acciones' => $acciones
+            ));
+        }
+        $json = '{"data": ' . json_encode($datos) . '}';
+        return $json;
+    }
+
+    public function mostrarModalEditarTrabajo($data) {
+        $id = $data['id'];
+        $selectState1 = '';
+        $selectState0 = '';
+        $sql = $this->db->select("select p.titulo,
+                                        p.contenido,
+                                        p.tags,
+                                        p.estado,
+                                        p.fecha,
+                                        pc.id_categoria,
+                                        c.descripcion as categoria
+                                from post p
+                                LEFT JOIN post_categoria pc on pc.id_post = p.id
+                                LEFT JOIN categoria c on c.id = pc.id_categoria
+                                where p.id = $id");
+        if ($sql[0]['estado'] == 1) {
+            $selectState1 = 'selected';
+        } else {
+            $selectState0 = 'selected';
+        }
+        $contenido = '<div class="box box-primary">
+                        <div class="box-header with-border">
+                          <h3 class="box-title">Editar Contenido</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <form role="form" method="POST" action="' . URL . 'admin/guardarDatosPost" class="frmModificarPost">
+                                <input type="hidden" value="' . $id . '" name="id">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label>Título</label>
+                                      <input type="text" class="form-control" placeholder="ingrese un título" value="' . utf8_encode($sql[0]['titulo']) . '" name="titulo">
+                                    </div>
+                                </div>
+                                <div class="cold-md-6">
+                                    <div class="form-group">
+                                        <label>Fecha Evento:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="text" class="form-control pull-right datepicker" value="' . date('d-m-Y', strtotime($sql[0]['fecha'])) . '" name="fecha">
+                                        </div>
+                                        <!-- /.input group -->
+                                      </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Categoría</label>
+                                        <select class="form-control" name="categoria">';
+        foreach ($this->helper->getCategorias() as $item) {
+            $actived = ($item['id'] == $sql[0]['id_categoria']) ? 'selected' : '';
+            $contenido .= '<option value="' . $item['id'] . '" ' . $actived . '>' . utf8_encode($item['descripcion']) . '</option >';
+        }
+        $contenido .= '                 </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Estado</label>
+                                        <select class="form-control" name="estado">
+                                          <option value="1" ' . $selectState1 . '>Activo</option>
+                                          <option value="0" ' . $selectState0 . '>Inactivo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label>Tags</label>
+                                      <input type="text" class="form-control" id="tags" placeholder="Ingrese los tags separados por comas(,)" value="' . utf8_encode($sql[0]['tags']) . '" name="tags">
+                                          <p class="help-block">Ingrese palabras separadas por comas(,)</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="box-body pad">
+                                        <textarea id="contenido" name="contenido" rows="10" cols="80" name="contenido">' . utf8_encode($sql[0]['contenido']) . '</textarea>
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-block btn-primary btn-lg btnGuardarCambios">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.box-body --> 
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                          <h3 class="box-title">Imagenes</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row" style="margin: 20px;">
+                                <div class="col-md-12" style="margin:10px;">
+                                    <button type="button" class="btn btn-primary pull-right btnAddImagen"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Imagen</button>
+                                </div>
+                                <div class="col-md-12 divSubir" style="display:none;">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-warning alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h4><i class="icon fa fa-warning"></i> Importante!</h4>
+                                            Solo se permiten imagenes <strong>.jpg,.png</strong>. Subir imagenes en formato horizontal, porque se redimensionan automaticamente a las dimensiones 1280 x 720.
+                                         </div>
+                                    </div>
+                                    <div class="html5fileupload demo_multi" data-multiple="true" data-url="' . URL . 'admin/uploadImage" data-valid-extensions="JPG,JPEG,jpg,png,jpeg" style="width: 100%;">
+                                        <input type="file" name="file" />
+                                    </div>
+                                    <script>
+                                        $(".html5fileupload.demo_multi").html5fileupload({
+                                            data:{id:' . $id . '},
+                                            onAfterStartSuccess: function(response) {
+                                                $("#postImagenes" + response.id).append(response.content);
+                                            }
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="row" id="postImagenes' . $id . '">';
+
+        $contenido .= $this->helper->loadGalleryImage($id, 1);
+        $video = $this->helper->getFilesPost($id, 2);
+        $contenido .= '     </div>    
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                          <h3 class="box-title">Video</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row" style="margin: 20px;">
+                                <div class="col-md-12" style="margin:10px;">
+                                    <button type="button" class="btn btn-primary pull-right btnAddVideo"><i class="fa fa-plus" aria-hidden="true"></i> Actualizar Video</button>
+                                </div>
+                                <div class="col-md-12 divSubirVideo" style="display:none;">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-warning alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h4><i class="icon fa fa-warning"></i> Importante!</h4>
+                                            Solo se puede subir un video con extension <strong>.mp4</strong>. Al subir otro, el anterior sera re-emplazado. Tamaño máximo <strong>40MB</strong>
+                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label>Identificador del video</label>
+                                          <input type="text" class="form-control" placeholder="Identificador del video" value="' . utf8_encode($video[0]['descripcion']) . '" name="titulo">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="postVideo' . $id . '">';
+        if (!empty($video[0])) {
+            $contenido .= $this->helper->loadVideo($id);
+        } else {
+            $contenido .= $this->helper->messageAlert('info', 'Este post no contiene ningún video');
+        }
+        $contenido .= '     </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(".datepicker").datepicker({
+                            format: "dd-mm-yyyy",
+                            autoclose: true
+                        });
+                        $("#tags").tagsInput();
+                        CKEDITOR.replace("contenido");
+                    </script>';
+        $datos = array(
+            'titulo' => utf8_encode($sql[0]['titulo']),
+            'contenido' => $contenido
+        );
+        return json_encode($datos);
+    }
+
 }

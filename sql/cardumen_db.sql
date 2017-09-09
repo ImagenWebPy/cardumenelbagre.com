@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhot
+Source Server         : localhost
 Source Server Version : 50714
 Source Host           : localhost:3306
 Source Database       : cardumen_db
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2017-09-08 23:19:26
+Date: 2017-09-09 19:35:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,6 +35,58 @@ CREATE TABLE `admin_usuario` (
 INSERT INTO `admin_usuario` VALUES ('1', 'Raul Ramirez', 'raul.ramirez@imagenwebhq.com', '35077063093736d9c00a46b7325ebc968179dab0dea4c8387ff65a9b4848c15e', null, '1');
 
 -- ----------------------------
+-- Table structure for categoria
+-- ----------------------------
+DROP TABLE IF EXISTS `categoria`;
+CREATE TABLE `categoria` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(45) NOT NULL,
+  `tag` varchar(20) DEFAULT NULL,
+  `estado` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of categoria
+-- ----------------------------
+INSERT INTO `categoria` VALUES ('14', 'Guerrilla', 'guerrilla', '1');
+INSERT INTO `categoria` VALUES ('15', 'Categoria', 'categoria', '1');
+INSERT INTO `categoria` VALUES ('16', 'Categoria 2', 'categoria2', '1');
+
+-- ----------------------------
+-- Table structure for clientes
+-- ----------------------------
+DROP TABLE IF EXISTS `clientes`;
+CREATE TABLE `clientes` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(60) DEFAULT NULL,
+  `img` varchar(120) DEFAULT NULL,
+  `url` varchar(120) DEFAULT NULL,
+  `estado` int(1) unsigned DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of clientes
+-- ----------------------------
+INSERT INTO `clientes` VALUES ('1', 'ABC', 'abc.png', null, '1');
+INSERT INTO `clientes` VALUES ('2', 'Budweiser', 'budweiser.png', null, '1');
+INSERT INTO `clientes` VALUES ('3', 'Camel', 'camel.png', null, '1');
+INSERT INTO `clientes` VALUES ('4', 'Cervepar', 'cervepar.png', null, '1');
+INSERT INTO `clientes` VALUES ('5', 'Cuevas Hnos.', 'cuevas.png', null, '1');
+INSERT INTO `clientes` VALUES ('6', 'Western Union', 'western-union.png', null, '1');
+INSERT INTO `clientes` VALUES ('7', 'Financiera El Comercio', 'elcomercio.png', null, '1');
+INSERT INTO `clientes` VALUES ('8', 'Giro País', 'giro_pais.png', null, '1');
+INSERT INTO `clientes` VALUES ('9', 'Iman S.A.', 'iman.png', null, '1');
+INSERT INTO `clientes` VALUES ('10', 'Johnson& Johnson', 'johnson&johnson.png', null, '1');
+INSERT INTO `clientes` VALUES ('11', 'Kia', 'kia.png', null, '1');
+INSERT INTO `clientes` VALUES ('12', 'La Consolidada', 'la-consolidada.png', null, '1');
+INSERT INTO `clientes` VALUES ('13', 'Nestle', 'nestle.png', null, '1');
+INSERT INTO `clientes` VALUES ('14', 'Pro Canal de la Produccion', 'pro_canal.png', null, '1');
+INSERT INTO `clientes` VALUES ('15', 'RPC', 'rpc.png', null, '1');
+INSERT INTO `clientes` VALUES ('16', 'Tigo Sports', 'tigo_sports.png', null, '1');
+
+-- ----------------------------
 -- Table structure for contacto
 -- ----------------------------
 DROP TABLE IF EXISTS `contacto`;
@@ -55,6 +107,69 @@ CREATE TABLE `contacto` (
 INSERT INTO `contacto` VALUES ('1', 'Raul', 'raul.chuky@gmail.com', 'Prueba', 'Esto es una prueba', '2017-09-05 21:05:44', '1');
 
 -- ----------------------------
+-- Table structure for post
+-- ----------------------------
+DROP TABLE IF EXISTS `post`;
+CREATE TABLE `post` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(120) NOT NULL,
+  `contenido` text,
+  `tags` varchar(255) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `estado` int(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of post
+-- ----------------------------
+INSERT INTO `post` VALUES ('10', 'Hinchas de Resistencia', '<p>Cliente: Oniria​<br>\r\nMarca: Resistencia Sport Club<br>\r\nAgencia: Oniria TBWA<br>\r\nProductora: #CardumenElBagre</p>\r\n\r\n<p>Director / DF / Editor: Rojo Uhl​<br>\r\nCámara 2: Joe Barcovich​<br>\r\nAC1: Augusto Flecha Paredes​<br>\r\nJefa de Producción: Natilu Aguilar Alarcón​<br>\r\nEjecutivo de Cuentas: Antonino Vázquez<br>\r\nEjecutiva Comercial: Eva Rodríguez<br>\r\nLocución: Benicio Martínez<br>\r\nCaptura de Locución / Post Producción de Sonido: Juan Guerrero<br>\r\nColorimetría: Marcelo Guido​\r\n</p>', 'hinchas de resistencia,futbol,estadio,arbol,resistencia', '2017-08-16 10:41:18', '1');
+
+-- ----------------------------
+-- Table structure for post_archivo
+-- ----------------------------
+DROP TABLE IF EXISTS `post_archivo`;
+CREATE TABLE `post_archivo` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_post` int(11) unsigned NOT NULL,
+  `id_tipo_archivo` int(11) unsigned NOT NULL,
+  `descripcion` varchar(80) NOT NULL,
+  `img_principal` int(1) NOT NULL DEFAULT '0',
+  `estado` int(1) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `fk_idpost_pa` (`id_post`),
+  KEY `fk_idtipoarchivo_pa` (`id_tipo_archivo`),
+  CONSTRAINT `post_archivo_ibfk_1` FOREIGN KEY (`id_post`) REFERENCES `post` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `post_archivo_ibfk_2` FOREIGN KEY (`id_tipo_archivo`) REFERENCES `tipo_archivo` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of post_archivo
+-- ----------------------------
+INSERT INTO `post_archivo` VALUES ('1', '10', '2', 'Ig_2m2MBjSs', '0', '1');
+INSERT INTO `post_archivo` VALUES ('2', '10', '1', 'hinchas_resistencia.jpg', '1', '1');
+
+-- ----------------------------
+-- Table structure for post_categoria
+-- ----------------------------
+DROP TABLE IF EXISTS `post_categoria`;
+CREATE TABLE `post_categoria` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_post` int(11) unsigned NOT NULL,
+  `id_categoria` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idpost_pc` (`id_post`),
+  KEY `fk_idcategoria_pc` (`id_categoria`),
+  CONSTRAINT `post_categoria_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `post_categoria_ibfk_2` FOREIGN KEY (`id_post`) REFERENCES `post` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of post_categoria
+-- ----------------------------
+INSERT INTO `post_categoria` VALUES ('1', '10', '14');
+
+-- ----------------------------
 -- Table structure for quienes_somos
 -- ----------------------------
 DROP TABLE IF EXISTS `quienes_somos`;
@@ -63,13 +178,35 @@ CREATE TABLE `quienes_somos` (
   `quienes_somos` text,
   `el_equipo` text,
   `img_equipo` varchar(120) DEFAULT NULL,
+  `img_background` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of quienes_somos
 -- ----------------------------
-INSERT INTO `quienes_somos` VALUES ('1', '&lt;p&gt;&lt;strong&gt;Lorem ipsum dolor&lt;/strong&gt; sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem, viverra consectetur libero consequat a. Pellentesque finibus ac neque a efficitur. Pellentesque tortor purus, tempor ut massa non, ultrices blandit felis. Etiam porta orci sapien, vitae auctor augue sollicitudin quis. Nam a metus et leo pharetra feugiat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae mollis ligula. Praesent elit purus, dapibus non iaculis et, convallis quis enim. Vivamus eu est turpis. Vivamus posuere, purus laoreet malesuada sodales, felis magna pharetra massa, ac aliquet erat lacus a felis. Integer euismod urna vel quam iaculis, ac convallis tortor consequat.&lt;/p&gt;\r\n\r\n&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem, viverra consectetur libero consequat a. Pellentesque finibus ac neque a efficitur. Pellentesque tortor purus, tempor ut massa non, ultrices blandit felis. Etiam porta orci sapien, vitae auctor augue sollicitudin quis. Nam a metus et leo pharetra feugiat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae mollis ligula. Praesent elit purus, dapibus non iaculis et, convallis quis enim. Vivamus eu est turpis. Vivamus posuere, purus laoreet malesuada sodales, felis magna pharetra massa, ac aliquet erat lacus a felis. Integer euismod urna vel quam iaculis, ac convallis tortor consequat.&lt;/p&gt;', '&lt;p&gt;&lt;strong&gt;Lorem &lt;/strong&gt;ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem, viverra consectetur libero consequat a. Pellentesque finibus ac neque a efficitur. Pellentesque tortor purus, tempor ut massa non, ultrices blandit felis. Etiam porta orci sapien, vitae auctor augue sollicitudin quis. Nam a metus et leo pharetra feugiat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi vitae mollis ligula. Praesent elit purus, dapibus non iaculis et, convallis quis enim. Vivamus eu est turpis. Vivamus posuere, purus laoreet malesuada sodales, felis magna pharetra massa, ac aliquet erat lacus a felis. Integer euismod urna vel quam iaculis, ac convallis tortor consequat.&lt;/p&gt;', 'equipo.jpg');
+INSERT INTO `quienes_somos` VALUES ('1', '<p><strong>Cardumen el bagre</strong> es una compañía dedicada a la realización de las más diversas producciones audiovisuales incluyendo programas de TV, institucionales, comerciales y storytelling.</p>\r\n\r\n<p>Se desarrolla con éxito desde el año 2008 y ha producido desde ese entonces para los canales más importantes de Paraguay marcando hitos televisivos de gran despliegue como <strong>Desafío de Campeones</strong> en el 2014. De manera ininterrumpida y por 4 años (2011 al 2015) ha producido y emitido a través de Unicanal variados programas de televisión, que han recibido en el 2013 importantes nominaciones a los premios ATVC a las mejores producciones del cable de Latinoamérica así como la declaración de interés turístico nacional por la Secretaría Nacional de Turismo, SENATUR.</p>\r\n\r\n<p>Contamos con 2 estudios de TV con los cuales brindamos servicios publicitarios y televisivos y en los que trabajamos, entre otros, con los canales tigo sports y PRO de Asunción. Precisamente para éste último producimos a la fecha alrededor de 200 documentales sobre negocios exitosos del Paraguay en el programa “PRO DOCUMENTALES” emitido actualmente en su 2da. Temporada. Íntegramente grabados en 4K, semana a semana instala temas de gran interés recorriendo los escenarios más productivos del país.</p>\r\n\r\n<p>En publicidad, la originalidad y la creatividad de un equipo humano liderado por jóvenes realizadores que encaran diversos retos y trabajos de manera conjunta con las agencias más importantes de la región ha sido acreedor de importantes reconocimientos nacionales e internacionales.</p>\r\n\r\n<p>Con un estilo fresco y descontracturado <strong>Cardumen el Bagre</strong> trabaja incansablemente en ofrecer cada vez mayores productos audiovisuales, entretenidos y óptimos para un mercado global cada vez más competitivo. De cara a una nueva etapa de crecimiento apuesta al mercado internacional con la puesta en marcha en el 2018 del primer <strong>Centro integral de contenidos</strong> del país.</p>\r\n', '<p>Apostamos por los nuevos formatos y buscamos nuevas experiencias para el espectador. De esta manera nuestro staff integrado por productores, realizadores y guionistas trabaja en la puesta en marcha de nuevos formatos audiovisuales atentos a las innovaciones artísticas y tecnológicas para seguir conquistando al público. Aprovechamos todos los formatos y todas las pantallas disponibles para contar historias, experiencias y emociones.</p>', 'equipo.jpg', 'quienes-somos.jpg');
+
+-- ----------------------------
+-- Table structure for tipo_archivo
+-- ----------------------------
+DROP TABLE IF EXISTS `tipo_archivo`;
+CREATE TABLE `tipo_archivo` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(45) NOT NULL,
+  `imagen` varchar(45) DEFAULT NULL,
+  `estado` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tipo_archivo
+-- ----------------------------
+INSERT INTO `tipo_archivo` VALUES ('1', 'Imagen', null, '1');
+INSERT INTO `tipo_archivo` VALUES ('2', 'Video', null, '1');
+INSERT INTO `tipo_archivo` VALUES ('3', 'Word', null, '1');
+INSERT INTO `tipo_archivo` VALUES ('4', 'Excel', null, '1');
+INSERT INTO `tipo_archivo` VALUES ('5', 'Power Point', null, '1');
 
 -- ----------------------------
 -- Table structure for unidades_negocio
