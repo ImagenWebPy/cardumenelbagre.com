@@ -496,11 +496,17 @@ class Admin_Model extends Model {
                                          </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                          <label>Identificador del video</label>
-                                          <input type="text" class="form-control" placeholder="Identificador del video" value="' . utf8_encode($video[0]['descripcion']) . '" name="titulo">
-                                        </div>
-                                        
+                                        <form id="frmModificarVideo">
+                                            <input type="hidden" value="' . $video[0]['id'] . '" name="id">
+                                            <input type="hidden" value="' . $video[0]['id_post'] . '" name="id_post">
+                                            <div class="form-group">
+                                                <label>Identificador del video</label>
+                                                <input type="text" class="form-control" placeholder="Identificador del video" data-id="' . $video[0]['id'] . '" value="' . utf8_encode($video[0]['descripcion']) . '" name="video">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button type="submit" class="btn btn-block btn-primary btn-lg">Actualizar Video</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -526,6 +532,152 @@ class Admin_Model extends Model {
             'contenido' => $contenido
         );
         return json_encode($datos);
+    }
+
+    public function modificarVideoTrabajo($data) {
+        $id = $data['id'];
+        $idPost = $data['id_post'];
+        $descripcion = $data['video'];
+        $update = array(
+            'descripcion' => $descripcion
+        );
+        $this->db->update('post_archivo', $update, "id = $id");
+        $video = '<iframe src="https://www.youtube.com/embed/' . $descripcion . '" frameborder="0" allowfullscreen></iframe>';
+        $datos = array(
+            'id' => $id,
+            'id_post' => $idPost,
+            'descripcion' => $descripcion,
+            'video' => $video
+        );
+        return json_encode($datos);
+    }
+
+    public function imgPrincipal($data) {
+        $id = $data['id'];
+        $imgActual = $this->helper->getImage($id);
+        $idPost = $imgActual[0]['id_post'];
+        $oldPrincipal = $this->db->select("select id from post_archivo where id_post = $idPost and img_principal = 1");
+        $idOld = $oldPrincipal[0]['id'];
+        if ($imgActual[0]['img_principal'] == 1) {
+            $updatePrincipal = array(
+                'img_principal' => 0
+            );
+        } else {
+            $updatePrincipal = array(
+                'img_principal' => 1
+            );
+        }
+        $updatePrincipalOld = array(
+            'img_principal' => 0
+        );
+        $btn = '<span class="label label-success">Principal</span>';
+        $btnOld = '<span class="label label-warning">Principal</span>';
+        if ($imgActual[0]['estado'] != 0) {
+            $this->db->update('post_archivo', $updatePrincipal, "`id` = $id");
+            $this->db->update('post_archivo', $updatePrincipalOld, "`id` = $idOld");
+            $datos = array(
+                'result' => true,
+                'id' => $id,
+                'content' => $btn,
+                'id_old' => $idOld,
+                'content_old' => $btnOld
+            );
+        } else {
+            $datos = array(
+                'result' => false
+            );
+        }
+        return $datos;
+    }
+
+    public function mostrarImgBtn($data) {
+        $id = $data['id'];
+        $image = $this->helper->getImage($id);
+        if ($image[0]['estado'] == 1) {
+            $updateEstado = array(
+                'estado' => 0
+            );
+            $labelBg = 'danger';
+            $labelText = 'Oculta';
+        } else {
+            $updateEstado = array(
+                'estado' => 1
+            );
+            $labelBg = 'success';
+            $labelText = 'Visible';
+        }
+        $btn = '';
+        if ($image[0]['img_principal'] != 1) {
+            $this->db->update('post_archivo', $updateEstado, "`id` = $id");
+            $btn = '<span class="label label-' . $labelBg . '">' . $labelText . '</span>';
+        } else {
+            $btn = '<span class="label label-success">Visible</span>';
+        }
+        $datos = array(
+            'id' => $id,
+            'content' => $btn
+        );
+        return $datos;
+    }
+
+    public function eliminarIMG($data) {
+        $id = $data['id'];
+        $imgActual = $this->helper->getImage($id);
+        if ($imgActual[0]['img_principal'] != 1) {
+            #Eliminamos la imagen del servidor
+            unlink('public/assets/img/trabajos/' . $imgActual[0]['descripcion']);
+            #Elimamos de la BD
+            $sth = $this->db->prepare("delete from post_archivo where id = :id");
+            $sth->execute(array(
+                ':id' => $id
+            ));
+            $datos = array(
+                'result' => true,
+                'id' => $id
+            );
+        } else {
+            $datos = array(
+                'result' => false
+            );
+        }
+        return $datos;
+    }
+
+    public function uploadImage($data) {
+        $id = $data['id'];
+        $this->db->insert('post_archivo', array(
+            'id_post' => $id,
+            'id_tipo_archivo' => 1,
+            'descripcion' => $data['archivo'],
+            'estado' => 1
+        ));
+        $id_img = $this->db->lastInsertId();
+        $contenido = $this->helper->loadImage($id_img);
+        $datos = array(
+            "result" => true,
+            'id' => $id,
+            'content' => $contenido
+        );
+        return $datos;
+    }
+
+    public function guardarDatosPost($data) {
+        $idPost = $data['id'];
+        #TABLA POST
+        $updatePost = array(
+            'titulo' => utf8_decode($data['titulo']),
+            'contenido' => utf8_decode($data['contenido']),
+            'tags' => utf8_decode($data['tags2']),
+            'fecha' => date('Y-m-d', strtotime($data['fecha'])) . ' ' . date('H:i:s'),
+            'estado' => $data['estado']
+        );
+        $this->db->update('post', $updatePost, "`id` = $idPost");
+
+        #TABLA POST_CATEGORIA
+        $updateCategoria = array(
+            'id_categoria' => $data['categoria']
+        );
+        $this->db->update('post_categoria', $updateCategoria, "`id_post` = $idPost");
     }
 
 }

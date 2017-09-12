@@ -157,7 +157,7 @@
                         id: id
                     },
                     success: function (data) {
-                        $('#mostrarImg' + data.id).html(data.content);
+                        $('#mostrarImg' + data['id']).html(data['content']);
                     }
                 }); //END AJAX
             }
@@ -280,6 +280,26 @@
                         $('#estadoPost' + data.id).html(data.texto);
                     }
                 }); //END AJAX
+            }
+            e.handled = true;
+        });
+        $(document).on("submit", "#frmModificarVideo", function (e) {
+            if (e.handled !== true) // This will prevent event triggering more then once
+            {
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+                var url = "<?= URL ?>admin/modificarVideoTrabajo"; // the script where you handle the form input.
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $("#frmModificarVideo").serialize(), // serializes the form's elements.
+                    success: function (data)
+                    {
+                        $('.divSubirVideo').toggle();
+                        $('input[data="' + data['id'] + '"]').val(data['decripcion']);
+                        $('#postVideo' + data['id_post']).html(data['video']);
+                    }
+                });
+
             }
             e.handled = true;
         });

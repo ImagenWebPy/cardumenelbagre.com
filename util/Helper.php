@@ -383,7 +383,8 @@ class Helper {
         $sql = $this->db->select("select pa.id,
                                         pa.descripcion,
                                         pa.img_principal,
-                                        pa.estado
+                                        pa.estado,
+                                        pa.id_post
                                 from post_archivo pa 
                                 where pa.id_post = $idPost 
                                 and pa.id_tipo_archivo = $tipoArchivo");
