@@ -302,6 +302,33 @@ class Admin_Model extends Model {
         return json_encode($datos);
     }
 
+    public function modalEliminarPost($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("SELECT * FROM post where id = $id");
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Datos del mensaje</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" id="frmEliminarPost" method="POST">
+                    <input type="hidden" name="contacto[id]" value="' . $id . '">
+                    <div class="alert alert-danger alert-dismissible">
+                        <h4><i class="icon fa fa-ban"></i> ¿Está seguro de que desea eliminar la publicación "<strong>' . utf8_encode($sql[0]['titulo']) . '</strong>"?</h4>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" id="btnEliminarPost" class="btn btn-danger" data-id="' . $id . '">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Eliminar ' . utf8_encode($sql[0]['titulo']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
     public function deleteUnidad($data) {
         $id = $data['id'];
         try {
@@ -325,6 +352,70 @@ class Admin_Model extends Model {
         return $datos;
     }
 
+    public function deletePost($data) {
+        $id = $data['id'];
+        #eliminamos la categoria
+        try {
+            $sth = $this->db->prepare("delete from post_categoria where id_post = :id");
+            $sth->execute(array(
+                ':id' => $id
+            ));
+            $datos = array(
+                'type' => 'success',
+                'id' => $id,
+                'contenido' => ''
+            );
+        } catch (Exception $ex) {
+            $datos = array(
+                'type' => 'error',
+                'id' => $id,
+                'contenido' => 'Lo sentimos ha ocurrido un error, no se pudo eliminar el registro'
+            );
+        }
+        #eliminamos los archivos
+        $sql = $this->db->select("select * from post_archivo where id_post = $id and id_tipo_archivo = 1");
+        foreach ($sql as $item) {
+            $dir = 'public/assets/img/trabajos/';
+            unlink($dir . $item['descripcion']);
+        }
+        try {
+            $sth = $this->db->prepare("delete from post_archivo where id_post = :id");
+            $sth->execute(array(
+                ':id' => $id
+            ));
+            $datos = array(
+                'type' => 'success',
+                'id' => $id,
+                'contenido' => ''
+            );
+        } catch (Exception $ex) {
+            $datos = array(
+                'type' => 'error',
+                'id' => $id,
+                'contenido' => 'Lo sentimos ha ocurrido un error, no se pudo eliminar el registro'
+            );
+        }
+        #eliminamos el post
+        try {
+            $sth = $this->db->prepare("delete from post where id = :id");
+            $sth->execute(array(
+                ':id' => $id
+            ));
+            $datos = array(
+                'type' => 'success',
+                'id' => $id,
+                'contenido' => ''
+            );
+        } catch (Exception $ex) {
+            $datos = array(
+                'type' => 'error',
+                'id' => $id,
+                'contenido' => 'Lo sentimos ha ocurrido un error, no se pudo eliminar el registro'
+            );
+        }
+        return $datos;
+    }
+
     public function listadoTrabajos() {
         $sql = $this->db->select("select p.id,
                                         p.fecha,
@@ -345,6 +436,7 @@ class Admin_Model extends Model {
             }
             $acciones = '<a class="btn btn-sm btnEditTrabajo" data-post="' . $idPost . '"><i class="fa fa-edit"></i>Editar</a> <a class="btn btn-sm btnDeletePost" data-post="' . $idPost . '"><i class="fa fa-trash"></i>Eliminar</a>';
             array_push($datos, array(
+                'DT_RowId' => 'trabajo_' . $idPost,
                 'fecha' => date('d-m-Y', strtotime($item['fecha'])),
                 'titulo' => utf8_encode($item['titulo']),
                 'categoria' => utf8_encode($item['categoria']),
@@ -678,6 +770,178 @@ class Admin_Model extends Model {
             'id_categoria' => $data['categoria']
         );
         $this->db->update('post_categoria', $updateCategoria, "`id_post` = $idPost");
+    }
+
+    public function agregarContenido() {
+        $contenido = '<form role="form" method="POST" action="' . URL . 'admin/agregarDatosPost" class="frmAgregarPost" enctype="multipart/form-data">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                              <h3 class="box-title">Contenido</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Título</label>
+                                        <input type="text" class="form-control" placeholder="ingrese un título" value="" name="titulo">
+                                    </div>
+                                </div>
+                                <div class="cold-md-6">
+                                    <div class="form-group">
+                                        <label>Fecha Evento:</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                            <input type="text" class="form-control pull-right datepicker" value="" name="fecha">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Categoría</label>
+                                        <select class="form-control" name="categoria">';
+        foreach ($this->helper->getCategorias() as $item) {
+            $contenido .= '             <option value="' . $item['id'] . '">' . utf8_encode($item['descripcion']) . '</option >';
+        }
+        $contenido .= '             </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Estado</label>
+                                        <select class="form-control" name="estado">
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Tags</label>
+                                        <input type="text" class="form-control" id="tags" placeholder="Ingrese los tags separados por comas(,)" value="" name="tags">
+                                        <p class="help-block">Ingrese palabras separadas por comas(,)</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Contenido</label>
+                                    <div class="box-body pad">
+                                        <textarea id="contenido" name="contenido" rows="10" cols="80" name="contenido"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body --> 
+                        </div>
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                              <h3 class="box-title">Imagenes</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="row" style="margin: 20px;">
+                                    <div class="col-md-12 divSubir">
+                                        <div class="col-md-12">
+                                            <div class="alert alert-warning alert-dismissible">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h4><i class="icon fa fa-warning"></i> Importante!</h4>
+                                                Solo se permiten imagenes <strong>.jpg,.png</strong>. Subir imagenes en formato horizontal, porque se redimensionan automaticamente a las dimensiones 1280 x 720.
+                                             </div>
+                                        </div>
+                                        <div class="html5fileupload demo_multi" data-multiple="true" data-form="true" data-valid-extensions="JPG,JPEG,jpg,png,jpeg" style="width: 100%; display: inline-block;">
+                                            <input type="file" name="file_archivo[]" />
+                                        </div>
+                                        <script>
+                                            $(".html5fileupload.demo_multi").html5fileupload();
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Video</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row" style="margin: 20px;">
+                                        <div class="col-md-12 divSubirVideo">
+                                            <div class="col-md-12">
+                                                <div class="alert alert-warning alert-dismissible" >
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <h4><i class="icon fa fa-warning"></i> Importante!</h4>
+                                                    Solo se puede subir un video con extension <strong>.mp4</strong>. Al subir otro, el anterior sera re-emplazado. Tamaño máximo <strong>40MB</strong>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Identificador del video de YouTube</label>
+                                                <input type="text" class="form-control" placeholder="Identificador del video" data-id="1" value="" name="video">
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-block btn-success btnFrmAddContenido btn-lg">Agregar Contenido</button>
+                            </div>
+                        
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $(".datepicker").datepicker({
+                                format: "dd-mm-yyyy",
+                                autoclose: true
+                            });
+                            $("#tags").tagsInput();
+                            CKEDITOR.replace("contenido");
+                        });
+                    </script>';
+        return $contenido;
+    }
+
+    public function agregarDatosPost($data) {
+        #INSERTAMOS EL POST
+        $this->db->insert('post', array(
+            'titulo' => utf8_decode($data['titulo']),
+            'contenido' => utf8_decode($data['contenido']),
+            'tags' => utf8_decode($data['tags']),
+            'fecha' => date('Y-m-d', strtotime($data['fecha'])),
+            'estado' => $data['estado']
+        ));
+        $id_post = $this->db->lastInsertId();
+        #INSERTAMOS EL POST CATEGORIA
+        $this->db->insert('post_categoria', array(
+            'id_post' => $id_post,
+            'id_categoria' => $data['categoria'],
+        ));
+        $datos = array(
+            'id' => $id_post
+        );
+        return $datos;
+    }
+
+    public function agregarDatosPostFiles($data) {
+        $id = $data['id'];
+        #INSERTAMOS LAS IMAGENES
+        $cantImagenes = count($data['imagenes']) - 1;
+        for ($i = 0; $i <= $cantImagenes; $i ++) {
+            $imgPrincipal = ($i == 0) ? 1 : 0;
+            $this->db->insert('post_archivo', array(
+                'id_post' => $id,
+                'id_tipo_archivo' => 1,
+                'descripcion' => $data['imagenes'][$i],
+                'img_principal' => $imgPrincipal,
+                'estado' => 1
+            ));
+        }
+        #INSERTAMOS EL VIDEO
+        if (!empty($data['videos'])) {
+            foreach ($data['videos'] as $item) {
+                $this->db->insert('post_archivo', array(
+                    'id_post' => $id,
+                    'id_tipo_archivo' => 2,
+                    'descripcion' => $item,
+                    'img_principal' => 0,
+                    'estado' => 1
+                ));
+            }
+        }
     }
 
 }

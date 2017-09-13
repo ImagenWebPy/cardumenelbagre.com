@@ -215,10 +215,10 @@
                     type: "post",
                     dataType: "json",
                     success: function (data) {
-                        $('.modalContent').modal('toggle');
-                        $('.modalContent .modal-header').addClass('modal-header bg-primary');
-                        $('.modalContent .modal-header').html('Agregar Contenido');
-                        $('.modalContent .modal-body').html(data);
+                        $('.genericModal').modal('toggle');
+                        $('.genericModal .modal-header').addClass('modal-header bg-primary');
+                        $('.genericModal .modal-header').html('Agregar Contenido');
+                        $('.genericModal .modal-body').html(data);
                     }
                 }); //END AJAX
             }
@@ -236,6 +236,7 @@
                 var tipo_evento = $("input[name='tipo_evento']");
                 var tags = $("input[name='tags']");
                 var contenido = $("input[name='contenido']");
+                var video = $("input[name='video']");
                 if (titulo.val().trim().length == 0) {
                     titulo.css("border", "2px solid red");
                     titulo.focus();
@@ -252,7 +253,12 @@
                 } else {
                     tags.css("border", "1px solid #d2d6de");
                 }
-                if (titulo.val().trim().length > 0 && fecha.val().trim().length > 0 && tags.val().trim().length > 0) {
+                if (video.val().trim().length == 0) {
+                    video.css("border", "2px solid red");
+                } else {
+                    video.css("border", "1px solid #d2d6de");
+                }
+                if (titulo.val().trim().length > 0 && fecha.val().trim().length > 0 && tags.val().trim().length > 0 && video.val().trim().length > 0) {
                     $('.frmAgregarPost').append("<input type='hidden' name='tags2' value='" + tags.val() + "' />");
                     $(".frmAgregarPost").submit();
                 }
@@ -302,6 +308,41 @@
 
             }
             e.handled = true;
+        });
+        $(document).on("click", ".btnDeletePost", function (e) {
+            if (e.handled !== true) // This will prevent event triggering more then once
+            {
+                var id = $(this).attr("data-post");
+                $.ajax({
+                    url: "<?= URL; ?>admin/modalEliminarPost",
+                    type: "POST",
+                    data: {id: id},
+                    dataType: "json"
+                }).done(function (data) {
+                    $(".genericModal .modal-header").removeClass("modal-header").addClass("modal-header bg-primary");
+                    $(".genericModal .modal-title").html(data['titulo']);
+                    $(".genericModal .modal-body").html(data['contenido']);
+                    $(".genericModal").modal("toggle");
+                });
+            }
+            e.handled = true;
+        });
+        $(document).on("submit", "#frmEliminarPost", function (e) {
+            var url = "<?= URL ?>admin/deletePost"; // the script where you handle the form input.
+            var id = $("#btnEliminarPost").attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {id: id}, // serializes the form's elements.
+                success: function (data)
+                {
+                    if (data['type'] == 'success') {
+                        $("#trabajo_" + data['id']).remove();
+                        $(".genericModal").modal("toggle");
+                    }
+                }
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
         });
     });
 </script>

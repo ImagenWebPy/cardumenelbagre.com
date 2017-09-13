@@ -196,6 +196,15 @@ class Admin extends Controller {
         $datos = $this->model->modalEliminarUnidad($data);
         echo $datos;
     }
+    
+    public function modalEliminarPost() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEliminarPost($data);
+        echo $datos;
+    }
 
     public function deleteUnidad() {
         header('Content-type: application/json; charset=utf-8');
@@ -203,6 +212,15 @@ class Admin extends Controller {
             'id' => $this->helper->cleanInput($_POST['id'])
         );
         $data = $this->model->deleteUnidad($data);
+        echo json_encode($data);
+    }
+    
+    public function deletePost() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $data = $this->model->deletePost($data);
         echo json_encode($data);
     }
 
@@ -314,7 +332,7 @@ class Admin extends Controller {
             //echo json_encode(array('result'=>true));
         } else {
             $filename = basename($_SERVER['QUERY_STRING']);
-            $file_url = '/public/archivos/' . $filename;
+            $file_url = 'public/assets/img/trabajos/' . $filename;
             header('Content-Type: 				application/octet-stream');
             header("Content-Transfer-Encoding: 	Binary");
             header("Content-disposition: 		attachment; filename=\"" . basename($file_url) . "\"");
@@ -334,6 +352,73 @@ class Admin extends Controller {
             'contenido' => $_POST['contenido']
         );
         $this->model->guardarDatosPost($data);
+        header('Location: ' . URL . 'admin/trabajos');
+    }
+
+    public function agregarContenido() {
+        header('Content-type: application/json; charset=utf-8');
+        $datos = $this->model->agregarContenido();
+        echo json_encode($datos);
+    }
+
+    public function agregarDatosPost() {
+        #DATOS DEL POST
+        $titulo = $this->helper->cleanInput($_POST['titulo']);
+        $fecha = $this->helper->cleanInput($_POST['fecha']);
+        $categoria = $this->helper->cleanInput($_POST['categoria']);
+        $estado = $this->helper->cleanInput($_POST['estado']);
+        $tags = $this->helper->cleanInput($_POST['tags2']);
+        $contenido = $_POST['contenido'];
+        #Insertamos los datos para obtener el ID
+        $data = array(
+            'titulo' => $titulo,
+            'fecha' => $fecha,
+            'categoria' => $categoria,
+            'tipo_evento' => $tipo_evento,
+            'estado' => $estado,
+            'tags' => $tags,
+            'contenido' => $contenido
+        );
+        $datos = $this->model->agregarDatosPost($data);
+        $id = $datos['id'];
+        #SUBIMOS LOS ARCHIVOS
+        $error = false;
+        $absolutedir = dirname(__FILE__);
+        $dir = 'public/assets/img/trabajos/';
+        $serverdir = $dir;
+        #IMAGENES
+        $cantImagenes = count($_FILES['file_archivo']['name']) - 1;
+        $imagenes = array();
+        for ($i = 0; $i <= $cantImagenes; $i++) {
+            $newname = $id . '_' . $_FILES['file_archivo']['name'][$i];
+            $fname = $this->helper->cleanUrl($newname);
+
+            $contents = file_get_contents($_FILES['file_archivo']['tmp_name'][$i]);
+
+            $handle = fopen($serverdir . $fname, 'w');
+            fwrite($handle, $contents);
+            fclose($handle);
+            #############
+            #SE REDIMENSIONA LA IMAGEN
+            #############
+            # ruta de la imagen a redimensionar 
+            $imagen = "public/assets/img/trabajos/$fname";
+            # ruta de la imagen final, si se pone el mismo nombre que la imagen, esta se sobreescribe 
+            $imagen_final = $fname;
+            $ancho = 1280;
+            $alto = 720;
+            $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+            #############
+            $imagenes [] = $fname;
+        }
+        #INSERTAMOS LAS IMAGENES EN LA BD
+        $videos = array($_POST['video']);
+        $dataFiles = array(
+            'id' => $id,
+            'imagenes' => $imagenes,
+            'videos' => $videos
+        );
+        $this->model->agregarDatosPostFiles($dataFiles);
         header('Location: ' . URL . 'admin/trabajos');
     }
 
