@@ -10,13 +10,13 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2017-09-09 19:35:22
+Date: 2017-09-13 22:20:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for admin_usuario
+-- Table structure for `admin_usuario`
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_usuario`;
 CREATE TABLE `admin_usuario` (
@@ -35,7 +35,7 @@ CREATE TABLE `admin_usuario` (
 INSERT INTO `admin_usuario` VALUES ('1', 'Raul Ramirez', 'raul.ramirez@imagenwebhq.com', '35077063093736d9c00a46b7325ebc968179dab0dea4c8387ff65a9b4848c15e', null, '1');
 
 -- ----------------------------
--- Table structure for categoria
+-- Table structure for `categoria`
 -- ----------------------------
 DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE `categoria` (
@@ -54,7 +54,7 @@ INSERT INTO `categoria` VALUES ('15', 'Categoria', 'categoria', '1');
 INSERT INTO `categoria` VALUES ('16', 'Categoria 2', 'categoria2', '1');
 
 -- ----------------------------
--- Table structure for clientes
+-- Table structure for `clientes`
 -- ----------------------------
 DROP TABLE IF EXISTS `clientes`;
 CREATE TABLE `clientes` (
@@ -64,7 +64,7 @@ CREATE TABLE `clientes` (
   `url` varchar(120) DEFAULT NULL,
   `estado` int(1) unsigned DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of clientes
@@ -87,7 +87,7 @@ INSERT INTO `clientes` VALUES ('15', 'RPC', 'rpc.png', null, '1');
 INSERT INTO `clientes` VALUES ('16', 'Tigo Sports', 'tigo_sports.png', null, '1');
 
 -- ----------------------------
--- Table structure for contacto
+-- Table structure for `contacto`
 -- ----------------------------
 DROP TABLE IF EXISTS `contacto`;
 CREATE TABLE `contacto` (
@@ -107,7 +107,7 @@ CREATE TABLE `contacto` (
 INSERT INTO `contacto` VALUES ('1', 'Raul', 'raul.chuky@gmail.com', 'Prueba', 'Esto es una prueba', '2017-09-05 21:05:44', '1');
 
 -- ----------------------------
--- Table structure for post
+-- Table structure for `post`
 -- ----------------------------
 DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
@@ -123,10 +123,10 @@ CREATE TABLE `post` (
 -- ----------------------------
 -- Records of post
 -- ----------------------------
-INSERT INTO `post` VALUES ('10', 'Hinchas de Resistencia', '<p>Cliente: Oniria​<br>\r\nMarca: Resistencia Sport Club<br>\r\nAgencia: Oniria TBWA<br>\r\nProductora: #CardumenElBagre</p>\r\n\r\n<p>Director / DF / Editor: Rojo Uhl​<br>\r\nCámara 2: Joe Barcovich​<br>\r\nAC1: Augusto Flecha Paredes​<br>\r\nJefa de Producción: Natilu Aguilar Alarcón​<br>\r\nEjecutivo de Cuentas: Antonino Vázquez<br>\r\nEjecutiva Comercial: Eva Rodríguez<br>\r\nLocución: Benicio Martínez<br>\r\nCaptura de Locución / Post Producción de Sonido: Juan Guerrero<br>\r\nColorimetría: Marcelo Guido​\r\n</p>', 'hinchas de resistencia,futbol,estadio,arbol,resistencia', '2017-08-16 10:41:18', '1');
+INSERT INTO `post` VALUES ('10', 'Hinchas de Resistencia', '<p>Cliente: Oniria<br />\r\nMarca: Resistencia Sport Club<br />\r\nAgencia: Oniria TBWA<br />\r\nProductora: #CardumenElBagre</p>\r\n\r\n<p>Director / DF / Editor: Rojo Uhl<br />\r\nC&aacute;mara 2: Joe Barcovich<br />\r\nAC1: Augusto Flecha Paredes<br />\r\nJefa de Producci&oacute;n: Natilu Aguilar Alarc&oacute;n<br />\r\nEjecutivo de Cuentas: Antonino V&aacute;zquez<br />\r\nEjecutiva Comercial: Eva Rodr&iacute;guez<br />\r\nLocuci&oacute;n: Benicio Mart&iacute;nez<br />\r\nCaptura de Locuci&oacute;n / Post Producci&oacute;n de Sonido: Juan Guerrero<br />\r\nColorimetr&iacute;a: Marcelo Guido</p>\r\n', 'hinchas de resistencia,futbol,estadio,arbol,resistencia', '2017-08-16 23:16:55', '1');
 
 -- ----------------------------
--- Table structure for post_archivo
+-- Table structure for `post_archivo`
 -- ----------------------------
 DROP TABLE IF EXISTS `post_archivo`;
 CREATE TABLE `post_archivo` (
@@ -150,7 +150,7 @@ INSERT INTO `post_archivo` VALUES ('1', '10', '2', 'Ig_2m2MBjSs', '0', '1');
 INSERT INTO `post_archivo` VALUES ('2', '10', '1', 'hinchas_resistencia.jpg', '1', '1');
 
 -- ----------------------------
--- Table structure for post_categoria
+-- Table structure for `post_categoria`
 -- ----------------------------
 DROP TABLE IF EXISTS `post_categoria`;
 CREATE TABLE `post_categoria` (
@@ -170,7 +170,7 @@ CREATE TABLE `post_categoria` (
 INSERT INTO `post_categoria` VALUES ('1', '10', '14');
 
 -- ----------------------------
--- Table structure for quienes_somos
+-- Table structure for `quienes_somos`
 -- ----------------------------
 DROP TABLE IF EXISTS `quienes_somos`;
 CREATE TABLE `quienes_somos` (
@@ -188,7 +188,7 @@ CREATE TABLE `quienes_somos` (
 INSERT INTO `quienes_somos` VALUES ('1', '<p><strong>Cardumen el bagre</strong> es una compañía dedicada a la realización de las más diversas producciones audiovisuales incluyendo programas de TV, institucionales, comerciales y storytelling.</p>\r\n\r\n<p>Se desarrolla con éxito desde el año 2008 y ha producido desde ese entonces para los canales más importantes de Paraguay marcando hitos televisivos de gran despliegue como <strong>Desafío de Campeones</strong> en el 2014. De manera ininterrumpida y por 4 años (2011 al 2015) ha producido y emitido a través de Unicanal variados programas de televisión, que han recibido en el 2013 importantes nominaciones a los premios ATVC a las mejores producciones del cable de Latinoamérica así como la declaración de interés turístico nacional por la Secretaría Nacional de Turismo, SENATUR.</p>\r\n\r\n<p>Contamos con 2 estudios de TV con los cuales brindamos servicios publicitarios y televisivos y en los que trabajamos, entre otros, con los canales tigo sports y PRO de Asunción. Precisamente para éste último producimos a la fecha alrededor de 200 documentales sobre negocios exitosos del Paraguay en el programa “PRO DOCUMENTALES” emitido actualmente en su 2da. Temporada. Íntegramente grabados en 4K, semana a semana instala temas de gran interés recorriendo los escenarios más productivos del país.</p>\r\n\r\n<p>En publicidad, la originalidad y la creatividad de un equipo humano liderado por jóvenes realizadores que encaran diversos retos y trabajos de manera conjunta con las agencias más importantes de la región ha sido acreedor de importantes reconocimientos nacionales e internacionales.</p>\r\n\r\n<p>Con un estilo fresco y descontracturado <strong>Cardumen el Bagre</strong> trabaja incansablemente en ofrecer cada vez mayores productos audiovisuales, entretenidos y óptimos para un mercado global cada vez más competitivo. De cara a una nueva etapa de crecimiento apuesta al mercado internacional con la puesta en marcha en el 2018 del primer <strong>Centro integral de contenidos</strong> del país.</p>\r\n', '<p>Apostamos por los nuevos formatos y buscamos nuevas experiencias para el espectador. De esta manera nuestro staff integrado por productores, realizadores y guionistas trabaja en la puesta en marcha de nuevos formatos audiovisuales atentos a las innovaciones artísticas y tecnológicas para seguir conquistando al público. Aprovechamos todos los formatos y todas las pantallas disponibles para contar historias, experiencias y emociones.</p>', 'equipo.jpg', 'quienes-somos.jpg');
 
 -- ----------------------------
--- Table structure for tipo_archivo
+-- Table structure for `tipo_archivo`
 -- ----------------------------
 DROP TABLE IF EXISTS `tipo_archivo`;
 CREATE TABLE `tipo_archivo` (
@@ -209,7 +209,30 @@ INSERT INTO `tipo_archivo` VALUES ('4', 'Excel', null, '1');
 INSERT INTO `tipo_archivo` VALUES ('5', 'Power Point', null, '1');
 
 -- ----------------------------
--- Table structure for unidades_negocio
+-- Table structure for `trabaja`
+-- ----------------------------
+DROP TABLE IF EXISTS `trabaja`;
+CREATE TABLE `trabaja` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(120) DEFAULT NULL,
+  `email` varchar(120) DEFAULT NULL,
+  `telefono` varchar(60) DEFAULT NULL,
+  `mensaje` text,
+  `archivo` varchar(160) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `estado` int(10) unsigned DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of trabaja
+-- ----------------------------
+INSERT INTO `trabaja` VALUES ('1', 'Raul', 'raul.chuky@gmail.com', '0976901801', 'ñhola', '1_publicacion-nissan.jpg', '2017-08-05 07:55:05', '1');
+INSERT INTO `trabaja` VALUES ('2', 'Raul 2', 'raul.chuky@gmail.com', '123456', 'Esto es otro CV adjuntado. Archivo PDF', '2_Propuesta-cadiem-Administrador1.pdf', '2017-08-05 07:56:29', '1');
+INSERT INTO `trabaja` VALUES ('3', 'Raul word', 'raul.chuky@gmail.com', '987654', 'Archivo WORD', '3_Presupuesto-Cadiem-Cambios.docx', '2017-08-05 07:59:14', '1');
+
+-- ----------------------------
+-- Table structure for `unidades_negocio`
 -- ----------------------------
 DROP TABLE IF EXISTS `unidades_negocio`;
 CREATE TABLE `unidades_negocio` (
@@ -225,4 +248,3 @@ CREATE TABLE `unidades_negocio` (
 -- ----------------------------
 INSERT INTO `unidades_negocio` VALUES ('1', 'PUBLICIDAD', '<p>Un equipo de realizadores trabaja en la producción de varias propuestas publicitarias en anuencia con las agencias más importantes de la región.</p>', '1');
 INSERT INTO `unidades_negocio` VALUES ('2', 'TELEVISIÓN', '<p>Las posibilidades en televisión al contar con estudios han maximizado las oportunidades de productos televisivos de la productora. En campo nuestros programas traen la frescura que por lo general lo canales no tienen y estos productos marcan una diferencia, una mirada distinta y arriesgada que atrapa.</p>', '1');
-SET FOREIGN_KEY_CHECKS=1;

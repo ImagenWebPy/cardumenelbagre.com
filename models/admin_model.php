@@ -944,4 +944,349 @@ class Admin_Model extends Model {
         }
     }
 
+    public function cargarDTClientes() {
+        $datos = array();
+        $sql = $this->db->select('select * from clientes');
+        foreach ($sql as $item) {
+            $id = $item['id'];
+            $img = '<img src="' . ASSETS . 'img/clientes/' . $item['img'] . '" class="img-responsive" style="width: 150px;">';
+            $btn = '<a class="btn btn-app pointer btnEditarCliente btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-edit"></i> Editar</a>';
+            $btnDel = '<a class="btn btn-app pointer btnEliminarCliente btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a>';
+            if ($item['estado'] == 1) {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="1"><span class="label label-success">Activo</span></a>';
+            } else {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+            }
+            array_push($datos, array(
+                'DT_RowId' => 'cliente_' . $id,
+                'descripcion' => utf8_encode($item['descripcion']),
+                'img' => $img,
+                'estado' => $estado,
+                'accion' => $btn . ' | ' . $btnDel
+            ));
+        }
+        $json = '{"data": ' . json_encode($datos) . '}';
+        return $json;
+    }
+
+    public function modalAgregarCliente() {
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Agregar Cliente</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" action="' . URL . 'admin/frmAddCliente" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" name="cliente[descripcion]" class="form-control" placeholder="Ingrese la marca" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>URL</label>
+                        <input type="text" name="cliente[url]" class="form-control" placeholder="Ingrese la marca" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen</label>
+                        <div class="html5fileupload fileMarca" data-form="true" data-url="html5fileupload.php" data-valid-extensions="JPG,JPEG,jpg,png,jpeg" style="width: 100%;">
+                            <input type="file" name="file_archivo" />
+                        </div>
+                    </div>
+                    <script>
+                        $(".html5fileupload.fileMarca").html5fileupload();
+                    </script>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="cliente[estado]" value="1" checked>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Agregar Cliente</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Agregar Cliente',
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function frmAddCliente($data) {
+        $this->db->insert('clientes', array(
+            'descripcion' => utf8_decode($data['descripcion']),
+            'url' => utf8_decode($data['url']),
+            'estado' => $data['estado']
+        ));
+        $id = $this->db->lastInsertId();
+        return $id;
+    }
+
+    public function frmAddClienteImg($img) {
+        $id = $img['id'];
+        $update = array(
+            'img' => $img['imagen']
+        );
+        $this->db->update('clientes', $update, "id = $id");
+    }
+
+    public function modalEditarCliente($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("select * from clientes where id = $id");
+        $checked = ($sql[0]['estado'] == 1) ? 'checked' : '';
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Agregar Cliente</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" action="' . URL . 'admin/frmEditarCliente" enctype="multipart/form-data" id="frmEditarCliente">
+                    <input type="hidden" value="' . $id . '" name="cliente[id]">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" name="cliente[descripcion]" class="form-control" placeholder="Ingrese el Cliente" value="' . utf8_encode($sql[0]['descripcion']) . '">
+                    </div>
+                    <div class="form-group">
+                        <label>URL</label>
+                        <input type="text" name="cliente[url]" class="form-control" placeholder="Ingrese la url" value="' . utf8_encode($sql[0]['url']) . '">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="cliente[estado]" value="1" ' . $checked . '>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Edita Contenido</button>
+                    </div>
+                </form>
+                <div class="form-group">
+                        <label>Imagen</label>
+                        <div class="html5fileupload fileUploadCliente" data-url="' . URL . 'admin/uploadImgCliente" data-valid-extensions="JPG,JPEG,jpg,png,jpeg" style="width: 100%;">
+                            <input type="file" name="file" />
+                        </div>
+                </div>
+                <script>
+                    $(".html5fileupload.fileUploadCliente").html5fileupload({
+                        data:{id:' . $id . '},
+                        onAfterStartSuccess: function(response) {
+                            $("#imgCliente" + response.id).html(response.content);
+                        }
+                    });
+                </script>
+                <h4>Imagen Actual</h4>
+                <div class="imgActualMarca" id="imgCliente' . $id . '">';
+        if (!empty($sql[0]['img'])) {
+            $form .= '<img class="img-responsive" src="' . ASSETS . 'img/clientes/' . $sql[0]['img'] . '">';
+        }
+        $form .= '</div>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Editar Cliente',
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function editCliente($data) {
+        $id = $data['id'];
+        $estado = 1;
+        if (empty($data['estado'])) {
+            $estado = 0;
+        }
+        $update = array(
+            'descripcion' => utf8_decode($data['descripcion']),
+            'url' => utf8_decode($data['url']),
+            'estado' => $estado
+        );
+        $this->db->update('clientes', $update, "id = $id");
+        #obtenemos la fila
+        $sql = $this->db->select("SELECT * FROM clientes where id = $id");
+        if ($sql[0]['estado'] == 1) {
+            $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="1"><span class="label label-success">Activo</span></a>';
+        } else {
+            $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+        }
+        $row = '<td>' . $sql[0]['descripcion'] . '</td>'
+                . '<td><img src="' . ASSETS . 'img/clientes/' . $sql[0]['img'] . '" class="img-responsive" style="width: 150px;"></td>'
+                . '<td>' . $estado . '</td>'
+                . '<td><a class="btn btn-app pointer btnEditarCliente btnSmall" data-id="' . $id . '"><i class="fa fa-edit"></i> Editar</a> '
+                . '| <a class="btn btn-app pointer btnEliminarCliente btnSmall" data-id="' . $id . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a></td>';
+        $datos = array(
+            'type' => 'success',
+            'id' => $id,
+            'row' => $row
+        );
+        return $datos;
+    }
+
+    public function unlinkActualClienteImg($idPost) {
+        $dir = 'public/assets/img/clientes/';
+        $sql = $this->db->select("select img from clientes where id = $idPost");
+        unlink($dir . $sql[0]['img']);
+    }
+
+    public function uploadImgCliente($data) {
+        $id = $data['id'];
+        $update = array(
+            'img' => $data['img']
+        );
+        $this->db->update('clientes', $update, "id = $id");
+        $contenido = '<img class="img-responsive" src="' . ASSETS . 'img/clientes/' . $data['img'] . '">';
+        $datos = array(
+            "result" => true,
+            'id' => $id,
+            'content' => $contenido
+        );
+        return $datos;
+    }
+
+    public function modalEliminarCliente($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("SELECT * FROM clientes where id = $id");
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Datos del mensaje</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" id="frmEliminarCliente" method="POST">
+                    <input type="hidden" name="cliente[id]" value="' . $id . '">
+                    <div class="alert alert-danger alert-dismissible">
+                        <h4><i class="icon fa fa-ban"></i> ¿Está seguro de que desea eliminar el siguiente cliente "<strong>' . utf8_encode($sql[0]['descripcion']) . '</strong>"?</h4>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" id="btnDeleteCliente" class="btn btn-danger" data-id="' . $id . '">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Eliminar ' . utf8_encode($sql[0]['descripcion']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function deleteCliente($data) {
+        $id = $data['id'];
+        $this->unlinkActualClienteImg($id);
+        try {
+            $sth = $this->db->prepare("delete from clientes where id = :id");
+            $sth->execute(array(
+                ':id' => $id
+            ));
+            $datos = array(
+                'type' => 'success',
+                'id' => $id,
+                'contenido' => ''
+            );
+        } catch (Exception $ex) {
+            $datos = array(
+                'type' => 'error',
+                'id' => $id,
+                'contenido' => 'Lo sentimos ha ocurrido un error, no se pudo eliminar el registro'
+            );
+        }
+
+        return $datos;
+    }
+
+    public function cargarDTTrabaja() {
+        $datos = array();
+        $sql = $this->db->select('SELECT * FROM trabaja');
+
+        foreach ($sql as $item) {
+            $test = strstr($item['archivo'], '.', FALSE);
+            switch (strtolower($test)) {
+                case '.jpg':
+                case '.jpeg':
+                    $fa_icon = '<i class="fa fa-file-image-o" aria-hidden="true"></i>';
+                    break;
+                case '.pdf':
+                    $fa_icon = '<i class="fa fa-file-pdf-o" aria-hidden="true"></i>';
+                    break;
+                case '.docx':
+                case '.doc':
+                    $fa_icon = '<i class="fa fa-file-word-o" aria-hidden="true"></i>';
+                    break;
+                case '.xlsx':
+                case '.xls':
+                    $fa_icon = '<i class="fa fa-file-excel-o" aria-hidden="true"></i>';
+                    break;
+            }
+            $id = $item['id'];
+            $btn = '<a class="btn btn-app pointer btnDatosTrabaja btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-eye" aria-hidden="true"></i> Ver Datos</a>';
+            if ($item['estado'] == 1) {
+                $estado = '<a class="pointer text-green"><i class="fa fa-stop-circle-o" aria-hidden="true"></i></a>';
+            } else {
+                $estado = '<a class="pointer text-red"><i class="fa fa-stop-circle-o" aria-hidden="true"></i></a>';
+            }
+            array_push($datos, array(
+                'DT_RowId' => 'cv_' . $id,
+                'visto' => $estado,
+                'fecha' => date('d-m-Y', strtotime($item['fecha'])),
+                'nombre' => utf8_encode($item['nombre']),
+                'email' => utf8_encode($item['email']),
+                'archivo' => $fa_icon,
+                'accion' => $btn
+            ));
+        }
+        $json = '{"data": ' . json_encode($datos) . '}';
+        return $json;
+    }
+
+    public function modalVerTrabaja($data) {
+        $id = $data['id'];
+        $cambiarEstado = FALSE;
+        $sql = $this->db->select("SELECT * from trabaja where id = $id");
+        if ($sql[0]['estado'] == 0) {
+            #cambiamos el estado del mensaje
+            $update = array(
+                'estado' => 1
+            );
+            $this->db->update('trabaja', $update, "id = $id");
+            $cambiarEstado = TRUE;
+        }
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Datos del C.V. enviado</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl class="dl-horizontal">
+                    <dt>Enviado el:</dt>
+                    <dd>' . date('d-m-Y', strtotime($sql[0]['fecha'])) . '</dd>
+                    <dt>Hora:</dt>
+                    <dd>' . date('H:i:s', strtotime($sql[0]['fecha'])) . '</dd>
+                    <dt>Nombre:</dt>
+                    <dd>' . utf8_encode($sql[0]['nombre']) . '</dd>
+                    <dt>Email: </dt>
+                    <dd>' . utf8_encode($sql[0]['email']) . '</dd>
+                    <dt>Teléfono: </dt>
+                    <dd>' . utf8_encode($sql[0]['telefono']) . '</dd>
+                    <dt>Mensaje: </dt>
+                    <dd>' . utf8_encode($sql[0]['mensaje']) . '</dd>
+                    <dt>Archivo: </dt>
+                    <dd><a href="' . URL . 'public/archivos/cv/' . utf8_encode($sql[0]['archivo']) . '" title="Descargar" target="_blank">' . utf8_encode($sql[0]['archivo']) . '</a></dd>
+                </dl>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'C.V. de ' . utf8_encode($sql[0]['nombre']),
+            'contenido' => $form,
+            'id' => $id,
+            'cambiar_estado' => $cambiarEstado
+        );
+        return json_encode($datos);
+    }
+
 }

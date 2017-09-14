@@ -196,7 +196,7 @@ class Admin extends Controller {
         $datos = $this->model->modalEliminarUnidad($data);
         echo $datos;
     }
-    
+
     public function modalEliminarPost() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -214,7 +214,7 @@ class Admin extends Controller {
         $data = $this->model->deleteUnidad($data);
         echo json_encode($data);
     }
-    
+
     public function deletePost() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -234,6 +234,31 @@ class Admin extends Controller {
         $this->view->render('admin/trabajos/index');
         $this->view->render('admin/footer');
 
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
+    public function clientes() {
+        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css", "plugins/html5fileupload/html5fileupload.css", "plugins/tagsinput/jquery.tagsinput.css", "plugins/datepicker/datepicker3.css", "plugins/daterangepicker/daterangepicker.css");
+        $this->view->publicHeader_js = array("plugins/html5fileupload/html5fileupload.min.js", "plugins/tagsinput/jquery.tagsinput.js");
+        $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js", "plugins/moment/moment.min.js", "plugins/daterangepicker/daterangepicker.js", "plugins/datepicker/bootstrap-datepicker.js");
+        $this->view->title = "Trabajos";
+
+        $this->view->render('admin/header');
+        $this->view->render('admin/clientes/index');
+        $this->view->render('admin/footer');
+
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
+    public function trabaja_nosotros() {
+        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
+        $this->view->public_js = array("plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
+        $this->view->title = 'Trabaja con nosotros';
+        $this->view->render('admin/header');
+        $this->view->render('admin/trabaja_nosotros/index');
+        $this->view->render('admin/footer');
         if (!empty($_SESSION['message']))
             unset($_SESSION['message']);
     }
@@ -420,6 +445,176 @@ class Admin extends Controller {
         );
         $this->model->agregarDatosPostFiles($dataFiles);
         header('Location: ' . URL . 'admin/trabajos');
+    }
+
+    public function cargarDTClientes() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = $this->model->cargarDTClientes();
+        echo $data;
+    }
+
+    public function modalAgregarCliente() {
+        header('Content-type: application/json; charset=utf-8');
+        $datos = $this->model->modalAgregarCliente();
+        echo $datos;
+    }
+
+    public function frmAddCliente() {
+        if (!empty($_POST)) {
+            $data = array(
+                'descripcion' => $this->helper->cleanInput($_POST['cliente']['descripcion']),
+                'url' => $this->helper->cleanInput($_POST['cliente']['url']),
+                'estado' => (!empty($_POST['cliente']['estado'])) ? $_POST['cliente']['estado'] : 0
+            );
+            $idPost = $this->model->frmAddCliente($data);
+            $error = false;
+            $absolutedir = dirname(__FILE__);
+            $dir = 'public/assets/img/clientes/';
+            $serverdir = $dir;
+            #IMAGENES
+            $filename = '';
+            if (!empty($_FILES)) {
+                foreach ($_FILES as $inputname => $file) {
+                    $newname = $_POST[$inputname . '_name'];
+                    $ext = explode('.', $file['name']);
+                    $extension = strtolower(end($ext));
+                    $fname = $this->helper->cleanUrl($idPost . '_' . $newname . '.' . $extension);
+                    //$fname = $this->helper->cleanUrl($newname . '.' . $extension);
+
+                    $contents = file_get_contents($file['tmp_name']);
+
+                    $handle = fopen($serverdir . $fname, 'w');
+                    fwrite($handle, $contents);
+                    fclose($handle);
+
+                    #############
+                    #SE REDIMENSIONA LA IMAGEN
+                    #############
+                    # ruta de la imagen a redimensionar 
+                    $imagen = $serverdir . $fname;
+                    # ruta de la imagen final, si se pone el mismo nombre que la imagen, esta se sobreescribe 
+                    $imagen_final = $fname;
+                    $ancho = 350;
+                    $alto = 300;
+                    $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+                    #############
+                    $filename = $fname;
+                }
+                $img = array(
+                    'id' => $idPost,
+                    'imagen' => $filename
+                );
+                $this->model->frmAddClienteImg($img);
+            }
+            Session::set('message', array(
+                'type' => 'success',
+                'mensaje' => 'Se ha agregado correctamente el cliente'
+            ));
+            header('Location:' . URL . 'admin/clientes/');
+        }
+    }
+
+    public function modalEditarCliente() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEditarCliente($data);
+        echo $datos;
+    }
+
+    public function editCliente() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['cliente']['id']),
+            'descripcion' => $this->helper->cleanInput($_POST['cliente']['descripcion']),
+            'url' => $this->helper->cleanInput($_POST['cliente']['url']),
+            'estado' => (!empty($_POST['cliente']['estado'])) ? $this->helper->cleanInput($_POST['cliente']['estado']) : 0
+        );
+        $data = $this->model->editCliente($data);
+        echo json_encode($data);
+    }
+
+    public function uploadImgCliente() {
+        if (!empty($_POST)) {
+            $idPost = $_POST['data']['id'];
+            $this->model->unlinkActualClienteImg($idPost);
+            $error = false;
+            $absolutedir = dirname(__FILE__);
+            $dir = 'public/assets/img/clientes/';
+            $serverdir = $dir;
+            $tmp = explode(',', $_POST['file']);
+            $file = base64_decode($tmp[1]);
+            $ext = explode('.', $_POST['filename']);
+            $extension = strtolower(end($ext));
+            $name = $_POST['name'];
+            $filename = $this->helper->cleanUrl($idPost . '_' . $name);
+            $filename = $filename . '.' . $extension;
+            //$filename				= $file.'.'.substr(sha1(time()),0,6).'.'.$extension;
+            $handle = fopen($serverdir . $filename, 'w');
+            fwrite($handle, $file);
+            fclose($handle);
+            #############
+            #SE REDIMENSIONA LA IMAGEN
+            #############
+            # ruta de la imagen a redimensionar 
+            $imagen = $serverdir . $filename;
+            # ruta de la imagen final, si se pone el mismo nombre que la imagen, esta se sobreescribe 
+            $imagen_final = $filename;
+            $ancho = 350;
+            $alto = 300;
+            $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+            #############
+            header('Content-type: application/json; charset=utf-8');
+            $data = array(
+                'id' => $idPost,
+                'img' => $filename
+            );
+            $response = $this->model->uploadImgCliente($data);
+            echo json_encode($response);
+            //echo json_encode(array('result'=>true));
+        } else {
+            $filename = basename($_SERVER['QUERY_STRING']);
+            $file_url = '/public/archivos/' . $filename;
+            header('Content-Type: 				application/octet-stream');
+            header("Content-Transfer-Encoding: 	Binary");
+            header("Content-disposition: 		attachment; filename=\"" . basename($file_url) . "\"");
+            readfile($file_url);
+            exit();
+        }
+    }
+
+    public function modalEliminarCliente() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEliminarCliente($data);
+        echo $datos;
+    }
+
+    public function deleteCliente() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $data = $this->model->deleteCliente($data);
+        echo json_encode($data);
+    }
+
+    public function cargarDTTrabaja() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = $this->model->cargarDTTrabaja();
+        echo $data;
+    }
+
+    public function modalVerTrabaja() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalVerTrabaja($data);
+        echo $datos;
     }
 
 }
