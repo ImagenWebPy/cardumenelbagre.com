@@ -120,6 +120,17 @@ class Admin_Model extends Model {
         return json_encode(true);
     }
 
+    public function editMetas($data) {
+        $id = 1;
+        $update = array(
+            "title" => utf8_decode($data['title']),
+            "description" => utf8_decode($data['description']),
+            "keywords" => utf8_decode($data['keywords'])
+        );
+        $this->db->update('metas', $update, "id = $id");
+        return TRUE;
+    }
+
     public function editElEquipo($data) {
         $id = 1;
         $update = array(
@@ -1287,6 +1298,11 @@ class Admin_Model extends Model {
             'cambiar_estado' => $cambiarEstado
         );
         return json_encode($datos);
+    }
+
+    public function metas() {
+        $sql = $this->db->select("select * from metas where id = 1");
+        return $sql[0];
     }
 
 }

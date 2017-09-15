@@ -37,6 +37,16 @@ class Admin extends Controller {
         if (!empty($_SESSION['message']))
             unset($_SESSION['message']);
     }
+    
+    public function metas() {
+        $this->view->metas = $this->model->metas();
+        $this->view->title = 'Metas Etiquetas';
+        $this->view->render('admin/header');
+        $this->view->render('admin/metas/index');
+        $this->view->render('admin/footer');
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
 
     public function cargarDTContacto() {
         header('Content-type: application/json; charset=utf-8');
@@ -164,6 +174,29 @@ class Admin extends Controller {
                 ));
             }
             header('Location:' . URL . 'admin/unidades_negocio/');
+        }
+    }
+    
+    public function editMetas() {
+        if (!empty($_POST)) {
+            $data = array(
+                'title' => $this->helper->cleanInput($_POST['title']),
+                'description' => $this->helper->cleanInput($_POST['description']),
+                'keywords' => $this->helper->cleanInput($_POST['keywords']),
+            );
+            $datos = $this->model->editMetas($data);
+            if (!empty($datos)) {
+                Session::set('message', array(
+                    'type' => 'success',
+                    'mensaje' => 'Se han actualizado correctamente los datos'
+                ));
+            } else {
+                Session::set('message', array(
+                    'type' => 'error',
+                    'mensaje' => 'Lo sentimos ha ocurrido un error...'
+                ));
+            }
+            header('Location:' . URL . 'admin/metas/');
         }
     }
 

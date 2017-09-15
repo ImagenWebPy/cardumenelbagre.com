@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2017-09-13 22:20:00
+Date: 2017-09-14 20:47:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -105,6 +105,23 @@ CREATE TABLE `contacto` (
 -- Records of contacto
 -- ----------------------------
 INSERT INTO `contacto` VALUES ('1', 'Raul', 'raul.chuky@gmail.com', 'Prueba', 'Esto es una prueba', '2017-09-05 21:05:44', '1');
+
+-- ----------------------------
+-- Table structure for `metas`
+-- ----------------------------
+DROP TABLE IF EXISTS `metas`;
+CREATE TABLE `metas` (
+  `id` int(11) unsigned NOT NULL,
+  `title` varchar(180) NOT NULL,
+  `description` text,
+  `keywords` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of metas
+-- ----------------------------
+INSERT INTO `metas` VALUES ('1', 'Cardumen el Bagre', 'Cardumen el bagre es una compañía dedicada a la realización de las más diversas producciones audiovisuales incluyendo programas de TV, institucionales, comerciales y storytelling.', 'el bagre productora, cardumen el bagre, el bagre, productora, tv, television');
 
 -- ----------------------------
 -- Table structure for `post`
