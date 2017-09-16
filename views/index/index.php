@@ -550,11 +550,12 @@ $clientes = $helper->getDataClientes();
                         </div>
                         <div class="col-md-3 col-md-offset-1">
                             <h4 class="margin-btm-md sourcePro">Información</h4>
-                            <p>
-                                <i class="fa fa-map-marker" aria-hidden="true"></i> 
-                                Teniente Martínez Ramella nº 1080<br> c/ Herminio Giménez<br>
-                                Barrio Ciudad Nueva. Asunción<br>
-                            </p>
+                            <div><i class="fa fa-map-marker paddinMarker" aria-hidden="true"></i>
+                                <p>
+
+                                    Teniente Martínez Ramella nº 1080<br> c/ Herminio Giménez<br>
+                                    Barrio Ciudad Nueva. Asunción<br>
+                                </p> </div>
                             <p>
                                 <i class="fa fa-phone" aria-hidden="true"></i> 
                                 (+595)21 214 353

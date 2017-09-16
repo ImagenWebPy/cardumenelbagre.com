@@ -110,3 +110,5 @@ a:focus, a:hover { color: #C54C7B !important;}
     float: none;
     margin: 0 auto;
 }
+.paddinMarker{float: left;
+              padding: 3px;}

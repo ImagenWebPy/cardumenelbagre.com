@@ -56,6 +56,32 @@ class Admin_Model extends Model {
         return $json;
     }
 
+    public function cargarDTLocales() {
+        $datos = array();
+        $sql = $this->db->select('SELECT l.*
+                                  FROM locales l');
+        foreach ($sql as $item) {
+            $id = $item['id'];
+            $btn = '<a class="btn btn-app pointer btnEditarUnidad btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-edit"></i> Editar</a>';
+            $btnDel = '<a class="btn btn-app pointer btnEliminarUnidad btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a>';
+            if ($item['estado'] == 1) {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="1"><span class="label label-success">Activo</span></a>';
+            } else {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+            }
+            array_push($datos, array(
+                'DT_RowId' => 'local' . $id,
+                'tipo' => utf8_encode($item['tipo_oficina']),
+                'direccion' => utf8_encode($item['direccion']),
+                'telefono' => $item['telefono'],
+                'estado' => $estado,
+                'accion' => $btn . ' | ' . $btnDel
+            ));
+        }
+        $json = '{"data": ' . json_encode($datos) . '}';
+        return $json;
+    }
+
     public function modalVerContacto($data) {
         $id = $data['id'];
         $cambiarEstado = FALSE;
@@ -146,6 +172,12 @@ class Admin_Model extends Model {
         unlink($dir . $sql[0]['img_equipo']);
     }
 
+    public function unlinkImgMarker() {
+        $dir = 'public/assets/img/';
+        $sql = $this->db->select("select map_marker from config_sitio where id = 1");
+        unlink($dir . $sql[0]['map_marker']);
+    }
+
     public function uploadImgEquipo($data) {
         $update = array(
             'img_equipo' => $data['img']
@@ -157,6 +189,38 @@ class Admin_Model extends Model {
             'content' => $contenido
         );
         return $datos;
+    }
+
+    public function uploadImgMarker($data) {
+        $update = array(
+            'map_marker' => $data['img']
+        );
+        $this->db->update('config_sitio', $update, "id = 1");
+        $contenido = '<img class="img-responsive" src="' . URL . 'public/assets/img/' . $data['img'] . '">';
+        $datos = array(
+            "result" => true,
+            'content' => $contenido
+        );
+        return $datos;
+    }
+
+    public function uploadImgFondoFrase($data) {
+        $update = array(
+            'img_frase' => $data['img']
+        );
+        $this->db->update('config_sitio', $update, "id = 1");
+        $contenido = '<img class="img-responsive" src="' . URL . 'public/assets/img/fondos/' . $data['img'] . '">';
+        $datos = array(
+            "result" => true,
+            'content' => $contenido
+        );
+        return $datos;
+    }
+
+    public function unlinkImgFondoFrase() {
+        $dir = 'public/assets/img/fondos/';
+        $sql = $this->db->select("select img_frase from config_sitio where id = 1");
+        unlink($dir . $sql[0]['img_frase']);
     }
 
     public function modalAgregarUnidad() {
@@ -1302,6 +1366,89 @@ class Admin_Model extends Model {
 
     public function metas() {
         $sql = $this->db->select("select * from metas where id = 1");
+        return $sql[0];
+    }
+
+    public function getVideoInicio() {
+        $sql = $this->db->select("SELECT * FROM `config_videos` where id = 1;");
+        return $sql[0];
+    }
+
+    public function getReel() {
+        $sql = $this->db->select("SELECT * FROM `config_videos` where id = 2;");
+        return $sql[0];
+    }
+
+    public function editVideoInicio($data) {
+        $id = 1;
+        $update = $data;
+        $this->db->update('config_videos', $update, "id = $id");
+        $datos = array(
+            'contenido' => '<iframe src="https://www.youtube.com/embed/' . $data['valor'] . '" frameborder="0" allowfullscreen style="display: block;"></iframe>'
+        );
+        return json_encode($datos);
+    }
+
+    public function editVideoReel($data) {
+        $id = 2;
+        $update = $data;
+        $this->db->update('config_videos', $update, "id = $id");
+        $datos = array(
+            'contenido' => '<iframe src="https://www.youtube.com/embed/' . $data['valor'] . '" frameborder="0" allowfullscreen style="display: block;"></iframe>'
+        );
+        return json_encode($datos);
+    }
+
+    public function editDatosContacto($data) {
+        $id = 1;
+        $telefono = $data['telefono'];
+        $email = $data['email'];
+        $update = array(
+            'email' => $email,
+            'telefono' => $telefono
+        );
+        $this->db->update('config_sitio', $update, "id = $id");
+        $datos = array(
+            'email' => $email,
+            'telefono' => $telefono
+        );
+        return json_encode($datos);
+    }
+
+    public function editLatLong($data) {
+        $id = 1;
+        $latitud = $data['latitud'];
+        $longitud = $data['longitud'];
+        $update = array(
+            'latitud' => $latitud,
+            'longitud' => $longitud
+        );
+        $this->db->update('config_sitio', $update, "id = $id");
+        $datos = array(
+            'latitud' => $latitud,
+            'longitud' => $longitud
+        );
+        return json_encode($datos);
+    }
+
+    public function editFrase($data) {
+        $id = 1;
+        $frase = $data['frase'];
+        $autor = $data['autor'];
+        $update = array(
+            'frase' => utf8_decode($frase),
+            'autor_frase' => utf8_decode($autor)
+        );
+        $this->db->update('config_sitio', $update, "id = $id");
+        $datos = array(
+            'frase' => $frase,
+            'autor' => $autor
+        );
+        return json_encode($datos);
+    }
+
+    public function getDatosConfig() {
+        $sql = $this->db->select("select * from config_sitio where id = 1");
         return $sql[0];
     }
 

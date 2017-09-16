@@ -38,11 +38,37 @@ class Admin extends Controller {
             unset($_SESSION['message']);
     }
     
+    public function locales() {
+        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
+        $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
+        $this->view->title = 'Contacto';
+        $this->view->render('admin/header');
+        $this->view->render('admin/locales/index');
+        $this->view->render('admin/footer');
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
     public function metas() {
         $this->view->metas = $this->model->metas();
         $this->view->title = 'Metas Etiquetas';
         $this->view->render('admin/header');
         $this->view->render('admin/metas/index');
+        $this->view->render('admin/footer');
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
+    public function datos() {
+        $this->view->getVideoInicio = $this->model->getVideoInicio();
+        $this->view->getReel = $this->model->getReel();
+        $this->view->getDatosConfig = $this->model->getDatosConfig();
+        $this->view->public_css = array("plugins/html5fileupload/html5fileupload.css");
+        $this->view->publicHeader_js = array("plugins/html5fileupload/html5fileupload.min.js");
+        $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/html5fileupload/html5fileupload.min.js");
+        $this->view->title = 'Dato Generales';
+        $this->view->render('admin/header');
+        $this->view->render('admin/datos/index');
         $this->view->render('admin/footer');
         if (!empty($_SESSION['message']))
             unset($_SESSION['message']);
@@ -57,6 +83,12 @@ class Admin extends Controller {
     public function cargarDTUnidades() {
         header('Content-type: application/json; charset=utf-8');
         $data = $this->model->cargarDTUnidades();
+        echo $data;
+    }
+   
+    public function cargarDTLocales() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = $this->model->cargarDTLocales();
         echo $data;
     }
 
@@ -139,7 +171,101 @@ class Admin extends Controller {
             //echo json_encode(array('result'=>true));
         } else {
             $filename = basename($_SERVER['QUERY_STRING']);
-            $file_url = '/public/assets/img/trabajos/' . $filename;
+            $file_url = '/public/assets/img/' . $filename;
+            header('Content-Type: 				application/octet-stream');
+            header("Content-Transfer-Encoding: 	Binary");
+            header("Content-disposition: 		attachment; filename=\"" . basename($file_url) . "\"");
+            readfile($file_url);
+            exit();
+        }
+    }
+    
+    public function upload_img_marker() {
+        if (!empty($_POST)) {
+            $this->model->unlinkImgMarker();
+            $error = false;
+            $absolutedir = dirname(__FILE__);
+            $dir = 'public/assets/img/';
+            $serverdir = $dir;
+            $tmp = explode(',', $_POST['file']);
+            $file = base64_decode($tmp[1]);
+            $ext = explode('.', $_POST['filename']);
+            $extension = strtolower(end($ext));
+            $name = $_POST['name'];
+            $filename = $this->helper->cleanUrl($name);
+            $filename = $filename . '.' . $extension;
+            //$filename				= $file.'.'.substr(sha1(time()),0,6).'.'.$extension;
+            $handle = fopen($serverdir . $filename, 'w');
+            fwrite($handle, $file);
+            fclose($handle);
+            #############
+            #SE REDIMENSIONA LA IMAGEN
+            #############
+            # ruta de la imagen a redimensionar 
+            $imagen = $serverdir . $filename;
+            # ruta de la imagen final, si se pone el mismo nombre que la imagen, esta se sobreescribe 
+            $imagen_final = $filename;
+            $ancho = 60;
+            $alto = 52;
+            $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+            #############
+            header('Content-type: application/json; charset=utf-8');
+            $data = array(
+                'img' => $filename
+            );
+            $response = $this->model->uploadImgMarker($data);
+            echo json_encode($response);
+            //echo json_encode(array('result'=>true));
+        } else {
+            $filename = basename($_SERVER['QUERY_STRING']);
+            $file_url = '/public/assets/img/' . $filename;
+            header('Content-Type: 				application/octet-stream');
+            header("Content-Transfer-Encoding: 	Binary");
+            header("Content-disposition: 		attachment; filename=\"" . basename($file_url) . "\"");
+            readfile($file_url);
+            exit();
+        }
+    }
+    
+    public function upload_img_fondoFrase() {
+        if (!empty($_POST)) {
+            $this->model->unlinkImgFondoFrase();
+            $error = false;
+            $absolutedir = dirname(__FILE__);
+            $dir = 'public/assets/img/fondos/';
+            $serverdir = $dir;
+            $tmp = explode(',', $_POST['file']);
+            $file = base64_decode($tmp[1]);
+            $ext = explode('.', $_POST['filename']);
+            $extension = strtolower(end($ext));
+            $name = $_POST['name'];
+            $filename = $this->helper->cleanUrl($name);
+            $filename = $filename . '.' . $extension;
+            //$filename				= $file.'.'.substr(sha1(time()),0,6).'.'.$extension;
+            $handle = fopen($serverdir . $filename, 'w');
+            fwrite($handle, $file);
+            fclose($handle);
+            #############
+            #SE REDIMENSIONA LA IMAGEN
+            #############
+            # ruta de la imagen a redimensionar 
+            $imagen = $serverdir . $filename;
+            # ruta de la imagen final, si se pone el mismo nombre que la imagen, esta se sobreescribe 
+            $imagen_final = $filename;
+            $ancho = 1920;
+            $alto = 1080;
+            $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+            #############
+            header('Content-type: application/json; charset=utf-8');
+            $data = array(
+                'img' => $filename
+            );
+            $response = $this->model->uploadImgFondoFrase($data);
+            echo json_encode($response);
+            //echo json_encode(array('result'=>true));
+        } else {
+            $filename = basename($_SERVER['QUERY_STRING']);
+            $file_url = '/public/assets/img/fondos/' . $filename;
             header('Content-Type: 				application/octet-stream');
             header("Content-Transfer-Encoding: 	Binary");
             header("Content-disposition: 		attachment; filename=\"" . basename($file_url) . "\"");
@@ -176,7 +302,7 @@ class Admin extends Controller {
             header('Location:' . URL . 'admin/unidades_negocio/');
         }
     }
-    
+
     public function editMetas() {
         if (!empty($_POST)) {
             $data = array(
@@ -647,6 +773,54 @@ class Admin extends Controller {
             'id' => $this->helper->cleanInput($_POST['id'])
         );
         $datos = $this->model->modalVerTrabaja($data);
+        echo $datos;
+    }
+
+    public function editVideoInicio() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'valor' => $this->helper->cleanInput($_POST['valor'])
+        );
+        $datos = $this->model->editVideoInicio($data);
+        echo $datos;
+    }
+
+    public function editVideoReel() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'valor' => $this->helper->cleanInput($_POST['valor'])
+        );
+        $datos = $this->model->editVideoReel($data);
+        echo $datos;
+    }
+
+    public function editDatosContacto() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'email' => $this->helper->cleanInput($_POST['email']),
+            'telefono' => $this->helper->cleanInput($_POST['telefono'])
+        );
+        $datos = $this->model->editDatosContacto($data);
+        echo $datos;
+    }
+   
+    public function editLatLong() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'latitud' => $this->helper->cleanInput($_POST['latitud']),
+            'longitud' => $this->helper->cleanInput($_POST['longitud'])
+        );
+        $datos = $this->model->editLatLong($data);
+        echo $datos;
+    }
+    
+    public function editFrase() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'frase' => $this->helper->cleanInput($_POST['frase']),
+            'autor' => $this->helper->cleanInput($_POST['autor'])
+        );
+        $datos = $this->model->editFrase($data);
         echo $datos;
     }
 
