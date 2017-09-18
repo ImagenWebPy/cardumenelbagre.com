@@ -1053,7 +1053,7 @@ class Admin extends Controller {
             $imagen_final = $filename;
             $ancho = 350;
             $alto = 300;
-            $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+            //$this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
             #############
             header('Content-type: application/json; charset=utf-8');
             $data = array(

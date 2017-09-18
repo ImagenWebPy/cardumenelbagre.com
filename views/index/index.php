@@ -34,7 +34,7 @@ $video = $helper->getVideo();
                             <nav class="top-main-menu-scrollspy">
                                 <ul class="top-main-menu mtmenu sourcePro">
                                     <li><a href="#nosotros">Quienes Somos</a></li>
-                                    <li><a href="#unidades">Unidades de negocio</a></li>
+                                    <li><a href="#unidades">Servicios</a></li>
                                     <li><a href="#trabajos">Trabajos</a></li>
                                     <li><a href="#clientes">Clientes</a></li>
                                     <li><a href="#trabaja">Trabaja con nosotros</a></li>
@@ -100,7 +100,7 @@ $video = $helper->getVideo();
             <section>
                 <div class="container">
                     <div class="section-title">
-                        <h2 data-animate="fadeInDown" class="Oswald">Unidades de Negocio</h2>
+                        <h2 data-animate="fadeInDown" class="Oswald">Servicios</h2>
                     </div>
 
                     <div class="row services-block">
