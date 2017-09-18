@@ -12,12 +12,17 @@ $activeTrabajos = '';
 $activeTrabaja = '';
 $activeClientes = '';
 $activeContactoPage = '';
+$activeRedes = '';
 $activeContenido = '';
 $seccionActual = (!empty($pagina[1])) ? $pagina[1] : '';
 switch ($seccionActual) {
     case 'contacto':
         $activeContacto = 'active';
         $activeContactoPage = 'active';
+        break;
+    case 'redes':
+        $activeContacto = 'active';
+        $activeRedes = 'active';
         break;
     case 'quienes_somos':
         $activeContenido = 'active';
@@ -171,6 +176,7 @@ switch ($seccionActual) {
                         <li class="<?= $activeContacto; ?> treeview"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> <span>Contacto</span> <i class="fa fa-angle-left pull-right"></i></a>
                             <ul class="treeview-menu">
                                 <li class="<?= $activeContactoPage; ?>"><a href="<?= URL; ?>admin/contacto"><i class="fa fa-circle-o"></i> <span>Formulario de Contacto </span></a></li>
+                                <li class="<?= $activeRedes; ?>"><a href="<?= URL; ?>admin/redes"><i class="fa fa-circle-o"></i> <span>Redes </span></a></li>
                             </ul>
                         </li>
                         <li class="<?= $activeContenido; ?> treeview"><a href="#"><i class="fa fa-list-alt" aria-hidden="true"></i> <span>Contenido</span> <i class="fa fa-angle-left pull-right"></i></a>

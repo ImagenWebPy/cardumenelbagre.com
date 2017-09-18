@@ -440,15 +440,107 @@ class Helper {
         $sql = $this->db->select("SELECT * FROM `quienes_somos`;");
         return $sql[0];
     }
-    
+
     public function getDataUnidadesNegocio() {
         $sql = $this->db->select("SELECT * FROM `unidades_negocio` where estado = 1;");
         return $sql;
     }
-    
+
     public function getDataClientes() {
         $sql = $this->db->select("SELECT * FROM `clientes` where estado = 1 ORDER BY RAND();");
         return $sql;
     }
 
+    public function getRedes() {
+        $sql = $this->db->select("select * from config_redes where estado = 1");
+        return $sql;
+    }
+
+    public function getContenidoPrincipal() {
+        $contenido = $this->db->select("SELECT  p.id,
+                                                p.titulo,
+                                                p.contenido,
+                                                (SELECT pa.descripcion FROM post_archivo pa WHERE pa.id_post = p.id AND pa.img_principal = 1 AND pa.estado = 1 AND pa.id_tipo_archivo = 1) AS img,
+                                                c.descripcion AS categoria,
+                                                c.id AS id_categoria,
+                                                p.fecha
+                                        FROM post p
+                                        LEFT JOIN post_categoria pc ON pc.id_post = p.id 
+                                        LEFT JOIN categoria c ON c.id = pc.id_categoria
+                                        WHERE p.estado = 1
+                                        ORDER BY p.fecha DESC
+                                        LIMIT 16");
+        return $contenido;
+    }
+
+    public function getPostTitle($idPost) {
+        $sql = $this->db->select("select titulo from post where id = $idPost");
+        $data = array(
+            'url' => $this->cleanUrl(utf8_encode($sql[0]['titulo'])),
+            'titulo' => utf8_encode($sql[0]['titulo'])
+        );
+        return $data;
+    }
+
+    public function getConfigSitio() {
+        $sql = $this->db->select("select * from config_sitio where id = 1");
+        return $sql[0];
+    }
+
+    public function getLocales() {
+        $sql = $this->db->select("SELECT * FROM locales where estado = 1");
+        $data = array(
+            'principal' => '',
+            'sedes' => array()
+        );
+        foreach ($sql as $item) {
+            if ($item['casa_central'] == 1) {
+                $data['principal'] = array(
+                    'tipo_oficina' => utf8_encode($item['tipo_oficina']),
+                    'direccion' => utf8_encode($item['direccion']),
+                    'telefono' => utf8_encode($item['telefono']),
+                    'email' => utf8_encode($item['email']),
+                );
+            } else {
+                array_push($data['sedes'], array(
+                    'tipo_oficina' => utf8_encode($item['tipo_oficina']),
+                    'direccion' => utf8_encode($item['direccion']),
+                    'telefono' => utf8_encode($item['telefono']),
+                    'email' => utf8_encode($item['email']),
+                ));
+            }
+        }
+        return $data;
+    }
+
+    public function getNosotrosFooter() {
+        $sql = $this->db->select("select quienes_somos from quienes_somos where id = 1");
+        return substr(strip_tags(utf8_encode($sql[0]['quienes_somos'])), 0, 140);
+    }
+    
+    public function getUltimosTrabajos() {
+        $contenido = $this->db->select("SELECT  p.id,
+                                                p.titulo,
+                                                p.contenido,
+                                                (SELECT pa.descripcion FROM post_archivo pa WHERE pa.id_post = p.id AND pa.img_principal = 1 AND pa.estado = 1 AND pa.id_tipo_archivo = 1) AS img,
+                                                c.descripcion AS categoria,
+                                                c.id AS id_categoria,
+                                                p.fecha
+                                        FROM post p
+                                        LEFT JOIN post_categoria pc ON pc.id_post = p.id 
+                                        LEFT JOIN categoria c ON c.id = pc.id_categoria
+                                        WHERE p.estado = 1
+                                        ORDER BY p.fecha DESC
+                                        LIMIT 3");
+        return $contenido;
+    }
+    
+    public function getVideo(){
+        $sql = $this->db->select("select * from config_videos");
+        $data = array(
+            'portada' => $sql[0]['valor'],
+            'reel' => $sql[1]['valor']
+        );
+        return $data;
+    }
 }

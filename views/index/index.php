@@ -3,6 +3,10 @@ $helper = new Helper();
 $quienesSomos = $helper->getDataQuienesSomos();
 $unidadesNegocio = $helper->getDataUnidadesNegocio();
 $clientes = $helper->getDataClientes();
+$redes = $helper->getRedes();
+$configSitio = $helper->getConfigSitio();
+$sedes = $helper->getLocales();
+$video = $helper->getVideo();
 ?>
 <!--[if lt IE 9]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -14,7 +18,7 @@ $clientes = $helper->getDataClientes();
             <section>
                 <div class="ls-fullheight ls-nobullets">
                     <div id="background-video" class="background-video">
-                        <img src="<?= ASSETS ?>img/placeholder.jpg" alt="" class="placeholder-image" id="placeholderVideo">
+                        <!--<img src="<?= ASSETS ?>img/placeholder.jpg" alt="" class="placeholder-image" id="placeholderVideo">-->
                         <a class="ls-l ls-mental-scrollunder masContenido" style="display: none;" data-ls="offsetxin:0;durationin:2000;delayin:2000;easingin:easeOutElastic;rotatexin:-90;transformoriginin:50% top 0;offsetxout:-400;durationout:1000;"></a>
                     </div>
                 </div>
@@ -49,9 +53,7 @@ $clientes = $helper->getDataClientes();
                     <div class="row">
                         <div class="col-md-8">
                             <h3 class="Oswald" data-animate="flipInX" style="color:#ccc;">Quiénes Somos</h3>
-
                             <?= utf8_encode($quienesSomos['quienes_somos']); ?>
-
                         </div>
                     </div>
                 </div> <!-- container -->
@@ -75,17 +77,26 @@ $clientes = $helper->getDataClientes();
                     </div>
                     <div class="container container-800 text-center">
                         <div class="social-block">
-                            <a href=""><i class="fa fa-twitter"></i></a>
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-instagram"></i></a>
-                            <a href=""><i class="fa fa-pinterest"></i></a>
-                            <a href=""><i class="fa fa-tumblr"></i></a>
+                            <?php foreach ($redes as $item): ?>
+                                <a href="<?= $item['url']; ?>"><i class="<?= $item['fontawesome']; ?>"></i></a>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
             </section>
         </div> <!-- section -->
+        <div class="section st-invert">
+            <section>
+                <div class="container container-800 text-center">
+                    <div class="section-title">
+                        <h2 data-animate="fadeInDown" class=""> Demo Reel</h2>
+                    </div>
+                </div>
+                <div class="col-md-10 col-centered">
+                    <iframe src="https://www.youtube.com/embed/<?= $video['reel']; ?>" frameborder="0" allowfullscreen style="display: block; width: 100%; height: 400px; "></iframe> 
+                </div>
+            </section>
+        </div>
         <div id="unidades" class="section">
             <section>
                 <div class="container">
@@ -111,11 +122,11 @@ $clientes = $helper->getDataClientes();
                 </div> <!-- container -->
             </section>
         </div> <!-- section -->
-        <div class="section st-padding-xl parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/frase1.jpg');">
+        <div class="section st-padding-xl parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/<?= $configSitio['img_frase']; ?>');">
             <section>
                 <div class="container testimonial" data-animate="bounceIn">
-                    <h3 class="citation-big" style="color:#fff;">“Tenemos mucho tiempo por delante para crear los sueños que aún ni siquiera imaginamos soñar.” </h3>
-                    <p class="author-big" style="color:#fff;">Steven Spielberg</p>
+                    <h3 class="citation-big" style="color:#fff;">“<?= utf8_encode($configSitio['frase']); ?>” </h3>
+                    <p class="author-big" style="color:#fff;"><?= utf8_encode($configSitio['autor_frase']); ?></p>
                 </div> <!-- container -->
             </section>
         </div> <!-- section -->
@@ -123,362 +134,98 @@ $clientes = $helper->getDataClientes();
             <section>
 
                 <ul class="gallety-filters Oswald">
-                    <li class="active"><a data-filter="*" href="#">All</a></li>
-                    <li><a data-filter="guerrilla" href="#">Guerrilla</a></li>
-                    <li><a data-filter="fashion" href="#">Categoria</a></li>
-                    <li><a data-filter="people" href="#">Categoria</a></li>
-                    <li><a data-filter="animals" href="#">Categoria</a></li>
+                    <li class="active"><a data-filter="*" href="#">TODOS</a></li>
+                    <?php foreach ($helper->getCategorias() as $item): ?>
+                        <li><a data-filter="<?= utf8_encode($item['tag']); ?>" href="#"><?= utf8_encode($item['descripcion']); ?></a></li>
+                    <?php endforeach; ?>
                     <li class="gf-underline"></li>
                 </ul>
 
                 <ul id="gallery-w-preview" class="gallery gl-cols-4 gl-fixed-items">
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="guerrilla">
-                        <a href="#">
-                            <figure>
-                                <img src="<?= ASSETS; ?>img/trabajos/hinchas_resistencia.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
+                    <?php foreach ($helper->getContenidoPrincipal() as $contenido): ?>
+                        <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="<?= strtolower(utf8_encode($contenido['categoria'])); ?>">
+                            <a href="#">
+                                <figure>
+                                    <img src="<?= URL; ?>public/assets/img/trabajos/<?= $contenido['img']; ?>" alt="">
+                                    <figcaption>
+                                        <div class="middle"><div class="middle-inner">
+                                                <p class="gl-item-title sourcePro"><?= utf8_encode($contenido['titulo']); ?></p>
+                                            </div></div>
+                                    </figcaption>
+
+                                </figure>
+                                <div class="divTitulosPost">
+                                    <p class="tipoEvento"><?= utf8_encode($contenido['categoria']); ?></p>
+                                    <p class="tituloPost"><?= (strlen($contenido['titulo']) > 35) ? substr(utf8_encode($contenido['titulo']), 0, 35) . '...' : utf8_encode($contenido['titulo']) ?></p>
+                                    <p class="fechaPost"><?= $helper->mesEspanol(date('F', strtotime($contenido['fecha']))) . '-' . date('Y', strtotime($contenido['fecha'])); ?></p>
+                                </div>
+                            </a>
+                            <div class="gl-preview" style="diplay:none;" data-category="<?= strtolower(utf8_encode($contenido['categoria'])); ?>">
+                                <span class="glp-arrow"></span>
+                                <a href="#" class="glp-close"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                <div class="row gl-preview-container">
+                                    <?php
+                                    $archivos = $helper->getArchivosPOst($contenido['id']);
+                                    $fechaUltimoPost = $contenido['fecha'];
+                                    ?>
+                                    <?php if ($archivos['tipo'] == 'imagen'): ?>
+                                        <div class="col-sm-8">
+                                            <div id="carousel-gallery-1" class="carousel slide" data-ride="carousel" data-interval="false">
+                                                <!-- Wrapper for slides -->
+                                                <div class="carousel-inner">
+                                                    <?php foreach ($archivos['imagenes'] as $item): ?>
+                                                        <div class="item <?= ($item['principal'] == 1) ? 'active' : ''; ?>">
+                                                            <img src="<?= URL; ?>public/archivos/<?= $item['imagen']; ?>" alt="slide">
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                                <ol class="carousel-indicators">
+                                                    <?php
+                                                    for ($i = 0; $i <= (count($archivos['imagenes']) - 1); $i++):
+                                                        ?>
+                                                        <li data-target="#carousel-gallery-1" data-slide-to="<?= $i; ?>"></li>
+                                                    <?php endfor; ?>
+                                                </ol>
+                                                <!-- Controls -->
+                                                <a class="left carousel-control" href="#carousel-post-1" data-slide="prev">
+                                                    <span></span>
+                                                </a>
+                                                <a class="right carousel-control" href="#carousel-post-1" data-slide="next">
+                                                    <span></span>
+                                                </a>
+
+                                            </div> <!-- carousel -->
                                         </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <div class="divTitulosPost">
-                                <p class="tipoEvento">Guerrilla</p>
-                                <p class="tituloPost">Hinchas de Resistencia</p>
-                                <p class="fechaPost">Agosto-2017</p>
-                            </div>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="guerrilla">
-                            <span class="glp-arrow"></span>
-                            <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="https://www.youtube.com/embed/Ig_2m2MBjSs" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Hinchas de Resistencia</h4>
-                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Compartir</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="guerrilla">
-                        <a href="#">
-                            <figure>
-                                <img src="<?= ASSETS; ?>img/trabajos/morgan.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
+                                    <?php else: ?>
+                                        <?php
+                                        $imgVideo = '';
+                                        foreach ($archivos['imagenes'] as $item) {
+                                            if ($item['principal'] == 1) {
+                                                $imgVideo = utf8_encode($item['imagen']);
+                                            }
+                                        }
+                                        ?>
+                                        <div class="col-sm-8">
+                                            <div class="glp-video">
+                                                <?php foreach ($archivos['video'] as $item): ?>
+                                                    <iframe src="https://www.youtube.com/embed/<?= utf8_encode($item['archivo']); ?>" frameborder="0" allowfullscreen></iframe>
+                                                <?php endforeach; ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <div class="divTitulosPost">
-                                <p class="tipoEvento">Guerrilla</p>
-                                <p class="tituloPost">Inauguración MORGAN</p>
-                                <p class="fechaPost">Octubre-2016</p>
-                            </div>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="guerrilla">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="https://www.youtube.com/embed/ausg2wIkQ-Y" frameborder="0" allowfullscreen></iframe>
+                                    <?php endif; ?>
+                                    <?php $textoResumido = (strlen($contenido['contenido']) > 180) ? substr(utf8_encode($contenido['contenido']), 0, 180) . '...' : $contenido['contenido']; ?>
+                                    <div class="col-sm-4 lg-preview-descr sourcePro">
+                                        <h4><?= utf8_encode($contenido['titulo']); ?></h4>
+                                        <p><?= strip_tags($textoResumido); ?></p>
+                                        <a href="<?= URL; ?>post/contenido/<?= $contenido['id'] . '/' . $this->helper->getPostTitle($contenido['id'])['url']; ?>" class="btn btn-primary glp-readmore linkWhite">Leer màs</a>
                                     </div>
                                 </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Inauguración MORGAN</h4>
-                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Compartir</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="guerrilla">
-                        <a href="#">
-                            <figure>
-                                <img src="<?= ASSETS; ?>img/trabajos/spot_kase.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <div class="divTitulosPost">
-                                <p class="tipoEvento">Guerrilla</p>
-                                <p class="tituloPost">Spot Trébol KÄSE</p>
-                                <p class="fechaPost">Noviembre-2015</p>
-                            </div>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="guerrilla">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="https://www.youtube.com/embed/iRCacxextgE" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Spot Trébol KÄSE</h4>
-                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Compartir</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="guerrilla">
-                        <a href="#">
-                            <figure>
-                                <img src="<?= ASSETS; ?>img/trabajos/rohayhu.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <div class="divTitulosPost">
-                                <p class="tipoEvento">Guerrilla</p>
-                                <p class="tituloPost">Rohayhu Paraguay - #DecimosRohayhu 4K</p>
-                                <p class="fechaPost">Noviembre-2015</p>
-                            </div>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="guerrilla">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="https://www.youtube.com/embed/SG3Oigvzb4g" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Rohayhu Paraguay - #DecimosRohayhu 4K</h4>
-                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Compartir</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="guerrilla">
-                        <a href="#">
-                            <figure>
-                                <img src="<?= ASSETS; ?>img/trabajos/bettanin.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <div class="divTitulosPost">
-                                <p class="tipoEvento">Guerrilla</p>
-                                <p class="tituloPost">BETTANIN SPOT</p>
-                                <p class="fechaPost">Agosto-2015</p>
-                            </div>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="guerrilla">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="https://www.youtube.com/embed/E0rTruj7v8M" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>BETTANIN SPOT</h4>
-                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Compartir</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="guerrilla">
-                        <a href="#">
-                            <figure>
-                                <img src="<?= ASSETS; ?>img/trabajos/tigo_musica_kiss.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <div class="divTitulosPost">
-                                <p class="tipoEvento">Guerrilla</p>
-                                <p class="tituloPost">Tigo Múica Kiss</p>
-                                <p class="fechaPost">Agosto-2015</p>
-                            </div>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="guerrilla">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="https://www.youtube.com/embed/qIdK3Uye5-c" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Tigo Múica Kiss</h4>
-                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Compartir</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="guerrilla">
-                        <a href="#">
-                            <figure>
-                                <img src="<?= ASSETS; ?>img/trabajos/casa_cuna.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <div class="divTitulosPost">
-                                <p class="tipoEvento">Guerrilla</p>
-                                <p class="tituloPost">Casa Cuna Final</p>
-                                <p class="fechaPost">Agosto-2015</p>
-                            </div>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="guerrilla">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="https://www.youtube.com/embed/uP4UlPdW27w" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Casa Cuna Final</h4>
-                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Compartir</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
-                    <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="guerrilla">
-                        <a href="#">
-                            <figure>
-                                <img src="<?= ASSETS; ?>img/trabajos/spot_suenolar.jpg" alt="">
-                                <figcaption>
-                                    <div class="middle"><div class="middle-inner">
-                                            <p class="gl-item-icon"><i class="fa fa-play-circle-o"></i></p>
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <div class="divTitulosPost">
-                                <p class="tipoEvento">Guerrilla</p>
-                                <p class="tituloPost">Spot Sueñolar</p>
-                                <p class="fechaPost">Noviembre-2014</p>
-                            </div>
-                        </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="guerrilla">
-                            <span class="glp-arrow"></span>
-                            <a href="#" class="glp-close"></a>
-                            <div class="row gl-preview-container">
-                                <div class="col-sm-8">
-                                    <div class="glp-video">
-                                        <iframe src="https://www.youtube.com/embed/J878dHJaJi8" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 lg-preview-descr">
-                                    <h4>Spot Sueñolar</h4>
-                                    <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at lorem rutrum, condimentum ipsum nec, facilisis tellus. Morbi risus ligula, hendrerit ut aliquam ut, varius viverra lorem. Fusce nec dui et orci rutrum hendrerit quis at nunc. Nunc a turpis sed erat finibus sodales. Curabitur scelerisque justo augue, eget consequat ligula vehicula a. Morbi mollis purus massa, et molestie justo vehicula non. Proin finibus, lectus sit amet tristique sagittis, elit libero faucibus lorem, at dignissim massa metus id dui. Vivamus ac ante ac risus sagittis iaculis. Proin mollis dapibus vestibulum. Nulla vulputate aliquet metus, a sodales dui. Cras efficitur ut felis sit amet lobortis. Nam massa arcu, ultricies non lobortis at, ultricies ut tellus. Aenean non mi ipsum. Nulla nunc mi, egestas ac nisl vitae, porttitor venenatis sapien. Mauris semper, urna ut varius eleifend, risus diam consequat est, at lobortis metus justo et ligula.</p>
-                                    <button class="btn btn-primary glp-readmore">Read More</button>
-                                    <div class="mb-social glp-social">
-                                        <p>Compartir</p>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-tumblr"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- gl-preview -->
-                    </li>
+                            </div> <!-- gl-preview -->
+                        </li>
+                    <?php endforeach; ?>
                 </ul> <!-- gallery -->
                 <div class="load-more-block">
-                    <a href="#" class="footer-loadmore" data-link="#" data-offset="5" data-items-per-page="5">Cargar Más</a>
+                    <a href="#" class="footer-loadmore" data-url="<?= URL; ?>" data-fecha="<?= $fechaUltimoPost; ?>" data-items="8">Cargar más</a>
                     <span class="loading-spinner" style="display:none;"></span>
                 </div>
             </section>
@@ -503,8 +250,8 @@ $clientes = $helper->getDataClientes();
             <section>
                 <div class="container container-800 text-center">
                     <div class="section-title">
-                        <h2 data-animate="fadeInDown" class="Oswald">¿Estás list@ para trabajar con nosotros?</h2>
-                        <p data-animate="flipInX">Estamos felices de saber que querés ser parte de nuestro equipo!. Envíanos tus datos y adjuntanos tu CV.</p>
+                        <h2 data-animate="fadeInDown" class="Oswald"><?= utf8_encode($configSitio['titulo_trabaja']); ?></h2>
+                        <p data-animate="flipInX"><?= utf8_encode($configSitio['texto_trabaja']); ?></p>
                     </div>
                 </div>
                 <div class="container some-ff-block">
@@ -516,14 +263,14 @@ $clientes = $helper->getDataClientes();
                 </div>
             </section>
         </div> <!-- section -->
-        <div id="contacto" class="section st-invert parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/camera-lens.jpg');">
+        <div id="contacto" class="section st-invert parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/<?= utf8_encode($configSitio['img_contacto']); ?>');">
             <section>
                 <div class="container">
                     <h2 class="section-title Oswald" data-animate="fadeInDown">Contacto</h2>
                     <div class="row">
                         <div class="col-md-8">
                             <h4 class="margin-btm-md sourcePro">Déjanos un mensaje</h4>
-                            <form role="form" action="formmail.php" class="contact-form validation-engine ajax-send">
+                            <form role="form" id="frmContacto" class="contact-form validation-engine ajax-send">
                                 <div class="row">
                                     <div class="col-sm-4 form-group">
                                         <label class="sr-only" for="input_name">Nombre *</label>
@@ -549,32 +296,49 @@ $clientes = $helper->getDataClientes();
                             </form>
                         </div>
                         <div class="col-md-3 col-md-offset-1">
-                            <h4 class="margin-btm-md sourcePro">Información</h4>
+                            <h4 class="margin-btm-md sourcePro"><?= utf8_encode($sedes['principal']['tipo_oficina']); ?></h4>
                             <div><i class="fa fa-map-marker paddinMarker" aria-hidden="true"></i>
+                                <?= $sedes['principal']['direccion']; ?>
                                 <p>
-
-                                    Teniente Martínez Ramella nº 1080<br> c/ Herminio Giménez<br>
-                                    Barrio Ciudad Nueva. Asunción<br>
-                                </p> </div>
-                            <p>
-                                <i class="fa fa-phone" aria-hidden="true"></i> 
-                                (+595)21 214 353
-                            </p>
-                            <p>
-                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                                <a href="mailto:info@cardumenelbagre.com">info@cardumenelbagre.com</a>
-                            </p>
+                                    <i class="fa fa-phone" aria-hidden="true"></i> 
+                                    <?= utf8_encode($sedes['principal']['telefono']); ?>
+                                </p>
+                                <?php if (!empty($sedes['principal']['email'])): ?>
+                                    <p>
+                                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <a href="mailto:<?= utf8_encode($sedes['principal']['email']); ?>"><?= utf8_encode($sedes['principal']['email']); ?></a>
+                                    </p>
+                                <?php endif; ?>
+                            </div>
                         </div>
+                    </div> <!-- container -->
+                    <div class="row">
+                        <?php foreach ($sedes['sedes'] as $item): ?>
+                            <div class="col-md-3 col-md-offset-1">
+                                <h4 class="margin-btm-md sourcePro"><?= utf8_encode($item['tipo_oficina']); ?></h4>
+                                <div><i class="fa fa-map-marker paddinMarker" aria-hidden="true"></i>
+                                    <?= $item['direccion']; ?>
+                                    <p>
+                                        <i class="fa fa-phone" aria-hidden="true"></i> 
+                                        <?= utf8_encode($item['telefono']); ?>
+                                    </p>
+                                    <?php if (!empty($item['email'])): ?>
+                                        <p>
+                                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                            <a href="mailto:<?= utf8_encode($item['email']); ?>"><?= utf8_encode($item['email']); ?></a>
+                                        </p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-
-                </div> <!-- container -->
             </section>
         </div> <!-- section -->
 
 
         <div class="section st-no-padding contact-map-onepage">
             <section>
-                <div id="gmap" data-latitud="-25.304984" data-longitud="-57.596620"></div>
+                <div id="gmap" data-latitud="<?= utf8_encode($configSitio['latitud']); ?>" data-longitud="<?= utf8_encode($configSitio['longitud']); ?>"></div>
             </section>
         </div> <!-- section -->
 
@@ -586,17 +350,17 @@ $clientes = $helper->getDataClientes();
                         <div class="col-lg-3 col-md-6">
                             <div class="widget">
                                 <h3 class="wg-title sourcePro">Nosotros</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus tincidunt lorem</p>
-                                <p><i class="fa fa-phone" aria-hidden="true"></i> (595 21) 214 353
+                                <p><?= $helper->getNosotrosFooter(); ?>...</p>
+                                <p><i class="fa fa-phone" aria-hidden="true"></i> <?= $configSitio['telefono']; ?>
                                 </p>
-                                <p><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:info@cardumenelbagre.com">info@cardumenelbagre.com</a>
+                                <p><i class="fa fa-envelope-o" aria-hidden="true"></i> <a href="mailto:<?= $configSitio['email']; ?>"><?= $configSitio['email']; ?></a>
                                 </p>
                             </div> <!-- widget -->
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="widget">
                                 <h3 class="wg-title sourcePro">Contactanos</h3>
-                                <form role="form" class="contact-form validation-engine ajax-send">
+                                <form role="form" id="frmContactoFooter" class="contact-form validation-engine ajax-send">
                                     <div class="form-group">
                                         <label class="sr-only" for="input_name_widget">Nombre *</label>
                                         <input type="text" name="name" class="form-control validate[required]" id="input_name_widget" placeholder="Nombre *">
@@ -618,21 +382,15 @@ $clientes = $helper->getDataClientes();
                             <div class="widget">
                                 <h3 class="wg-title sourcePro">Últimos Trabajos</h3>
                                 <ul class="wg-popular-posts">
-                                    <li>
-                                        <figure><a href="#"><img src="<?= ASSETS; ?>img/trabajos/hinchas_resistencia.jpg" alt="" class="img-responsive"></a></figure>
-                                        <div class="body">
-                                            <p class="wg-pp-title"><a href="#">Hinchas de Resistencia</a></p>
-                                            <p class="wg-info"><time datetime="2014-01-16">Agoto 2017</time></p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <figure><a href="#"><img src="<?= ASSETS; ?>img/trabajos/morgan.jpg" alt="" class="img-responsive"></a></figure>
-                                        <div class="body">
-                                            <p class="wg-pp-title"><a href="#">Inauguración Morgan</a></p>
-                                            <p class="wg-info"><time datetime="2014-01-16">Octubre 2016</time></p>
-                                        </div>
-                                    </li>
-
+                                    <?php foreach ($helper->getUltimosTrabajos() as $item): ?>
+                                        <li>
+                                            <figure><a href="#"><img src="<?= ASSETS; ?>img/trabajos/<?= $item['img']; ?>" alt="" class="img-responsive"></a></figure>
+                                            <div class="body">
+                                                <p class="wg-pp-title"><a href="#"><?= utf8_encode($item['titulo']); ?></a></p>
+                                                <p class="wg-info"><time datetime="2014-01-16"><?= $helper->mesEspanol(date('F', strtotime($item['fecha']))) . '-' . date('Y', strtotime($item['fecha'])); ?></time></p>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
                                 </ul>
                             </div> <!-- widget -->
                         </div>
@@ -641,12 +399,9 @@ $clientes = $helper->getDataClientes();
                 <div class="ft-copyright">
                     <div class="container">
                         <div class="mb-social">
-                            <a href=""><i class="fa fa-twitter"></i></a>
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-instagram"></i></a>
-                            <a href=""><i class="fa fa-pinterest"></i></a>
-                            <a href=""><i class="fa fa-tumblr"></i></a>
+                            <?php foreach ($redes as $item): ?>
+                                <a href="<?= $item['url']; ?>"><i class="<?= $item['fontawesome']; ?>"></i></a>
+                            <?php endforeach; ?>
                         </div>
                         <p>Powered by <a href="https://imagenwebhq.com"><img src="<?= ASSETS; ?>img/logo-iweb-white.png" alt="" style="width: 47px; position: relative; top: -1px;" ></a></p>
                     </div>

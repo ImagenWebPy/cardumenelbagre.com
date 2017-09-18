@@ -5,12 +5,12 @@ $helper = new Helper();
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Locales
-            <small>Contacto</small>
+            Redes
+            <small>Redes Sociales</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?= URL_ADMIN; ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Listado de Locales</li>
+            <li class="active">Redes</li>
         </ol>
     </section>
     <section class="content">
@@ -25,17 +25,16 @@ $helper = new Helper();
                     <div class="box-header">
                         <h3 class="box-title">Listado</h3>
                         <div class="col-xs-6 pull-right">
-                            <button type="button" class="btn btn-block btn-primary btnAgregarLocal">Agregar Local</button>
+                            <button type="button" class="btn btn-block btn-primary btnAgregarRed">Agregar Red Social</button>
                         </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="tblLocales" class="table table-bordered table-striped">
+                        <table id="tblRedes" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Tipo Oficina</th>
-                                    <th>Direccion</th>
-                                    <th>Teléfono</th>
+                                    <th>Red</th>
+                                    <th>Perfil</th>
                                     <th>Estado</th>
                                     <th>Acción</th>
                                 </tr>
@@ -45,9 +44,8 @@ $helper = new Helper();
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Tipo Oficina</th>
-                                    <th>Direccion</th>
-                                    <th>Teléfono</th>
+                                    <th>Red</th>
+                                    <th>Perfil</th>
                                     <th>Estado</th>
                                     <th>Acción</th>
                                 </tr>
@@ -62,22 +60,21 @@ $helper = new Helper();
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#tblLocales").DataTable({
+        $("#tblRedes").DataTable({
             "aaSorting": [[0, "asc"]],
             "paging": true,
             "orderCellsTop": true,
             //"scrollX": true,
             //"scrollCollapse": true,
             "fixedColumns": true,
-            "iDisplayLength": 10,
+            "iDisplayLength": 25,
             "ajax": {
-                "url": "<?= URL ?>admin/cargarDTLocales/",
+                "url": "<?= URL ?>admin/cargarDTRedes/",
                 "type": "post"
             },
             "columns": [
-                {"data": "tipo"},
-                {"data": "direccion"},
-                {"data": "telefono"},
+                {"data": "red"},
+                {"data": "perfil"},
                 {"data": "estado"},
                 {"data": "accion"}
             ],
@@ -85,11 +82,11 @@ $helper = new Helper();
                 "url": "<?= URL ?>public/language/Spanish.json"
             }
         });
-        $(document).on("click", ".btnAgregarLocal", function (e) {
+        $(document).on("click", ".btnAgregarRed", function (e) {
             if (e.handled !== true) // This will prevent event triggering more then once
             {
                 $.ajax({
-                    url: "<?= URL; ?>admin/modalAgregarLocal",
+                    url: "<?= URL; ?>admin/modalAgregarRed",
                     type: "POST",
                     dataType: "json"
                 }).done(function (data) {
@@ -101,12 +98,12 @@ $helper = new Helper();
             }
             e.handled = true;
         });
-        $(document).on("click", ".btnEditarLocal", function (e) {
+        $(document).on("click", ".btnEditarRed", function (e) {
             if (e.handled !== true) // This will prevent event triggering more then once
             {
                 var id = $(this).attr("data-id");
                 $.ajax({
-                    url: "<?= URL; ?>admin/modalEditarLocal",
+                    url: "<?= URL; ?>admin/modalEditarRed",
                     type: "POST",
                     data: {id: id},
                     dataType: "json"
@@ -119,28 +116,28 @@ $helper = new Helper();
             }
             e.handled = true;
         });
-        $(document).on("submit", "#frmEditarLocal", function (e) {
-            var url = "<?= URL ?>admin/editLocal"; // the script where you handle the form input.
+        $(document).on("submit", "#frmEditarRed", function (e) {
+            var url = "<?= URL ?>admin/editRed"; // the script where you handle the form input.
             $.ajax({
                 type: "POST",
                 url: url,
-                data: $("#frmEditarLocal").serialize(), // serializes the form's elements.
+                data: $("#frmEditarRed").serialize(), // serializes the form's elements.
                 success: function (data)
                 {
                     if (data['type'] == 'success') {
-                        $("#local" + data['id']).html(data['row']);
+                        $("#red" + data['id']).html(data['row']);
                         $(".genericModal").modal("toggle");
                     }
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
         });
-        $(document).on("click", ".btnEliminarLocal", function (e) {
+        $(document).on("click", ".btnEliminarRed", function (e) {
             if (e.handled !== true) // This will prevent event triggering more then once
             {
                 var id = $(this).attr("data-id");
                 $.ajax({
-                    url: "<?= URL; ?>admin/modalEliminarLocal",
+                    url: "<?= URL; ?>admin/modalEliminarRed",
                     type: "POST",
                     data: {id: id},
                     dataType: "json"
@@ -153,9 +150,9 @@ $helper = new Helper();
             }
             e.handled = true;
         });
-        $(document).on("submit", "#frmEliminarLocal", function (e) {
-            var url = "<?= URL ?>admin/deleteLocal"; // the script where you handle the form input.
-            var id = $("#btnEliminarLocal").attr("data-id");
+        $(document).on("submit", "#frmEliminarRed", function (e) {
+            var url = "<?= URL ?>admin/deleteRed"; // the script where you handle the form input.
+            var id = $("#btnEliminarRed").attr("data-id");
             $.ajax({
                 type: "POST",
                 url: url,
@@ -163,7 +160,7 @@ $helper = new Helper();
                 success: function (data)
                 {
                     if (data['type'] == 'success') {
-                        $("#local" + data['id']).remove();
+                        $("#red" + data['id']).remove();
                         $(".genericModal").modal("toggle");
                     }
                 }

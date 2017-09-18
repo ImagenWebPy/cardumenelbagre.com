@@ -56,14 +56,64 @@ class Admin_Model extends Model {
         return $json;
     }
 
+    public function cargarDTRedes() {
+        $datos = array();
+        $sql = $this->db->select('SELECT cr.*
+                                  FROM config_redes cr');
+        foreach ($sql as $item) {
+            $id = $item['id'];
+            $btn = '<a class="btn btn-app pointer btnEditarRed btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-edit"></i> Editar</a>';
+            $btnDel = '<a class="btn btn-app pointer btnEliminarRed btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a>';
+            if ($item['estado'] == 1) {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="1"><span class="label label-success">Activo</span></a>';
+            } else {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+            }
+            array_push($datos, array(
+                'DT_RowId' => 'red' . $id,
+                'red' => utf8_encode($item['descripcion']),
+                'perfil' => utf8_encode($item['url']),
+                'estado' => $estado,
+                'accion' => $btn . ' | ' . $btnDel
+            ));
+        }
+        $json = '{"data": ' . json_encode($datos) . '}';
+        return $json;
+    }
+
+    public function cargarDTCategorias() {
+        $datos = array();
+        $sql = $this->db->select('SELECT c.*
+                                  FROM categoria c');
+        foreach ($sql as $item) {
+            $id = $item['id'];
+            $btn = '<a class="btn btn-app pointer btnEditarCategoria btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-edit"></i> Editar</a>';
+            $btnDel = '<a class="btn btn-app pointer btnEliminarCategoria btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a>';
+            if ($item['estado'] == 1) {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="1"><span class="label label-success">Activo</span></a>';
+            } else {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+            }
+            array_push($datos, array(
+                'DT_RowId' => 'categoria' . $id,
+                'categoria' => utf8_encode($item['descripcion']),
+                'tag' => utf8_encode($item['tag']),
+                'estado' => $estado,
+                'accion' => $btn . ' | ' . $btnDel
+            ));
+        }
+        $json = '{"data": ' . json_encode($datos) . '}';
+        return $json;
+    }
+
     public function cargarDTLocales() {
         $datos = array();
         $sql = $this->db->select('SELECT l.*
                                   FROM locales l');
         foreach ($sql as $item) {
             $id = $item['id'];
-            $btn = '<a class="btn btn-app pointer btnEditarUnidad btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-edit"></i> Editar</a>';
-            $btnDel = '<a class="btn btn-app pointer btnEliminarUnidad btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a>';
+            $btn = '<a class="btn btn-app pointer btnEditarLocal btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-edit"></i> Editar</a>';
+            $btnDel = '<a class="btn btn-app pointer btnEliminarLocal btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a>';
             if ($item['estado'] == 1) {
                 $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="1"><span class="label label-success">Activo</span></a>';
             } else {
@@ -128,8 +178,8 @@ class Admin_Model extends Model {
     }
 
     public function quienesSomos() {
-        $sql = $this->db->select("select quienes_somos from quienes_somos where id = 1");
-        return utf8_encode($sql[0]['quienes_somos']);
+        $sql = $this->db->select("select * from quienes_somos where id = 1");
+        return $sql[0];
     }
 
     public function elEquipo() {
@@ -217,10 +267,48 @@ class Admin_Model extends Model {
         return $datos;
     }
 
+    public function uploadImgContacto($data) {
+        $update = array(
+            'img_contacto' => $data['img']
+        );
+        $this->db->update('config_sitio', $update, "id = 1");
+        $contenido = '<img class="img-responsive" src="' . URL . 'public/assets/img/fondos/' . $data['img'] . '">';
+        $datos = array(
+            "result" => true,
+            'content' => $contenido
+        );
+        return $datos;
+    }
+
+    public function uploadImgFondoQuienes($data) {
+        $update = array(
+            'img_background' => $data['img']
+        );
+        $this->db->update('quienes_somos', $update, "id = 1");
+        $contenido = '<img class="img-responsive" src="' . URL . 'public/assets/img/fondos/' . $data['img'] . '">';
+        $datos = array(
+            "result" => true,
+            'content' => $contenido
+        );
+        return $datos;
+    }
+
     public function unlinkImgFondoFrase() {
         $dir = 'public/assets/img/fondos/';
         $sql = $this->db->select("select img_frase from config_sitio where id = 1");
         unlink($dir . $sql[0]['img_frase']);
+    }
+
+    public function unlinkImgContacto() {
+        $dir = 'public/assets/img/fondos/';
+        $sql = $this->db->select("select img_contacto from config_sitio where id = 1");
+        unlink($dir . $sql[0]['img_contacto']);
+    }
+
+    public function unlinkImgFondoQuienes() {
+        $dir = 'public/assets/img/fondos/';
+        $sql = $this->db->select("select img_background from quienes_somos where id = 1");
+        unlink($dir . $sql[0]['img_background']);
     }
 
     public function modalAgregarUnidad() {
@@ -260,6 +348,144 @@ class Admin_Model extends Model {
           </div>';
         $datos = array(
             'titulo' => 'Agregar Unidad de Negocio',
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function modalAgregarRed() {
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Agregar Red Social</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" action="' . URL . 'admin/frmAddRed">
+                    <div class="form-group">
+                        <label>Nombre Red</label>
+                        <input type="text" name="red[descripcion]" class="form-control" placeholder="Nombre red Social" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Font-Aweome Icon</label>
+                        <input type="text" name="red[fontawesome]" class="form-control" placeholder="FontAwesome Icon" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Url del Perfil</label>
+                        <input type="text" name="red[url]" class="form-control" placeholder="URL del Perfil" value="">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="red[estado]" value="1" checked>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Agregar Red</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Agregar Red Social',
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function modalAgregarCategoria() {
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Agregar Categoria</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" action="' . URL . 'admin/frmAddCategoria">
+                    <div class="form-group">
+                        <label>Nombre Categoria</label>
+                        <input type="text" name="categoria[descripcion]" class="form-control" placeholder="Nombre Categoria" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Tag</label>
+                        <input type="text" name="categoria[tag]" class="form-control" placeholder="FontAwesome Icon" value="">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="categoria[estado]" value="1" checked>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Agregar Categoria</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Agregar Categoria',
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function modalAgregarLocal() {
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Agregar Local</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" action="' . URL . 'admin/frmAddLocal">
+                    <div class="form-group">
+                        <label>Tipo de Oficina</label>
+                        <input type="text" name="local[tipo_oficina]" class="form-control" placeholder="Ingrese el titulo" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Direccion</label>
+                        <textarea id="editor1" name="local[direccion]" rows="10" cols="80">
+                        </textarea>
+                    </div>
+                    <script>
+                        CKEDITOR.replace("local[direccion]");
+                    </script>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" name="local[telefono]" class="form-control" placeholder="Ingrese el titulo" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="local[email]" class="form-control" placeholder="Ingrese el titulo" value="">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="local[casa_central]" value="1">
+                                Es casa Central?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="local[estado]" value="1" checked>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Agregar Unidad</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Agregar Nuevo Local',
             'contenido' => $form
         );
         return json_encode($datos);
@@ -312,10 +538,197 @@ class Admin_Model extends Model {
         return json_encode($datos);
     }
 
+    public function modalEditarRed($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("select * from config_redes where id = $id");
+        $checked = ($sql[0]['estado'] == 1) ? 'checked' : '';
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Editar Red Social</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" id="frmEditarRed">
+                    <input type="hidden" name="red[id]" value="' . $id . '">
+                    <div class="form-group">
+                        <label>Nombre Red</label>
+                        <input type="text" name="red[descripcion]" class="form-control" placeholder="Nombre red Social" value="' . utf8_encode($sql[0]['descripcion']) . '">
+                    </div>
+                    <div class="form-group">
+                        <label>Font-Aweome Icon</label>
+                        <input type="text" name="red[fontawesome]" class="form-control" placeholder="FontAwesome Icon" value="' . utf8_encode($sql[0]['fontawesome']) . '">
+                    </div>
+                    <div class="form-group">
+                        <label>Url del Perfil</label>
+                        <input type="text" name="red[url]" class="form-control" placeholder="URL del Perfil" value="' . utf8_encode($sql[0]['url']) . '">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="red[estado]" value="1" ' . $checked . '>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Editar ' . utf8_encode($sql[0]['descripcion']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function modalEditarCategoria($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("select * from categoria where id = $id");
+        $checked = ($sql[0]['estado'] == 1) ? 'checked' : '';
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Editar Categoria</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" id="frmEditarCateoria">
+                    <input type="hidden" name="categoria[id]" value="' . $id . '">
+                    <div class="form-group">
+                        <label>Nombre Categoria</label>
+                        <input type="text" name="categoria[descripcion]" class="form-control" placeholder="Nombre Categoria" value="' . utf8_encode($sql[0]['descripcion']) . '">
+                    </div>
+                    <div class="form-group">
+                        <label>Tag</label>
+                        <input type="text" name="categoria[tag]" class="form-control" placeholder="FontAwesome Icon" value="' . utf8_encode($sql[0]['tag']) . '">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="categoria[estado]" value="1" ' . $checked . '>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Editar ' . utf8_encode($sql[0]['descripcion']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function modalEditarLocal($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("select * from locales where id = $id");
+        $checkedCasa = ($sql[0]['casa_central'] == 1) ? 'checked' : '';
+        $checked = ($sql[0]['estado'] == 1) ? 'checked' : '';
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Editar Unidad</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" id="frmEditarLocal">
+                    <input type="hidden" name="local[id]" value="' . $id . '">
+                    <div class="form-group">
+                        <label>Tipo Oficina</label>
+                        <input type="text" name="local[tipo_oficina]" class="form-control" placeholder="Ingrese el Tipo" value="' . utf8_encode($sql[0]['tipo_oficina']) . '">
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <textarea id="editor1" name="local[direccion]" rows="10" cols="80">
+                        ' . utf8_encode($sql[0]['direccion']) . '
+                        </textarea>
+                    </div>
+                    <script>
+                        CKEDITOR.replace("local[direccion]");
+                    </script>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" name="local[telefono]" class="form-control" placeholder="Ingrese el Telefono" value="' . utf8_encode($sql[0]['telefono']) . '">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" name="local[email]" class="form-control" placeholder="Ingrese el Email" value="' . utf8_encode($sql[0]['email']) . '">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="local[casa_central]" value="1" ' . $checkedCasa . '>
+                                Casa Central
+                            </label>
+                        </div>
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="local[estado]" value="1" ' . $checked . '>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Editar ' . utf8_encode($sql[0]['tipo_oficina']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function frmAddLocal($data) {
+        $this->db->insert('locales', array(
+            'tipo_oficina' => utf8_decode($data['tipo_oficina']),
+            'direccion' => utf8_decode($data['direccion']),
+            'telefono' => utf8_decode($data['telefono']),
+            'email' => utf8_decode($data['email']),
+            'casa_central' => utf8_decode($data['casa_central']),
+            'estado' => $data['estado']
+        ));
+        $id = $this->db->lastInsertId();
+        return $id;
+    }
+
     public function frmAddUnidad($data) {
         $this->db->insert('unidades_negocio', array(
             'titulo' => utf8_decode($data['titulo']),
             'contenido' => utf8_decode($data['contenido']),
+            'estado' => $data['estado']
+        ));
+        $id = $this->db->lastInsertId();
+        return $id;
+    }
+
+    public function frmAddRed($data) {
+        $this->db->insert('config_redes', array(
+            'descripcion' => utf8_decode($data['descripcion']),
+            'fontawesome' => utf8_decode($data['fontawesome']),
+            'url' => utf8_decode($data['url']),
+            'estado' => $data['estado']
+        ));
+        $id = $this->db->lastInsertId();
+        return $id;
+    }
+
+    public function frmAddCategoria($data) {
+        $this->db->insert('categoria', array(
+            'descripcion' => utf8_decode($data['descripcion']),
+            'tag' => utf8_decode($data['tag']),
             'estado' => $data['estado']
         ));
         $id = $this->db->lastInsertId();
@@ -350,6 +763,111 @@ class Admin_Model extends Model {
         return $datos;
     }
 
+    public function editRed($data) {
+        $id = $data['id'];
+        $estado = 1;
+        if (empty($data['estado'])) {
+            $estado = 0;
+        }
+        $update = array(
+            'descripcion' => utf8_decode($data['descripcion']),
+            'fontawesome' => $data['fontawesome'],
+            'url' => $data['url'],
+            'estado' => $estado
+        );
+        $this->db->update('config_redes', $update, "id = $id");
+        #obtenemos la fila
+        $sql = $this->db->select("SELECT * FROM config_redes where id = $id");
+        if ($sql[0]['estado'] == 1) {
+            $estadoEdit = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-success">Activo</span></a>';
+        } else {
+            $estadoEdit = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+        }
+        $row = '<td class="sorting_1">' . utf8_encode($sql[0]['descripcion']) . '</td>'
+                . '<td>' . utf8_encode($sql[0]['url']) . '</td>'
+                . '<td>' . $estadoEdit . '</td>'
+                . '<td><a class="btn btn-app pointer btnEditarRed btnSmall" data-id="' . $id . '"><i class="fa fa-edit"></i> Editar</a> | '
+                . '<a class="btn btn-app pointer btnEliminarRed btnSmall" data-id="' . $id . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a></td>';
+        $datos = array(
+            'type' => 'success',
+            'id' => $id,
+            'row' => $row
+        );
+        return $datos;
+    }
+
+    public function editCategoria($data) {
+        $id = $data['id'];
+        $estado = 1;
+        if (empty($data['estado'])) {
+            $estado = 0;
+        }
+        $update = array(
+            'descripcion' => utf8_decode($data['descripcion']),
+            'tag' => $data['tag'],
+            'estado' => $estado
+        );
+        $this->db->update('categoria', $update, "id = $id");
+        #obtenemos la fila
+        $sql = $this->db->select("SELECT * FROM categoria where id = $id");
+        if ($sql[0]['estado'] == 1) {
+            $estadoEdit = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-success">Activo</span></a>';
+        } else {
+            $estadoEdit = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+        }
+        $row = '<td class="sorting_1">' . utf8_encode($sql[0]['descripcion']) . '</td>'
+                . '<td>' . utf8_encode($sql[0]['tag']) . '</td>'
+                . '<td>' . $estadoEdit . '</td>'
+                . '<td><a class="btn btn-app pointer btnEditarCategoria btnSmall" data-id="' . $id . '"><i class="fa fa-edit"></i> Editar</a> | '
+                . '<a class="btn btn-app pointer btnEliminarCategoria btnSmall" data-id="' . $id . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a></td>';
+        $datos = array(
+            'type' => 'success',
+            'id' => $id,
+            'row' => $row
+        );
+        return $datos;
+    }
+
+    public function editLocal($data) {
+        $id = $data['id'];
+        $casa_central = 0;
+        $estado = 1;
+        if (empty($data['estado'])) {
+            $estado = 0;
+        }
+        if (!empty($data['casa_central'])) {
+            $casa_central = 1;
+        }
+        $update = array(
+            'tipo_oficina' => utf8_decode($data['tipo_oficina']),
+            'direccion' => $data['direccion'],
+            'telefono' => $data['telefono'],
+            'email' => $data['email'],
+            'casa_central' => $casa_central,
+            'estado' => $estado
+        );
+        $this->db->update('locales', $update, "id = $id");
+        #obtenemos la fila
+        $sql = $this->db->select("SELECT * FROM locales where id = $id");
+        if ($sql[0]['estado'] == 1) {
+            $estadoEdit = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-success">Activo</span></a>';
+        } else {
+            $estadoEdit = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+        }
+        $row = '<td class="sorting_1">' . utf8_encode($sql[0]['tipo_oficina']) . '</td>
+            <td>' . utf8_encode($sql[0]['direccion']) . '</td>
+            <td>' . utf8_encode($sql[0]['telefono']) . '</td>
+            <td>' . $estadoEdit . '</td>
+            <td><a class="btn btn-app pointer btnEditarLocal btnSmall" data-id="' . $id . '"><i class="fa fa-edit"></i> Editar</a> | 
+            <a class="btn btn-app pointer btnEliminarLocal btnSmall" data-id="' . $id . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a></td>';
+        $datos = array(
+            'type' => 'success',
+            'id' => $id,
+            'row' => $row
+        );
+        return $datos;
+    }
+
     public function modalEliminarUnidad($data) {
         $id = $data['id'];
         $sql = $this->db->select("SELECT * FROM unidades_negocio where id = $id");
@@ -372,6 +890,87 @@ class Admin_Model extends Model {
           </div>';
         $datos = array(
             'titulo' => 'Eliminar ' . utf8_encode($sql[0]['titulo']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function modalEliminarRed($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("SELECT * FROM config_redes where id = $id");
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Datos del mensaje</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" id="frmEliminarRed" method="POST">
+                    <input type="hidden" name="id" value="' . $id . '">
+                    <div class="alert alert-danger alert-dismissible">
+                        <h4><i class="icon fa fa-ban"></i> ¿Está seguro de que desea eliminar la Red Social "<strong>' . utf8_encode($sql[0]['descripcion']) . '</strong>"?</h4>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" id="btnEliminarRed" class="btn btn-danger" data-id="' . $id . '">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Eliminar ' . utf8_encode($sql[0]['descripcion']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function modalEliminarCategoria($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("SELECT * FROM categoria where id = $id");
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Datos del mensaje</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" id="frmEliminarCategoria" method="POST">
+                    <input type="hidden" name="id" value="' . $id . '">
+                    <div class="alert alert-danger alert-dismissible">
+                        <h4><i class="icon fa fa-ban"></i> ¿Está seguro de que desea eliminar la Categoría"<strong>' . utf8_encode($sql[0]['descripcion']) . '</strong>"?</h4>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" id="btnEliminarCategoria" class="btn btn-danger" data-id="' . $id . '">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Eliminar ' . utf8_encode($sql[0]['descripcion']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
+    public function modalEliminarLocal($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("SELECT * FROM locales where id = $id");
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Datos del mensaje</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" id="frmEliminarLocal" method="POST">
+                    <input type="hidden" name="contacto[id]" value="' . $id . '">
+                    <div class="alert alert-danger alert-dismissible">
+                        <h4><i class="icon fa fa-ban"></i> ¿Está seguro de que desea eliminar el local "<strong>' . utf8_encode($sql[0]['tipo_oficina']) . '</strong>"?</h4>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" id="btnEliminarLocal" class="btn btn-danger" data-id="' . $id . '">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Eliminar ' . utf8_encode($sql[0]['tipo_oficina']),
             'contenido' => $form
         );
         return json_encode($datos);
@@ -408,6 +1007,74 @@ class Admin_Model extends Model {
         $id = $data['id'];
         try {
             $sth = $this->db->prepare("delete from unidades_negocio where id = :id");
+            $sth->execute(array(
+                ':id' => $id
+            ));
+            $datos = array(
+                'type' => 'success',
+                'id' => $id,
+                'contenido' => ''
+            );
+        } catch (Exception $ex) {
+            $datos = array(
+                'type' => 'error',
+                'id' => $id,
+                'contenido' => 'Lo sentimos ha ocurrido un error, no se pudo eliminar el registro'
+            );
+        }
+
+        return $datos;
+    }
+
+    public function deleteRed($data) {
+        $id = $data['id'];
+        try {
+            $sth = $this->db->prepare("delete from config_redes where id = :id");
+            $sth->execute(array(
+                ':id' => $id
+            ));
+            $datos = array(
+                'type' => 'success',
+                'id' => $id,
+                'contenido' => ''
+            );
+        } catch (Exception $ex) {
+            $datos = array(
+                'type' => 'error',
+                'id' => $id,
+                'contenido' => 'Lo sentimos ha ocurrido un error, no se pudo eliminar el registro'
+            );
+        }
+
+        return $datos;
+    }
+
+    public function deleteCategoria($data) {
+        $id = $data['id'];
+        try {
+            $sth = $this->db->prepare("delete from categoria where id = :id");
+            $sth->execute(array(
+                ':id' => $id
+            ));
+            $datos = array(
+                'type' => 'success',
+                'id' => $id,
+                'contenido' => ''
+            );
+        } catch (Exception $ex) {
+            $datos = array(
+                'type' => 'error',
+                'id' => $id,
+                'contenido' => 'Lo sentimos ha ocurrido un error, no se pudo eliminar el registro'
+            );
+        }
+        return $datos;
+    }
+
+    public function deleteLocal($data) {
+        $id = $data['id'];
+        try {
+            $sth = $this->db->prepare("delete from locales where id = :id");
             $sth->execute(array(
                 ':id' => $id
             ));
@@ -1450,6 +2117,11 @@ class Admin_Model extends Model {
     public function getDatosConfig() {
         $sql = $this->db->select("select * from config_sitio where id = 1");
         return $sql[0];
+    }
+
+    public function imgFondo() {
+        $sql = $this->db->select("select img_contacto from config_sitio where id = 1");
+        return $sql[0]['img_contacto'];
     }
 
 }

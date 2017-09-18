@@ -17,9 +17,11 @@ class Admin extends Controller {
     }
 
     public function contacto() {
-        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
+        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css", "plugins/html5fileupload/html5fileupload.css");
+        $this->view->publicHeader_js = array("plugins/html5fileupload/html5fileupload.min.js");
         $this->view->public_js = array("plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
         $this->view->title = 'Contacto';
+        $this->view->imgFondo = $this->model->imgFondo();
         $this->view->render('admin/header');
         $this->view->render('admin/contacto/index');
         $this->view->render('admin/footer');
@@ -37,7 +39,18 @@ class Admin extends Controller {
         if (!empty($_SESSION['message']))
             unset($_SESSION['message']);
     }
-    
+
+    public function redes() {
+        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
+        $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
+        $this->view->title = 'Contacto';
+        $this->view->render('admin/header');
+        $this->view->render('admin/redes/index');
+        $this->view->render('admin/footer');
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
     public function locales() {
         $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
         $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
@@ -86,6 +99,18 @@ class Admin extends Controller {
         echo $data;
     }
    
+    public function cargarDTCategorias() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = $this->model->cargarDTCategorias();
+        echo $data;
+    }
+
+    public function cargarDTRedes() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = $this->model->cargarDTRedes();
+        echo $data;
+    }
+
     public function cargarDTLocales() {
         header('Content-type: application/json; charset=utf-8');
         $data = $this->model->cargarDTLocales();
@@ -179,7 +204,7 @@ class Admin extends Controller {
             exit();
         }
     }
-    
+
     public function upload_img_marker() {
         if (!empty($_POST)) {
             $this->model->unlinkImgMarker();
@@ -207,7 +232,7 @@ class Admin extends Controller {
             $imagen_final = $filename;
             $ancho = 60;
             $alto = 52;
-            $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+            //$this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
             #############
             header('Content-type: application/json; charset=utf-8');
             $data = array(
@@ -226,7 +251,7 @@ class Admin extends Controller {
             exit();
         }
     }
-    
+
     public function upload_img_fondoFrase() {
         if (!empty($_POST)) {
             $this->model->unlinkImgFondoFrase();
@@ -273,10 +298,122 @@ class Admin extends Controller {
             exit();
         }
     }
+    
+    public function upload_img_fondoContacto() {
+        if (!empty($_POST)) {
+            $this->model->unlinkImgContacto();
+            $error = false;
+            $absolutedir = dirname(__FILE__);
+            $dir = 'public/assets/img/fondos/';
+            $serverdir = $dir;
+            $tmp = explode(',', $_POST['file']);
+            $file = base64_decode($tmp[1]);
+            $ext = explode('.', $_POST['filename']);
+            $extension = strtolower(end($ext));
+            $name = $_POST['name'];
+            $filename = $this->helper->cleanUrl($name);
+            $filename = $filename . '.' . $extension;
+            //$filename				= $file.'.'.substr(sha1(time()),0,6).'.'.$extension;
+            $handle = fopen($serverdir . $filename, 'w');
+            fwrite($handle, $file);
+            fclose($handle);
+            #############
+            #SE REDIMENSIONA LA IMAGEN
+            #############
+            # ruta de la imagen a redimensionar 
+            $imagen = $serverdir . $filename;
+            # ruta de la imagen final, si se pone el mismo nombre que la imagen, esta se sobreescribe 
+            $imagen_final = $filename;
+            $ancho = 1920;
+            $alto = 1080;
+            $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+            #############
+            header('Content-type: application/json; charset=utf-8');
+            $data = array(
+                'img' => $filename
+            );
+            $response = $this->model->uploadImgContacto($data);
+            echo json_encode($response);
+            //echo json_encode(array('result'=>true));
+        } else {
+            $filename = basename($_SERVER['QUERY_STRING']);
+            $file_url = '/public/assets/img/fondos/' . $filename;
+            header('Content-Type: 				application/octet-stream');
+            header("Content-Transfer-Encoding: 	Binary");
+            header("Content-disposition: 		attachment; filename=\"" . basename($file_url) . "\"");
+            readfile($file_url);
+            exit();
+        }
+    }
+
+    public function upload_img_fondoQuienesSomos() {
+        if (!empty($_POST)) {
+            $this->model->unlinkImgFondoQuienes();
+            $error = false;
+            $absolutedir = dirname(__FILE__);
+            $dir = 'public/assets/img/fondos/';
+            $serverdir = $dir;
+            $tmp = explode(',', $_POST['file']);
+            $file = base64_decode($tmp[1]);
+            $ext = explode('.', $_POST['filename']);
+            $extension = strtolower(end($ext));
+            $name = $_POST['name'];
+            $filename = $this->helper->cleanUrl($name);
+            $filename = $filename . '.' . $extension;
+            //$filename				= $file.'.'.substr(sha1(time()),0,6).'.'.$extension;
+            $handle = fopen($serverdir . $filename, 'w');
+            fwrite($handle, $file);
+            fclose($handle);
+            #############
+            #SE REDIMENSIONA LA IMAGEN
+            #############
+            # ruta de la imagen a redimensionar 
+            $imagen = $serverdir . $filename;
+            # ruta de la imagen final, si se pone el mismo nombre que la imagen, esta se sobreescribe 
+            $imagen_final = $filename;
+            $ancho = 1920;
+            $alto = 1080;
+            $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+            #############
+            header('Content-type: application/json; charset=utf-8');
+            $data = array(
+                'img' => $filename
+            );
+            $response = $this->model->uploadImgFondoQuienes($data);
+            echo json_encode($response);
+            //echo json_encode(array('result'=>true));
+        } else {
+            $filename = basename($_SERVER['QUERY_STRING']);
+            $file_url = '/public/assets/img/fondos/' . $filename;
+            header('Content-Type: 				application/octet-stream');
+            header("Content-Transfer-Encoding: 	Binary");
+            header("Content-disposition: 		attachment; filename=\"" . basename($file_url) . "\"");
+            readfile($file_url);
+            exit();
+        }
+    }
 
     public function modalAgregarUnidad() {
         header('Content-type: application/json; charset=utf-8');
         $datos = $this->model->modalAgregarUnidad();
+        echo $datos;
+    }
+
+    public function modalAgregarRed() {
+        header('Content-type: application/json; charset=utf-8');
+        $datos = $this->model->modalAgregarRed();
+        echo $datos;
+    }
+   
+    public function modalAgregarCategoria() {
+        header('Content-type: application/json; charset=utf-8');
+        $datos = $this->model->modalAgregarCategoria();
+        echo $datos;
+    }
+
+    public function modalAgregarLocal() {
+        header('Content-type: application/json; charset=utf-8');
+        $datos = $this->model->modalAgregarLocal();
         echo $datos;
     }
 
@@ -300,6 +437,79 @@ class Admin extends Controller {
                 ));
             }
             header('Location:' . URL . 'admin/unidades_negocio/');
+        }
+    }
+
+    public function frmAddRed() {
+        if (!empty($_POST)) {
+            $data = array(
+                'descripcion' => $this->helper->cleanInput($_POST['red']['descripcion']),
+                'fontawesome' => $_POST['red']['fontawesome'],
+                'url' => $_POST['red']['url'],
+                'estado' => (!empty($_POST['red']['estado'])) ? $_POST['red']['estado'] : 0
+            );
+            $datos = $this->model->frmAddRed($data);
+            if (!empty($datos)) {
+                Session::set('message', array(
+                    'type' => 'success',
+                    'mensaje' => 'Se ha agregado correctamente la Red Social'
+                ));
+            } else {
+                Session::set('message', array(
+                    'type' => 'error',
+                    'mensaje' => 'Lo sentimos ha ocurrido un error...'
+                ));
+            }
+            header('Location:' . URL . 'admin/redes/');
+        }
+    }
+    
+    public function frmAddCategoria() {
+        if (!empty($_POST)) {
+            $data = array(
+                'descripcion' => $this->helper->cleanInput($_POST['categoria']['descripcion']),
+                'tag' => $_POST['categoria']['tag'],
+                'estado' => (!empty($_POST['categoria']['estado'])) ? $_POST['categoria']['estado'] : 0
+            );
+            $datos = $this->model->frmAddCategoria($data);
+            if (!empty($datos)) {
+                Session::set('message', array(
+                    'type' => 'success',
+                    'mensaje' => 'Se ha agregado correctamente la categoría'
+                ));
+            } else {
+                Session::set('message', array(
+                    'type' => 'error',
+                    'mensaje' => 'Lo sentimos ha ocurrido un error...'
+                ));
+            }
+            header('Location:' . URL . 'admin/trabajos/');
+        }
+    }
+
+    public function frmAddLocal() {
+        if (!empty($_POST)) {
+            $data = array(
+                'tipo_oficina' => $this->helper->cleanInput($_POST['local']['tipo_oficina']),
+                'direccion' => $_POST['local']['direccion'],
+                'telefono' => $this->helper->cleanInput($_POST['local']['telefono']),
+                'email' => $this->helper->cleanInput($_POST['local']['email']),
+                'casa_central' => (!empty($_POST['local']['casa_central'])) ? $_POST['local']['casa_central'] : 0,
+                'estado' => (!empty($_POST['local']['estado'])) ? $_POST['local']['estado'] : 0
+            );
+            $datos = $this->model->frmAddLocal($data);
+            if (!empty($datos)) {
+                Session::set('message', array(
+                    'type' => 'success',
+                    'mensaje' => 'Se ha agregado correctamente el Local'
+                ));
+            } else {
+                Session::set('message', array(
+                    'type' => 'error',
+                    'mensaje' => 'Lo sentimos ha ocurrido un error...'
+                ));
+            }
+            header('Location:' . URL . 'admin/locales/');
         }
     }
 
@@ -335,6 +545,33 @@ class Admin extends Controller {
         echo $datos;
     }
 
+    public function modalEditarRed() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEditarRed($data);
+        echo $datos;
+    }
+   
+    public function modalEditarCategoria() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEditarCategoria($data);
+        echo $datos;
+    }
+
+    public function modalEditarLocal() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEditarLocal($data);
+        echo $datos;
+    }
+
     public function editUnidad() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -347,12 +584,79 @@ class Admin extends Controller {
         echo json_encode($data);
     }
 
+    public function editRed() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['red']['id']),
+            'descripcion' => $this->helper->cleanInput($_POST['red']['descripcion']),
+            'fontawesome' => $this->helper->cleanInput($_POST['red']['fontawesome']),
+            'url' => $this->helper->cleanInput($_POST['red']['url']),
+            'estado' => (!empty($_POST['red']['estado'])) ? $this->helper->cleanInput($_POST['red']['estado']) : 0
+        );
+        $data = $this->model->editRed($data);
+        echo json_encode($data);
+    }
+    
+    public function editCategoria() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['categoria']['id']),
+            'descripcion' => $this->helper->cleanInput($_POST['categoria']['descripcion']),
+            'tag' => $this->helper->cleanInput($_POST['categoria']['tag']),
+            'estado' => (!empty($_POST['categoria']['estado'])) ? $this->helper->cleanInput($_POST['categoria']['estado']) : 0
+        );
+        $data = $this->model->editCategoria($data);
+        echo json_encode($data);
+    }
+
+    public function editLocal() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['local']['id']),
+            'tipo_oficina' => $this->helper->cleanInput($_POST['local']['tipo_oficina']),
+            'direccion' => $_POST['local']['direccion'],
+            'telefono' => $this->helper->cleanInput($_POST['local']['telefono']),
+            'email' => $this->helper->cleanInput($_POST['local']['email']),
+            'casa_central' => (!empty($_POST['local']['casa_central'])) ? $this->helper->cleanInput($_POST['local']['casa_central']) : 0,
+            'estado' => (!empty($_POST['local']['estado'])) ? $this->helper->cleanInput($_POST['local']['estado']) : 0
+        );
+        $data = $this->model->editLocal($data);
+        echo json_encode($data);
+    }
+
     public function modalEliminarUnidad() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
             'id' => $this->helper->cleanInput($_POST['id'])
         );
         $datos = $this->model->modalEliminarUnidad($data);
+        echo $datos;
+    }
+
+    public function modalEliminarRed() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEliminarRed($data);
+        echo $datos;
+    }
+   
+    public function modalEliminarCategoria() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEliminarCategoria($data);
+        echo $datos;
+    }
+
+    public function modalEliminarLocal() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEliminarLocal($data);
         echo $datos;
     }
 
@@ -371,6 +675,33 @@ class Admin extends Controller {
             'id' => $this->helper->cleanInput($_POST['id'])
         );
         $data = $this->model->deleteUnidad($data);
+        echo json_encode($data);
+    }
+
+    public function deleteRed() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $data = $this->model->deleteRed($data);
+        echo json_encode($data);
+    }
+  
+    public function deleteCategoria() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $data = $this->model->deleteCategoria($data);
+        echo json_encode($data);
+    }
+
+    public function deleteLocal() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $data = $this->model->deleteLocal($data);
         echo json_encode($data);
     }
 
@@ -803,7 +1134,7 @@ class Admin extends Controller {
         $datos = $this->model->editDatosContacto($data);
         echo $datos;
     }
-   
+
     public function editLatLong() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -813,7 +1144,7 @@ class Admin extends Controller {
         $datos = $this->model->editLatLong($data);
         echo $datos;
     }
-    
+
     public function editFrase() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(

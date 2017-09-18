@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2017-09-16 18:05:15
+Date: 2017-09-17 21:53:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -92,15 +92,29 @@ INSERT INTO `clientes` VALUES ('16', 'Tigo Sports', 'tigo_sports.png', null, '1'
 DROP TABLE IF EXISTS `config_redes`;
 CREATE TABLE `config_redes` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(60) DEFAULT NULL,
-  `url` varchar(80) DEFAULT NULL,
-  `etado` int(1) unsigned DEFAULT '1',
+  `descripcion` varchar(80) DEFAULT NULL,
+  `fontawesome` varchar(60) DEFAULT NULL,
+  `url` varchar(180) DEFAULT NULL,
+  `estado` int(1) unsigned DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of config_redes
 -- ----------------------------
+INSERT INTO `config_redes` VALUES ('1', 'behance', 'fa fa-behance-square', '#', '1');
+INSERT INTO `config_redes` VALUES ('2', 'digg', 'fa fa-digg', '#', '1');
+INSERT INTO `config_redes` VALUES ('3', 'facebook', 'fa fa-facebook', '#', '1');
+INSERT INTO `config_redes` VALUES ('4', 'flickr', '	fa fa-flickr', '#', '1');
+INSERT INTO `config_redes` VALUES ('5', 'google-plus', 'fa fa-google-plus', '#', '1');
+INSERT INTO `config_redes` VALUES ('6', 'linkedin', 'fa fa-linkedin', '#', '1');
+INSERT INTO `config_redes` VALUES ('7', 'pinterest', 'fa fa-pinterest-p', '#', '1');
+INSERT INTO `config_redes` VALUES ('8', 'skype', 'fa fa-skype', '#', '1');
+INSERT INTO `config_redes` VALUES ('9', 'spotify', 'fa fa-spotify', '#', '1');
+INSERT INTO `config_redes` VALUES ('10', 'twitter', 'fa fa-twitter', '#', '1');
+INSERT INTO `config_redes` VALUES ('11', 'vimeo', 'fa fa-vimeo', '#', '1');
+INSERT INTO `config_redes` VALUES ('12', 'vine', 'fa fa-vine', '#', '1');
+INSERT INTO `config_redes` VALUES ('13', 'youtube', 'fa fa-youtube', '#', '1');
 
 -- ----------------------------
 -- Table structure for config_sitio
@@ -116,13 +130,16 @@ CREATE TABLE `config_sitio` (
   `autor_frase` varchar(60) DEFAULT NULL,
   `map_marker` varchar(80) DEFAULT NULL,
   `img_frase` varchar(80) DEFAULT NULL,
+  `img_contacto` varchar(80) DEFAULT NULL,
+  `titulo_trabaja` varchar(60) DEFAULT NULL,
+  `texto_trabaja` text,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of config_sitio
 -- ----------------------------
-INSERT INTO `config_sitio` VALUES ('1', 'info@cardumenelbagre.com', null, null, '(595 21) 214 353', 'Tenemos mucho tiempo por delante para crear los sueños que aún ni siquiera imaginamos soñar.', 'Steven Spielberg', 'pez-marker.png', 'frase1.jpg');
+INSERT INTO `config_sitio` VALUES ('1', 'info@cardumenelbagre.com', '-25.304984', '-57.596620', '(595 21) 214 353', 'Tenemos mucho tiempo por delante para crear los sueños que aún ni siquiera imaginamos soñar.', 'Steven Spielberg', 'pez-marker.png', 'frase1.jpg', 'camera-lens.jpg', '¿Estás list@ para trabajar con nosotros?', 'Estamos felices de saber que querés ser parte de nuestro equipo!. Envíanos tus datos y adjuntanos tu CV.');
 
 -- ----------------------------
 -- Table structure for config_videos
@@ -174,7 +191,7 @@ CREATE TABLE `locales` (
   `casa_central` int(1) DEFAULT '0',
   `estado` int(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of locales

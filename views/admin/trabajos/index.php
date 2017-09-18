@@ -10,40 +10,81 @@
         </ol>
     </section>
     <section class="content">
-        <div class="box">
-            <!-- /.box-header -->
-            <div class="box-header">
-                <div class="col-md-4 pull-right">
-                    <button type="button" class="btn btn-block btn-primary btn-Add-Contenido"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Contenido</button>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Listado de Categorias</h3>
+                        <div class="col-xs-6 pull-right">
+                            <button type="button" class="btn btn-block btn-primary btnAgregarCategoria">Agregar Nueva Categoria</button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="tblCategorias" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <th>Tag</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <th>Tag</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
                 </div>
             </div>
-            <div class="box-body">
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-header">
+                        <div class="col-md-4 pull-right">
+                            <button type="button" class="btn btn-block btn-primary btn-Add-Contenido"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Contenido</button>
+                        </div>
+                    </div>
+                    <div class="box-body">
 
-                <table id="tblTrabajos" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Fecha</th>
-                            <th class="text-center">Título</th>
-                            <th class="text-center">Categoría</th>
-                            <th class="text-center">Estado</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        <table id="tblTrabajos" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Fecha</th>
+                                    <th class="text-center">Título</th>
+                                    <th class="text-center">Categoría</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th class="text-center">Fecha Evento</th>
-                            <th class="text-center">Título</th>
-                            <th class="text-center">Categoría</th>
-                            <th class="text-center">Estado</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                    </tfoot>
-                </table>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="text-center">Fecha</th>
+                                    <th class="text-center">Título</th>
+                                    <th class="text-center">Categoría</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
             </div>
-            <!-- /.box-body -->
         </div>
     </section>
 </div>
@@ -338,6 +379,113 @@
                 {
                     if (data['type'] == 'success') {
                         $("#trabajo_" + data['id']).remove();
+                        $(".genericModal").modal("toggle");
+                    }
+                }
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        });
+        $("#tblCategorias").DataTable({
+            "aaSorting": [[0, "asc"]],
+            "paging": true,
+            "orderCellsTop": true,
+            //"scrollX": true,
+            //"scrollCollapse": true,
+            "fixedColumns": true,
+            "iDisplayLength": 10,
+            "ajax": {
+                "url": "<?= URL ?>admin/cargarDTCategorias/",
+                "type": "post"
+            },
+            "columns": [
+                {"data": "categoria"},
+                {"data": "tag"},
+                {"data": "estado"},
+                {"data": "accion"}
+            ],
+            "language": {
+                "url": "<?= URL ?>public/language/Spanish.json"
+            }
+        });
+        $(document).on("click", ".btnAgregarCategoria", function (e) {
+            if (e.handled !== true) // This will prevent event triggering more then once
+            {
+                $.ajax({
+                    url: "<?= URL; ?>admin/modalAgregarCategoria",
+                    type: "POST",
+                    dataType: "json"
+                }).done(function (data) {
+                    $(".genericModal .modal-header").removeClass("modal-header").addClass("modal-header bg-primary");
+                    $(".genericModal .modal-title").html(data['titulo']);
+                    $(".genericModal .modal-body").html(data['contenido']);
+                    $(".genericModal").modal("toggle");
+                });
+            }
+            e.handled = true;
+        });
+        $(document).on("click", ".btnEditarCategoria", function (e) {
+            if (e.handled !== true) // This will prevent event triggering more then once
+            {
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    url: "<?= URL; ?>admin/modalEditarCategoria",
+                    type: "POST",
+                    data: {id: id},
+                    dataType: "json"
+                }).done(function (data) {
+                    $(".genericModal .modal-header").removeClass("modal-header").addClass("modal-header bg-primary");
+                    $(".genericModal .modal-title").html(data['titulo']);
+                    $(".genericModal .modal-body").html(data['contenido']);
+                    $(".genericModal").modal("toggle");
+                });
+            }
+            e.handled = true;
+        });
+        $(document).on("submit", "#frmEditarCateoria", function (e) {
+            var url = "<?= URL ?>admin/editCategoria"; // the script where you handle the form input.
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#frmEditarCateoria").serialize(), // serializes the form's elements.
+                success: function (data)
+                {
+                    if (data['type'] == 'success') {
+                        $("#categoria" + data['id']).html(data['row']);
+                        $(".genericModal").modal("toggle");
+                    }
+                }
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        });
+        $(document).on("click", ".btnEliminarCategoria", function (e) {
+            if (e.handled !== true) // This will prevent event triggering more then once
+            {
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    url: "<?= URL; ?>admin/modalEliminarCategoria",
+                    type: "POST",
+                    data: {id: id},
+                    dataType: "json"
+                }).done(function (data) {
+                    $(".genericModal .modal-header").removeClass("modal-header").addClass("modal-header bg-primary");
+                    $(".genericModal .modal-title").html(data['titulo']);
+                    $(".genericModal .modal-body").html(data['contenido']);
+                    $(".genericModal").modal("toggle");
+                });
+            }
+            e.handled = true;
+        });
+        $(document).on("submit", "#frmEliminarCategoria", function (e) {
+            var url = "<?= URL ?>admin/deleteCategoria"; // the script where you handle the form input.
+            var id = $("#btnEliminarCategoria").attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {id: id}, // serializes the form's elements.
+                success: function (data)
+                {
+                    if (data['type'] == 'success') {
+                        $("#categoria" + data['id']).remove();
                         $(".genericModal").modal("toggle");
                     }
                 }

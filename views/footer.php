@@ -1,4 +1,8 @@
-
+<?php
+$helper = new Helper();
+$redes = $helper->getRedes();
+$video = $helper->getVideo();
+?>
 <script src="<?= ASSETS; ?>js/vendor/jquery-ui-1.10.4.custom.min.js"></script>
 <script src="<?= ASSETS; ?>js/vendor/jquery.touchSwipe.min.js"></script>
 
@@ -63,7 +67,7 @@ async defer></script>
         });
         $('#background-video').YTPlayer({
             fitToBackground: true,
-            videoId: '9lvptGdodCA',
+            videoId: '<?= $video['portada']; ?>',
             remember_last_time: true,
             showAnnotations: false,
             height: "100%",
@@ -83,6 +87,7 @@ async defer></script>
                     $('#placeholderVideo').css('display', 'none');
                 }
             });
+
         }
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
