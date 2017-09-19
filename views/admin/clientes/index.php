@@ -23,6 +23,25 @@ $helper = new Helper();
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
+                        <h3 class="box-title">Texto Clientes</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form id="frmTextoClientes" method="POST">
+                            <textarea class="form-control" name="texto_cliente" rows="3"><?= trim(utf8_encode($this->textoCliente)); ?></textarea>
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-block btn-primary">Modificar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
                         <h3 class="box-title">Listado de Clientes</h3>
                         <div class="col-xs-6 pull-right">
                             <button type="button" class="btn btn-block btn-primary btnAgregarCliente">Agregar Nueva Cliente</button>
@@ -166,6 +185,26 @@ $helper = new Helper();
                 }
             });
             e.preventDefault(); // avoid to execute the actual submit of the form.
+        });
+        $(document).on("submit", "#frmTextoClientes", function (e) {
+            if (e.handled !== true) // This will prevent event triggering more then once
+            {
+                var url = "<?= URL ?>admin/editTextoCliente"; // the script where you handle the form input.
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $("#frmTextoClientes").serialize(), // serializes the form's elements.
+                    success: function (data)
+                    {
+                        $(".genericModal .modal-header").removeClass("modal-header").addClass("modal-header bg-primary");
+                        $(".genericModal .modal-title").html('Clientes');
+                        $(".genericModal .modal-body").html('Se ha modificado correctamente el contenido del Texto del Cliente');
+                        $(".genericModal").modal("toggle");
+                    }
+                });
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+            }
+            e.handled = true;
         });
     });
 </script>

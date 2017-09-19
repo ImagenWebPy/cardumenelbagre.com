@@ -196,6 +196,15 @@ class Admin_Model extends Model {
         return json_encode(true);
     }
 
+    public function editTextoCliente($data) {
+        $id = 1;
+        $update = array(
+            "texto_cliente" => trim(utf8_decode($data['texto_cliente']))
+        );
+        $this->db->update('config_sitio', $update, "id = $id");
+        return json_encode(true);
+    }
+
     public function editMetas($data) {
         $id = 1;
         $update = array(
@@ -2122,6 +2131,11 @@ class Admin_Model extends Model {
     public function imgFondo() {
         $sql = $this->db->select("select img_contacto from config_sitio where id = 1");
         return $sql[0]['img_contacto'];
+    }
+
+    public function textoCliente() {
+        $sql = $this->db->select("select texto_cliente from config_sitio where id = 1");
+        return $sql[0]['texto_cliente'];
     }
 
 }

@@ -58,6 +58,7 @@ class Contenido_Model extends Model {
                                           (SELECT pa.descripcion FROM post_archivo pa WHERE pa.id_post = p.id AND pa.img_principal = 1 AND pa.estado = 1 AND pa.id_tipo_archivo = 1) AS img,
                                           c.descripcion AS categoria,
                                           c.id AS id_categoria,
+                                          c.tag,
                                           p.fecha
                                 FROM post p
                                 LEFT JOIN post_categoria pc ON pc.id_post = p.id 
@@ -72,10 +73,10 @@ class Contenido_Model extends Model {
             $tituloPost = (strlen($contenido['titulo']) > 35) ? substr(utf8_encode($contenido['titulo']), 0, 35) . '...' : utf8_encode($contenido['titulo']);
             $fechaPost = $this->helper->mesEspanol(date('F', strtotime($contenido['fecha']))) . '-' . date('Y', strtotime($contenido['fecha']));
             $contenidoResumido = (strlen($contenido['contenido']) > 180) ? substr(utf8_encode($contenido['contenido']), 0, 180) . '...' : utf8_encode($contenido['contenido']);
-            $lista .= '<li class="gl-item gl-fixed-ratio-item gl-loading" data-category="' . utf8_encode($contenido['caegoria']) . '">
+            $lista .= '<li class="gl-item gl-fixed-ratio-item gl-loading" data-category="' . $this->helper->cleanUrl(strtolower(utf8_encode($contenido['tag']))) . '">
                         <a href="#">
                             <figure>
-                                <img src="' . URL . 'public/archivos/' . $contenido['img'] . '" alt="">
+                                <img src="' . URL . 'public/assets/img/trabajos/' . $contenido['img'] . '" alt="">
                                 <figcaption>
                                     <div class="middle"><div class="middle-inner">
                                             <p class="gl-item-title sourcePro">' . utf8_encode($contenido['titulo']) . '</p>
@@ -84,12 +85,12 @@ class Contenido_Model extends Model {
 
                             </figure>
                             <div class="divTitulosPost">
-                                <p class="tipoEvento">' . utf8_encode($contenido['caeegoria']) . '</p>
+                                <p class="tipoEvento">' . $this->helper->cleanUrl(strtolower(utf8_encode($contenido['tag']))) . '</p>
                                 <p class="tituloPost">' . $tituloPost . '</p>
                                 <p class="fechaPost">' . $fechaPost . '</p>
                             </div>
                         </a>
-                        <div class="gl-preview" style="diplay:none;" data-category="' . utf8_encode($contenido['caegoria']) . '">
+                        <div class="gl-preview" style="diplay:none;" data-category="' . utf8_encode($contenido['categoria']) . '">
                             <span class="glp-arrow"></span>
                             <a href="#" class="glp-close"></a>
                             <div class="row gl-preview-container">';
@@ -101,7 +102,7 @@ class Contenido_Model extends Model {
                                             <div class="carousel-inner">';
                 foreach ($archivos['imagenes'] as $item) {
                     $lista .= '                 <div class="item ' . ($item['principal'] == 1) ? 'active' : '' . '">
-                                                    <img src="' . URL . 'public/archivos/' . $item['imagen'] . '" alt="slide">
+                                                    <img src="' . URL . 'public/assets/img/trabajos/' . $item['imagen'] . '" alt="slide">
                                                 </div>';
                 }
                 $lista .= '                 </div>
@@ -127,15 +128,13 @@ class Contenido_Model extends Model {
                     }
                 }
                 $lista .= ' <div class="col-sm-8">
-                                        <div class="glp-video">
-                                            <video class="video-js vjs-default-skin vjs-mental-skin" width="100%" height="100%" controls preload="none"
-                                                   poster="' . URL . 'public/archivos/' . $imgVideo . '"
-                                                   data-setup="{}">';
+                                        <div class="glp-video">';
+
                 foreach ($archivos['video'] as $item) {
-                    $lista .= ' <source src="' . URL . '/public/archivos/' . utf8_encode($item['archivo']) . '" type="' . $item['type'] . '" />';
+                    $lista .= '             <iframe src="https://www.youtube.com/embed/' . utf8_encode($item['archivo']) . '" frameborder="0" allowfullscreen></iframe>';
                 }
-                $lista .= '</video>
-                                        </div>
+
+                $lista .= '             </div>
                                     </div>';
             }
             $lista .= '<div class="col-sm-4 lg-preview-descr sourcePro">

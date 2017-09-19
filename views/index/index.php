@@ -91,8 +91,8 @@ $video = $helper->getVideo();
                         <h2 data-animate="fadeInDown" class=""> Demo Reel</h2>
                     </div>
                 </div>
-                <div class="col-md-10 col-centered">
-                    <iframe src="https://www.youtube.com/embed/<?= $video['reel']; ?>" frameborder="0" allowfullscreen style="display: block; width: 100%; height: 400px; "></iframe> 
+                <div class="col-md-8 col-centered">
+                    <iframe src="https://www.youtube.com/embed/<?= $video['reel']; ?>" frameborder="0" allowfullscreen style="display: block; width: 100%; height: 450px; "></iframe> 
                 </div>
             </section>
         </div>
@@ -104,10 +104,16 @@ $video = $helper->getVideo();
                     </div>
 
                     <div class="row services-block">
-                        <?php $colServicio = (count($unidadesNegocio) == 2) ? TRUE : FALSE; ?>
-
+                        <?php
+                        $colServicio = count($unidadesNegocio);
+                        if ($colServicio == 2) {
+                            $colmd = 'col-md-6';
+                        } else {
+                            $colmd = 'col-md-4';
+                        }
+                        ?>
                         <?php foreach ($unidadesNegocio as $item): ?>
-                            <div class="col-md-4" data-animate="fadeInDown">
+                            <div class="<?= $colmd; ?>" data-animate="fadeInDown">
                                 <div class="services-item">
                                     <span class="sws-icon icon_camera_alt"></span>
                                     <h3 class="SourceSansPro-Regular"><?= utf8_encode($item['titulo']); ?></h3>
@@ -115,7 +121,6 @@ $video = $helper->getVideo();
                                 </div>
                             </div>
                         <?php endforeach; ?>
-
                     </div>
 
                 </div> <!-- container -->
@@ -135,14 +140,14 @@ $video = $helper->getVideo();
                 <ul class="gallety-filters Oswald">
                     <li class="active"><a data-filter="*" href="#">TODOS</a></li>
                     <?php foreach ($helper->getCategorias() as $item): ?>
-                        <li><a data-filter="<?= utf8_encode($item['tag']); ?>" href="#"><?= utf8_encode($item['descripcion']); ?></a></li>
+                        <li><a data-filter="<?= strtolower(utf8_encode($item['tag'])); ?>" href="#"><?= utf8_encode($item['descripcion']); ?></a></li>
                     <?php endforeach; ?>
                     <li class="gf-underline"></li>
                 </ul>
 
                 <ul id="gallery-w-preview" class="gallery gl-cols-4 gl-fixed-items">
                     <?php foreach ($helper->getContenidoPrincipal() as $contenido): ?>
-                        <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="<?= strtolower(utf8_encode($contenido['categoria'])); ?>">
+                        <li class="gl-item gl-fixed-ratio-item gl-loading" data-category="<?= $helper->cleanUrl(strtolower(utf8_encode($contenido['tag']))); ?>">
                             <a href="#">
                                 <figure>
                                     <img src="<?= URL; ?>public/assets/img/trabajos/<?= $contenido['img']; ?>" alt="">
@@ -159,7 +164,7 @@ $video = $helper->getVideo();
                                     <p class="fechaPost"><?= $helper->mesEspanol(date('F', strtotime($contenido['fecha']))) . '-' . date('Y', strtotime($contenido['fecha'])); ?></p>
                                 </div>
                             </a>
-                            <div class="gl-preview" style="diplay:none;" data-category="<?= strtolower(utf8_encode($contenido['categoria'])); ?>">
+                            <div class="gl-preview" style="diplay:none;" data-category="<?= $helper->cleanUrl(strtolower(utf8_encode($contenido['tag']))); ?>">
                                 <span class="glp-arrow"></span>
                                 <a href="#" class="glp-close"><i class="fa fa-times" aria-hidden="true"></i></a>
                                 <div class="row gl-preview-container">
@@ -233,7 +238,7 @@ $video = $helper->getVideo();
             <section>
                 <div class="container">
                     <h2 class="section-title Oswald" data-animate="fadeInDown">Clientes</h2>
-                    <p class="section-descr">Para nosotros los clientes se convierten en nuestros amigos porque más allá de una relación comercial, queremos asesorarlos, ayudarlos a crecer y acompañarlos en todo su proceso. ¡Acá le dejamos una muestra de nuestros amigos!</p>
+                    <p class="section-descr"><?= utf8_encode($configSitio['texto_cliente']); ?></p>
                     <section class="center slider">
                         <?php foreach ($clientes as $item): ?>
                             <div>

@@ -463,6 +463,7 @@ class Helper {
                                                 (SELECT pa.descripcion FROM post_archivo pa WHERE pa.id_post = p.id AND pa.img_principal = 1 AND pa.estado = 1 AND pa.id_tipo_archivo = 1) AS img,
                                                 c.descripcion AS categoria,
                                                 c.id AS id_categoria,
+                                                c.tag,
                                                 p.fecha
                                         FROM post p
                                         LEFT JOIN post_categoria pc ON pc.id_post = p.id 

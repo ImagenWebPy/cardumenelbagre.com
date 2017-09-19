@@ -88,7 +88,7 @@ $elEquipo = $this->elEquipo;
                         <form id="frmQuienesSomos" method="POST">
                             <div class="box-body">
                                 <textarea id="editor1" name="quieneSomos" rows="10" cols="80">
-                                    <?= $quienesSomos['quienes_somos']; ?>      
+                                    <?= utf8_encode($quienesSomos['quienes_somos']); ?>      
                                 </textarea>
                             </div>
                             <div class="box-footer">

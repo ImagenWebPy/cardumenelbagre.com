@@ -98,7 +98,7 @@ class Admin extends Controller {
         $data = $this->model->cargarDTUnidades();
         echo $data;
     }
-   
+
     public function cargarDTCategorias() {
         header('Content-type: application/json; charset=utf-8');
         $data = $this->model->cargarDTCategorias();
@@ -146,6 +146,15 @@ class Admin extends Controller {
             'quiene_somos' => $_POST['quieneSomos']
         );
         $datos = $this->model->editQuienesSomos($data);
+        echo $datos;
+    }
+
+    public function editTextoCliente() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'texto_cliente' => $this->helper->cleanInput($_POST['texto_cliente'])
+        );
+        $datos = $this->model->editTextoCliente($data);
         echo $datos;
     }
 
@@ -298,7 +307,7 @@ class Admin extends Controller {
             exit();
         }
     }
-    
+
     public function upload_img_fondoContacto() {
         if (!empty($_POST)) {
             $this->model->unlinkImgContacto();
@@ -404,7 +413,7 @@ class Admin extends Controller {
         $datos = $this->model->modalAgregarRed();
         echo $datos;
     }
-   
+
     public function modalAgregarCategoria() {
         header('Content-type: application/json; charset=utf-8');
         $datos = $this->model->modalAgregarCategoria();
@@ -463,7 +472,7 @@ class Admin extends Controller {
             header('Location:' . URL . 'admin/redes/');
         }
     }
-    
+
     public function frmAddCategoria() {
         if (!empty($_POST)) {
             $data = array(
@@ -553,7 +562,7 @@ class Admin extends Controller {
         $datos = $this->model->modalEditarRed($data);
         echo $datos;
     }
-   
+
     public function modalEditarCategoria() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -596,7 +605,7 @@ class Admin extends Controller {
         $data = $this->model->editRed($data);
         echo json_encode($data);
     }
-    
+
     public function editCategoria() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -641,7 +650,7 @@ class Admin extends Controller {
         $datos = $this->model->modalEliminarRed($data);
         echo $datos;
     }
-   
+
     public function modalEliminarCategoria() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -686,7 +695,7 @@ class Admin extends Controller {
         $data = $this->model->deleteRed($data);
         echo json_encode($data);
     }
-  
+
     public function deleteCategoria() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -733,7 +742,7 @@ class Admin extends Controller {
         $this->view->publicHeader_js = array("plugins/html5fileupload/html5fileupload.min.js", "plugins/tagsinput/jquery.tagsinput.js");
         $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js", "plugins/moment/moment.min.js", "plugins/daterangepicker/daterangepicker.js", "plugins/datepicker/bootstrap-datepicker.js");
         $this->view->title = "Trabajos";
-
+        $this->view->textoCliente = $this->model->textoCliente();
         $this->view->render('admin/header');
         $this->view->render('admin/clientes/index');
         $this->view->render('admin/footer');

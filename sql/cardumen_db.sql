@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2017-09-17 21:53:56
+Date: 2017-09-18 21:16:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,12 +27,13 @@ CREATE TABLE `admin_usuario` (
   `imagen` varchar(80) DEFAULT NULL,
   `estado` int(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of admin_usuario
 -- ----------------------------
 INSERT INTO `admin_usuario` VALUES ('1', 'Raul Ramirez', 'raul.ramirez@imagenwebhq.com', '35077063093736d9c00a46b7325ebc968179dab0dea4c8387ff65a9b4848c15e', null, '1');
+INSERT INTO `admin_usuario` VALUES ('2', 'Marco Gauto', 'marco@cardumenelbagre.com', '034869b3cc2fbbd18714278de6d57a7507dccecba18b0876ed351bb62fc31444', null, '1');
 
 -- ----------------------------
 -- Table structure for categoria
@@ -44,14 +45,13 @@ CREATE TABLE `categoria` (
   `tag` varchar(20) DEFAULT NULL,
   `estado` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of categoria
 -- ----------------------------
 INSERT INTO `categoria` VALUES ('14', 'Guerrilla', 'guerrilla', '1');
-INSERT INTO `categoria` VALUES ('15', 'Categoria', 'categoria', '1');
-INSERT INTO `categoria` VALUES ('16', 'Categoria 2', 'categoria2', '1');
+INSERT INTO `categoria` VALUES ('17', 'Televisión', 'TV', '1');
 
 -- ----------------------------
 -- Table structure for clientes
@@ -64,12 +64,12 @@ CREATE TABLE `clientes` (
   `url` varchar(120) DEFAULT NULL,
   `estado` int(1) unsigned DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of clientes
 -- ----------------------------
-INSERT INTO `clientes` VALUES ('1', 'ABC', 'abc.png', null, '1');
+INSERT INTO `clientes` VALUES ('1', 'ABC', 'abc.png', '', '1');
 INSERT INTO `clientes` VALUES ('2', 'Budweiser', 'budweiser.png', null, '1');
 INSERT INTO `clientes` VALUES ('3', 'Camel', 'camel.png', null, '1');
 INSERT INTO `clientes` VALUES ('4', 'Cervepar', 'cervepar.png', null, '1');
@@ -85,6 +85,7 @@ INSERT INTO `clientes` VALUES ('13', 'Nestle', 'nestle.png', null, '1');
 INSERT INTO `clientes` VALUES ('14', 'Pro Canal de la Produccion', 'pro_canal.png', null, '1');
 INSERT INTO `clientes` VALUES ('15', 'RPC', 'rpc.png', null, '1');
 INSERT INTO `clientes` VALUES ('16', 'Tigo Sports', 'tigo_sports.png', null, '1');
+INSERT INTO `clientes` VALUES ('22', 'BBVA', '22_bbva.png', '', '1');
 
 -- ----------------------------
 -- Table structure for config_redes
@@ -102,19 +103,19 @@ CREATE TABLE `config_redes` (
 -- ----------------------------
 -- Records of config_redes
 -- ----------------------------
-INSERT INTO `config_redes` VALUES ('1', 'behance', 'fa fa-behance-square', '#', '1');
-INSERT INTO `config_redes` VALUES ('2', 'digg', 'fa fa-digg', '#', '1');
-INSERT INTO `config_redes` VALUES ('3', 'facebook', 'fa fa-facebook', '#', '1');
+INSERT INTO `config_redes` VALUES ('1', 'behance', 'fa fa-behance-square', '#', '0');
+INSERT INTO `config_redes` VALUES ('2', 'digg', 'fa fa-digg', '#', '0');
+INSERT INTO `config_redes` VALUES ('3', 'facebook', 'fa fa-facebook', 'https://www.facebook.com/cardumenelbagre/', '1');
 INSERT INTO `config_redes` VALUES ('4', 'flickr', '	fa fa-flickr', '#', '1');
 INSERT INTO `config_redes` VALUES ('5', 'google-plus', 'fa fa-google-plus', '#', '1');
 INSERT INTO `config_redes` VALUES ('6', 'linkedin', 'fa fa-linkedin', '#', '1');
 INSERT INTO `config_redes` VALUES ('7', 'pinterest', 'fa fa-pinterest-p', '#', '1');
-INSERT INTO `config_redes` VALUES ('8', 'skype', 'fa fa-skype', '#', '1');
-INSERT INTO `config_redes` VALUES ('9', 'spotify', 'fa fa-spotify', '#', '1');
+INSERT INTO `config_redes` VALUES ('8', 'skype', 'fa fa-skype', '#', '0');
+INSERT INTO `config_redes` VALUES ('9', 'spotify', 'fa fa-spotify', '#', '0');
 INSERT INTO `config_redes` VALUES ('10', 'twitter', 'fa fa-twitter', '#', '1');
-INSERT INTO `config_redes` VALUES ('11', 'vimeo', 'fa fa-vimeo', '#', '1');
-INSERT INTO `config_redes` VALUES ('12', 'vine', 'fa fa-vine', '#', '1');
-INSERT INTO `config_redes` VALUES ('13', 'youtube', 'fa fa-youtube', '#', '1');
+INSERT INTO `config_redes` VALUES ('11', 'vimeo', 'fa fa-vimeo', '#', '0');
+INSERT INTO `config_redes` VALUES ('12', 'vine', 'fa fa-vine', '#', '0');
+INSERT INTO `config_redes` VALUES ('13', 'youtube', 'fa fa-youtube', 'https://www.youtube.com/user/ProductoraBagre', '1');
 
 -- ----------------------------
 -- Table structure for config_sitio
@@ -133,13 +134,14 @@ CREATE TABLE `config_sitio` (
   `img_contacto` varchar(80) DEFAULT NULL,
   `titulo_trabaja` varchar(60) DEFAULT NULL,
   `texto_trabaja` text,
+  `texto_cliente` text,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of config_sitio
 -- ----------------------------
-INSERT INTO `config_sitio` VALUES ('1', 'info@cardumenelbagre.com', '-25.304984', '-57.596620', '(595 21) 214 353', 'Tenemos mucho tiempo por delante para crear los sueños que aún ni siquiera imaginamos soñar.', 'Steven Spielberg', 'pez-marker.png', 'frase1.jpg', 'camera-lens.jpg', '¿Estás list@ para trabajar con nosotros?', 'Estamos felices de saber que querés ser parte de nuestro equipo!. Envíanos tus datos y adjuntanos tu CV.');
+INSERT INTO `config_sitio` VALUES ('1', 'info@cardumenelbagre.com', '-25.304984', '-57.596620', '(595 21) 214 353', 'Tenemos mucho tiempo por delante para crear los sueños que aún ni siquiera imaginamos soñar.', 'Steven Spielberg', 'pez-marker.png', 'frase1.jpg', 'camera-lens.jpg', '¿Estás list@ para trabajar con nosotros?', 'Estamos felices de saber que querés ser parte de nuestro equipo!. Envíanos tus datos y adjuntanos tu CV.', 'Para nosotros los clientes se convierten en nuestros amigos porque más allá de una relación comercial, queremos asesorarlos, ayudarlos a crecer y acompañarlos en todo su proceso. ¡Acá le dejamos una muestra de nuestros amigos!');
 
 -- ----------------------------
 -- Table structure for config_videos
@@ -155,8 +157,8 @@ CREATE TABLE `config_videos` (
 -- ----------------------------
 -- Records of config_videos
 -- ----------------------------
-INSERT INTO `config_videos` VALUES ('1', 'Video de la Portada', 'w8KQmps-Sog');
-INSERT INTO `config_videos` VALUES ('2', 'Reel', 'NMVBQ6C4iNA');
+INSERT INTO `config_videos` VALUES ('1', 'Video de la Portada', 'hYTAyqz2dGg');
+INSERT INTO `config_videos` VALUES ('2', 'Reel', '9lvptGdodCA');
 
 -- ----------------------------
 -- Table structure for contacto
@@ -196,9 +198,9 @@ CREATE TABLE `locales` (
 -- ----------------------------
 -- Records of locales
 -- ----------------------------
-INSERT INTO `locales` VALUES ('1', 'Oficina Adminitrativa', '<p>Teniente Martínez Ramella nº 1080<br>\r\nc/ Herminio Giménez<br>\r\nBarrio Ciudad Nueva. Asunción</p>', '(+595)21 214 353', 'info@cardumenelbagre.com', '1', '1');
-INSERT INTO `locales` VALUES ('2', 'Estudio 1', '<p>Direccion 2<br>\r\nc/ Direccion<br>\r\nUn Barrio. Asunción</p>', '(+595)21 214 353', null, '0', '1');
-INSERT INTO `locales` VALUES ('3', 'Estudio 2', '<p>Direccion 2<br>\r\nc/ Direccion<br>\r\nUn Barrio. Asunción</p>', '(+595)21 214 353', null, '0', '1');
+INSERT INTO `locales` VALUES ('1', 'Oficina Adminitrativa', '<p>Teniente Mart&iacute;nez Ramella n&ordm; 1080</p>\r\n\r\n<p>y Herminio Gim&eacute;nez</p>\r\n\r\n<p>Barrio Mburicao. Asunci&oacute;n</p>\r\n', '(+595)21 214 353', 'info@cardumenelbagre.com', '1', '1');
+INSERT INTO `locales` VALUES ('2', 'Estudio 1', '<p>Urundey n&ordm; 920</p>\r\n\r\n<p>casi Paso de Patria</p>\r\n\r\n<p>Barrio Hip&oacute;dromo. Asunci&oacute;n</p>\r\n', '(+595)21 214 353', '', '0', '1');
+INSERT INTO `locales` VALUES ('3', 'Estudio 2', '<p>Teniente Mart&iacute;nez Ramella n&ordm; 1080</p>\r\n\r\n<p>y Herminio Gim&eacute;nez</p>\r\n\r\n<p>B&ordm; Mburicao. Asunci&oacute;n</p>\r\n', '(+595)21 214 353', '', '0', '1');
 
 -- ----------------------------
 -- Table structure for metas
@@ -229,12 +231,25 @@ CREATE TABLE `post` (
   `fecha` datetime DEFAULT NULL,
   `estado` int(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of post
 -- ----------------------------
-INSERT INTO `post` VALUES ('10', 'Hinchas de Resistencia', '<p>Cliente: Oniria<br />\r\nMarca: Resistencia Sport Club<br />\r\nAgencia: Oniria TBWA<br />\r\nProductora: #CardumenElBagre</p>\r\n\r\n<p>Director / DF / Editor: Rojo Uhl<br />\r\nC&aacute;mara 2: Joe Barcovich<br />\r\nAC1: Augusto Flecha Paredes<br />\r\nJefa de Producci&oacute;n: Natilu Aguilar Alarc&oacute;n<br />\r\nEjecutivo de Cuentas: Antonino V&aacute;zquez<br />\r\nEjecutiva Comercial: Eva Rodr&iacute;guez<br />\r\nLocuci&oacute;n: Benicio Mart&iacute;nez<br />\r\nCaptura de Locuci&oacute;n / Post Producci&oacute;n de Sonido: Juan Guerrero<br />\r\nColorimetr&iacute;a: Marcelo Guido</p>\r\n', 'hinchas de resistencia,futbol,estadio,arbol,resistencia', '2017-08-16 23:16:55', '1');
+INSERT INTO `post` VALUES ('10', 'Hinchas de Resistencia', '<p>Cliente: Oniria<br />\r\nMarca: Resistencia Sport Club<br />\r\nAgencia: Oniria TBWA<br />\r\nProductora: #CardumenElBagre</p>\r\n\r\n<p>Director / DF / Editor: Rojo Uhl<br />\r\nC&aacute;mara 2: Joe Barcovich<br />\r\nAC1: Augusto Flecha Paredes<br />\r\nJefa de Producci&oacute;n: Natilu Aguilar Alarc&oacute;n<br />\r\nEjecutivo de Cuentas: Antonino V&aacute;zquez<br />\r\nEjecutiva Comercial: Eva Rodr&iacute;guez<br />\r\nLocuci&oacute;n: Benicio Mart&iacute;nez<br />\r\nCaptura de Locuci&oacute;n / Post Producci&oacute;n de Sonido: Juan Guerrero<br />\r\nColorimetr&iacute;a: Marcelo Guido</p>\r\n', 'hinchas de resistencia,futbol,estadio,arbol,resistencia', '2017-08-16 15:33:51', '1');
+INSERT INTO `post` VALUES ('11', 'Institucional ADM', '', 'ADM', '2015-10-08 15:42:09', '1');
+INSERT INTO `post` VALUES ('12', 'Mundo Cerro', '', 'TV', '2017-09-01 15:39:27', '1');
+INSERT INTO `post` VALUES ('13', 'Olimpia TV', '', 'Olimpia TV', '2017-09-14 15:38:36', '1');
+INSERT INTO `post` VALUES ('14', 'Spot KÄSE', '', 'spot trebol', '2015-11-17 15:45:05', '1');
+INSERT INTO `post` VALUES ('15', 'NEGRONI - #MOZÓGRAFOS', '', 'negroni', '2017-07-04 15:48:42', '1');
+INSERT INTO `post` VALUES ('16', 'Sueñolar', '', 'Sueñolar', '2015-10-14 00:00:00', '1');
+INSERT INTO `post` VALUES ('17', 'Sonidos de la Tierra', '', 'sonidos de la tierra', '2015-10-13 00:00:00', '1');
+INSERT INTO `post` VALUES ('18', 'Fundación Club Cerro Porteño // Telebingo', '', 'Cerro Porteño', '2015-06-08 00:00:00', '1');
+INSERT INTO `post` VALUES ('19', 'Rohayhu Paraguay', '', 'rohayhu paraguay', '2016-10-11 00:00:00', '1');
+INSERT INTO `post` VALUES ('20', 'Promo Gamers', '', 'gamers', '2017-09-16 00:00:00', '1');
+INSERT INTO `post` VALUES ('21', 'Promo Overtime', '', 'overtime', '2017-05-09 00:00:00', '1');
+INSERT INTO `post` VALUES ('22', 'Promo Followers', '', 'followers', '2017-06-21 00:00:00', '1');
+INSERT INTO `post` VALUES ('23', 'Pro documentales Bloque 1', '', 'agricultura,pro documentales,prodocumentales', '2016-07-11 00:00:00', '1');
 
 -- ----------------------------
 -- Table structure for post_archivo
@@ -252,13 +267,43 @@ CREATE TABLE `post_archivo` (
   KEY `fk_idtipoarchivo_pa` (`id_tipo_archivo`),
   CONSTRAINT `post_archivo_ibfk_1` FOREIGN KEY (`id_post`) REFERENCES `post` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `post_archivo_ibfk_2` FOREIGN KEY (`id_tipo_archivo`) REFERENCES `tipo_archivo` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of post_archivo
 -- ----------------------------
 INSERT INTO `post_archivo` VALUES ('1', '10', '2', 'Ig_2m2MBjSs', '0', '1');
 INSERT INTO `post_archivo` VALUES ('2', '10', '1', 'hinchas_resistencia.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('3', '11', '1', '11_', '0', '1');
+INSERT INTO `post_archivo` VALUES ('4', '11', '2', 'yTbzrsRJ2IQ', '0', '1');
+INSERT INTO `post_archivo` VALUES ('5', '12', '1', '12_', '0', '1');
+INSERT INTO `post_archivo` VALUES ('6', '12', '2', 'dtHx9FtVKEs', '0', '1');
+INSERT INTO `post_archivo` VALUES ('7', '13', '1', '13_', '0', '1');
+INSERT INTO `post_archivo` VALUES ('8', '13', '2', 'pMVyWpCOIM0', '0', '1');
+INSERT INTO `post_archivo` VALUES ('9', '13', '1', '13_Logo_Programa_Olimpia.png', '1', '1');
+INSERT INTO `post_archivo` VALUES ('10', '12', '1', '12_Mundo_Cerro_logo.png', '1', '1');
+INSERT INTO `post_archivo` VALUES ('11', '11', '1', '11_adm.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('12', '14', '1', '14_', '0', '1');
+INSERT INTO `post_archivo` VALUES ('13', '14', '2', 'iRCacxextgE', '0', '1');
+INSERT INTO `post_archivo` VALUES ('14', '14', '1', '14_KASE.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('15', '15', '1', '15_mozografos.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('16', '15', '2', 'MW8UOXjbB3o', '0', '1');
+INSERT INTO `post_archivo` VALUES ('17', '16', '1', '16_suenolar.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('18', '16', '2', 'J878dHJaJi8', '0', '1');
+INSERT INTO `post_archivo` VALUES ('19', '17', '1', '17_sonidos.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('20', '17', '2', 'v3nooQjBVNk', '0', '1');
+INSERT INTO `post_archivo` VALUES ('21', '18', '1', '18_Fundacion_Cerro.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('22', '18', '2', 'w8i2rtaVNEQ', '0', '1');
+INSERT INTO `post_archivo` VALUES ('23', '19', '1', '19_rohayhu.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('24', '19', '2', 'SG3Oigvzb4g', '0', '1');
+INSERT INTO `post_archivo` VALUES ('25', '20', '1', '20_gamers.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('26', '20', '2', 'DpT6CGXMQiw', '0', '1');
+INSERT INTO `post_archivo` VALUES ('27', '21', '1', '21_overtime.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('28', '21', '2', 'zA2NGAMu6jw', '0', '1');
+INSERT INTO `post_archivo` VALUES ('29', '22', '1', '22_followers.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('30', '22', '2', 'bQe-tUbANgc', '0', '1');
+INSERT INTO `post_archivo` VALUES ('31', '23', '1', '23_producus.jpg', '1', '1');
+INSERT INTO `post_archivo` VALUES ('32', '23', '2', '1WbSmSVlvlo', '0', '1');
 
 -- ----------------------------
 -- Table structure for post_categoria
@@ -273,12 +318,25 @@ CREATE TABLE `post_categoria` (
   KEY `fk_idcategoria_pc` (`id_categoria`),
   CONSTRAINT `post_categoria_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `post_categoria_ibfk_2` FOREIGN KEY (`id_post`) REFERENCES `post` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of post_categoria
 -- ----------------------------
 INSERT INTO `post_categoria` VALUES ('1', '10', '14');
+INSERT INTO `post_categoria` VALUES ('2', '11', '14');
+INSERT INTO `post_categoria` VALUES ('3', '12', '17');
+INSERT INTO `post_categoria` VALUES ('4', '13', '17');
+INSERT INTO `post_categoria` VALUES ('5', '14', '14');
+INSERT INTO `post_categoria` VALUES ('6', '15', '14');
+INSERT INTO `post_categoria` VALUES ('7', '16', '14');
+INSERT INTO `post_categoria` VALUES ('8', '17', '14');
+INSERT INTO `post_categoria` VALUES ('9', '18', '14');
+INSERT INTO `post_categoria` VALUES ('10', '19', '14');
+INSERT INTO `post_categoria` VALUES ('11', '20', '17');
+INSERT INTO `post_categoria` VALUES ('12', '21', '17');
+INSERT INTO `post_categoria` VALUES ('13', '22', '17');
+INSERT INTO `post_categoria` VALUES ('14', '23', '17');
 
 -- ----------------------------
 -- Table structure for quienes_somos
@@ -296,7 +354,7 @@ CREATE TABLE `quienes_somos` (
 -- ----------------------------
 -- Records of quienes_somos
 -- ----------------------------
-INSERT INTO `quienes_somos` VALUES ('1', '<p><strong>Cardumen el bagre</strong> es una compañía dedicada a la realización de las más diversas producciones audiovisuales incluyendo programas de TV, institucionales, comerciales y storytelling.</p>\r\n\r\n<p>Se desarrolla con éxito desde el año 2008 y ha producido desde ese entonces para los canales más importantes de Paraguay marcando hitos televisivos de gran despliegue como <strong>Desafío de Campeones</strong> en el 2014. De manera ininterrumpida y por 4 años (2011 al 2015) ha producido y emitido a través de Unicanal variados programas de televisión, que han recibido en el 2013 importantes nominaciones a los premios ATVC a las mejores producciones del cable de Latinoamérica así como la declaración de interés turístico nacional por la Secretaría Nacional de Turismo, SENATUR.</p>\r\n\r\n<p>Contamos con 2 estudios de TV con los cuales brindamos servicios publicitarios y televisivos y en los que trabajamos, entre otros, con los canales tigo sports y PRO de Asunción. Precisamente para éste último producimos a la fecha alrededor de 200 documentales sobre negocios exitosos del Paraguay en el programa “PRO DOCUMENTALES” emitido actualmente en su 2da. Temporada. Íntegramente grabados en 4K, semana a semana instala temas de gran interés recorriendo los escenarios más productivos del país.</p>\r\n\r\n<p>En publicidad, la originalidad y la creatividad de un equipo humano liderado por jóvenes realizadores que encaran diversos retos y trabajos de manera conjunta con las agencias más importantes de la región ha sido acreedor de importantes reconocimientos nacionales e internacionales.</p>\r\n\r\n<p>Con un estilo fresco y descontracturado <strong>Cardumen el Bagre</strong> trabaja incansablemente en ofrecer cada vez mayores productos audiovisuales, entretenidos y óptimos para un mercado global cada vez más competitivo. De cara a una nueva etapa de crecimiento apuesta al mercado internacional con la puesta en marcha en el 2018 del primer <strong>Centro integral de contenidos</strong> del país.</p>\r\n', '<p>Apostamos por los nuevos formatos y buscamos nuevas experiencias para el espectador. De esta manera nuestro staff integrado por productores, realizadores y guionistas trabaja en la puesta en marcha de nuevos formatos audiovisuales atentos a las innovaciones artísticas y tecnológicas para seguir conquistando al público. Aprovechamos todos los formatos y todas las pantallas disponibles para contar historias, experiencias y emociones.</p>', 'equipo.jpg', 'quienes-somos.jpg');
+INSERT INTO `quienes_somos` VALUES ('1', '<p><strong>Cardumen el bagre</strong>&nbsp;es una compa&ntilde;&iacute;a dedicada a la realizaci&oacute;n de las m&aacute;s diversas producciones audiovisuales incluyendo programas de TV, institucionales, comerciales publicitarios, postproducci&oacute;n y postaudio para m&uacute;ltiples plataformas (radio, TV, digital, etc.)</p>\r\n\r\n<p>Nos desarrollamos con &eacute;xito desde el a&ntilde;o 2008 y producimos desde entonces para los canales m&aacute;s importantes de Paraguay.</p>\r\n\r\n<p>En publicidad y TV, la creatividad de un equipo humano liderado por j&oacute;venes realizadores y generadores de contenidos audiovisuales nos han permitido contar con importantes reconocimientos tanto a nivel nacional como internacional en el &aacute;mbito p&uacute;blico y privado.</p>\r\n\r\n<p>Tenemos 2 estudios de cine y TV con los cuales brindamos servicios publicitarios y televisivos y en los que trabajamos con los m&aacute;s importantes medios de comunicaci&oacute;n del pa&iacute;s.</p>\r\n\r\n<p>Con un estilo fresco y descontracturado en&nbsp;<strong>Cardumen el Bagre</strong>&nbsp;trabajamos incansablemente en ofrecer cada vez mayores productos audiovisuales, entretenidos y &oacute;ptimos para un mercado global cada vez m&aacute;s competitivo.</p>\r\n\r\n<p>Para el a&ntilde;o 2018 se vienen nuevos desaf&iacute;os fieles a nuestra principal caracter&iacute;stica: la innovaci&oacute;n constante, y en ese camino VAMOS CONTRA CORRIENTE.</p>\r\n', '<p>Apostamos por los nuevos formatos y buscamos nuevas experiencias para el espectador. De esta manera nuestro staff integrado por productores, realizadores y guionistas trabaja en la puesta en marcha de nuevos formatos audiovisuales atentos a las innovaciones artísticas y tecnológicas para seguir conquistando al público. Aprovechamos todos los formatos y todas las pantallas disponibles para contar historias, experiencias y emociones.</p>', 'equipo.jpg', 'FACHADA2.jpg');
 
 -- ----------------------------
 -- Table structure for tipo_archivo
