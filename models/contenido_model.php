@@ -154,4 +154,117 @@ class Contenido_Model extends Model {
         return $datos;
     }
 
+    public function enviarFrmContacto($data) {
+        #obtenemo el email
+        $sql = $this->db->select("select email from config_sitio where id = 1");
+        $destinatario = $sql[0]['email'];
+        $nombre = $data['name'];
+        $email = $data['email'];
+        $asunto = $data['subject'];
+        $mensaje = $data['message'];
+        $fecha = date('Y-m-d H:i:s');
+        $asuntoMail = 'Contacto desde el sitio web';
+        $this->db->insert('contacto', array(
+            'nombre' => utf8_decode($nombre),
+            'email' => utf8_decode($email),
+            'asunto' => utf8_decode($asunto),
+            'mensaje' => utf8_decode($mensaje),
+            'fecha' => $fecha
+        ));
+        $asunto = "Contacto desde el sitio web - Formulario de Contacto";
+        $message = "<h2>Hola, se ha contactado la siguiente persona</h2>
+                    <table>
+                        <tr>
+                            <td>Nombre:</td>
+                            <td>$nombre</td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td>$email</td>
+                        </tr>
+                        <tr>
+                            <td>Asunto:</td>
+                            <td>$asunto</td>
+                        </tr>
+                        <tr>
+                            <td>Mensaje:</td>
+                            <td>$mensaje</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha:</td>
+                            <td>$fecha</td>
+                        </tr>
+                        <tr>
+                            <td>Este mensaje tambien lo puede leer en el administrador del sitio.</td>
+                        </tr>
+                    </table>";
+        //$this->helper->sendMail($destinatario, $asuntoMail, $message);
+        return json_encode(TRUE);
+    }
+
+    public function enviarFrmContactoFooter($data) {
+        #obtenemo el email
+        $sql = $this->db->select("select email from config_sitio where id = 1");
+        $destinatario = $sql[0]['email'];
+        $nombre = $data['name'];
+        $email = $data['email'];
+        $mensaje = $data['message'];
+        $fecha = date('Y-m-d H:i:s');
+        $asuntoMail = 'Contacto desde el sitio web';
+        $this->db->insert('contacto', array(
+            'nombre' => utf8_decode($nombre),
+            'email' => utf8_decode($email),
+            'mensaje' => utf8_decode($mensaje),
+            'fecha' => $fecha
+        ));
+        $asunto = "Contacto desde el sitio web - Formulario de Contacto del Pie del Sitio";
+        $message = "<h2>Hola, se ha contactado la siguiente persona</h2>
+                    <table>
+                        <tr>
+                            <td>Nombre:</td>
+                            <td>$nombre</td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td>$email</td>
+                        </tr>
+                        <tr>
+                            <td>Mensaje:</td>
+                            <td>$mensaje</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha:</td>
+                            <td>$fecha</td>
+                        </tr>
+                        <tr>
+                            <td>Este mensaje tambien lo puede leer en el administrador del sitio.</td>
+                        </tr>
+                    </table>";
+        //$this->helper->sendMail($destinatario, $asuntoMail, $message);
+        return json_encode(TRUE);
+    }
+
+    public function subir_datos_trabaja($data) {
+        $this->db->insert('trabaja', array(
+            'nombre' => utf8_decode($data['nombre']),
+            'email' => utf8_decode($data['email']),
+            'telefono' => utf8_decode($data['telefono']),
+            'mensaje' => utf8_decode($data['mensaje']),
+            'fecha' => date('Y-m-d H:i:s')
+        ));
+        $idTrabaja = $this->db->lastInsertId();
+        $data = array(
+            'id' => $idTrabaja
+        );
+        return $data;
+    }
+
+    public function updateTrabaja($update) {
+        $id = $update['id'];
+        $actualizar = array(
+            'archivo' => $update['archivo']
+        );
+        $this->db->update('trabaja', $actualizar, "`id` = $id");
+    }
+
 }

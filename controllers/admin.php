@@ -995,7 +995,7 @@ class Admin extends Controller {
                     $imagen_final = $fname;
                     $ancho = 350;
                     $alto = 300;
-                    $this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
+                    //$this->helper->redimensionar($imagen, $imagen_final, $ancho, $alto, $serverdir);
                     #############
                     $filename = $fname;
                 }

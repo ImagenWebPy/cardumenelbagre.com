@@ -544,4 +544,19 @@ class Helper {
         );
         return $data;
     }
+    
+    public function getTrabajosSinVer(){
+        $sql = $this->db->select("SELECT count(*) as cant FROM trabaja where estado = 0;");
+        return $sql[0]['cant'];
+    }
+    
+    public function getContactosSinVer(){
+        $sql = $this->db->select("SELECT count(*) as cant FROM contacto where estado = 0;");
+        return $sql[0]['cant'];
+    }
+    
+    public function getCantTrabajos(){
+        $sql = $this->db->select("SELECT count(*) as cant FROM post where estado = 1;");
+        return $sql[0]['cant'];
+    }
 }

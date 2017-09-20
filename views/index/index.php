@@ -274,7 +274,7 @@ $video = $helper->getVideo();
                     <div class="row">
                         <div class="col-md-8">
                             <h4 class="margin-btm-md sourcePro">Déjanos un mensaje</h4>
-                            <form role="form" id="frmContacto" class="contact-form validation-engine ajax-send">
+                            <form role="form" id="frmContacto" class="contact-form">
                                 <div class="row">
                                     <div class="col-sm-4 form-group">
                                         <label class="sr-only" for="input_name">Nombre *</label>
@@ -294,7 +294,7 @@ $video = $helper->getVideo();
                                     <textarea name="message" class="form-control validate[required]" rows="7" id="input_message" placeholder="Mensaje"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-default btn-wide">Enviar</button>
+                                    <button type="submit" class="btn btn-default btn-wide" id="btnFrmContacto">Enviar</button>
                                     <span class="loading-spinner" style="display:none;"></span>
                                 </div>
                             </form>
@@ -364,20 +364,20 @@ $video = $helper->getVideo();
                         <div class="col-lg-3 col-md-6">
                             <div class="widget">
                                 <h3 class="wg-title sourcePro">Contactanos</h3>
-                                <form role="form" id="frmContactoFooter" class="contact-form validation-engine ajax-send">
+                                <form role="form" id="frmContactoFooter" class="contact-form">
                                     <div class="form-group">
                                         <label class="sr-only" for="input_name_widget">Nombre *</label>
-                                        <input type="text" name="name" class="form-control validate[required]" id="input_name_widget" placeholder="Nombre *">
+                                        <input type="text" name="nameFooter" class="form-control validate[required]" id="input_name_widget" placeholder="Nombre *">
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="input_email_widget">Email *</label>
-                                        <input type="email" name="email" class="form-control validate[required,custom[email]]" id="input_email_widget" placeholder="Email *">
+                                        <input type="email" name="emailFooter" class="form-control validate[required,custom[email]]" id="input_email_widget" placeholder="Email *">
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="input_message_widget">Mensaje</label>
-                                        <textarea name="message" class="form-control validate[required]" rows="4" id="input_message_widget" placeholder="Mensaje"></textarea>
+                                        <textarea name="messageFooter" class="form-control validate[required]" rows="4" id="input_message_widget" placeholder="Mensaje"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-default btn-wide">Enviar</button>
+                                    <button type="submit" class="btn btn-default btn-wide" id="btnContactoFooter">Enviar</button>
                                     <span class="loading-spinner" style="display:none;"></span>
                                 </form>
                             </div>

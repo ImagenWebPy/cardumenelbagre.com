@@ -108,11 +108,169 @@ async defer></script>
             }
             e.handled = true;
         });
+        $(document).on("click", "#btnFrmContacto", function (e) {
+            if (e.handled !== true) {
+                e.preventDefault();
+                var nombre = $("input[name='name']");
+                var email = $("input[name='email']");
+                var asunto = $("input[name='subject']");
+                var mensaje = $("textarea[name='message']");
+                if (nombre.val().trim().length == 0) {
+                    nombre.css("border", "3px solid red");
+                } else {
+                    nombre.css("border", "1px solid #ccc");
+                }
+                if (email.val().trim().length == 0) {
+                    email.css("border", "3px solid red");
+                } else {
+                    email.css("border", "1px solid #ccc");
+                }
+                if (asunto.val().trim().length == 0) {
+                    asunto.css("border", "3px solid red");
+                } else {
+                    asunto.css("border", "1px solid #ccc");
+                }
+                if (mensaje.val().trim().length == 0) {
+                    mensaje.css("border", "3px solid red");
+                } else {
+                    mensaje.css("border", "1px solid #ccc");
+                }
+                if (nombre.val().trim().length > 0 && email.val().trim().length > 0 && asunto.val().trim().length > 0 && mensaje.val().trim().length > 0) {
+                    if (isEmail(email.val())) {
+                        $.ajax({
+                            url: "<?= URL; ?>contenido/enviarFrmContacto",
+                            type: "post",
+                            dataType: "json",
+                            data: $("#frmContacto").serialize(),
+                            success: function (data) {
+                                $(".genericModal .modal-header").addClass("modal-header bg-black");
+                                $(".genericModal .modal-title").html('Formulario de Contacto');
+                                $(".genericModal .modal-body").html('Su mensaje se ha enviado correctamente.');
+                                $(".genericModal").modal("toggle");
+                            }
+                        }); //END AJAX
+                    } else {
+                        email.css("border", "3px solid red");
+                    }
+                }
+            }
+            e.handled = true;
+        });
+        $(document).on("click", "#btnContactoFooter", function (e) {
+            if (e.handled !== true) {
+                e.preventDefault();
+                var nombre = $("input[name='nameFooter']");
+                var email = $("input[name='emailFooter']");
+                var mensaje = $("textarea[name='messageFooter']");
+                if (nombre.val().trim().length == 0) {
+                    nombre.css("border", "3px solid red");
+                } else {
+                    nombre.css("border", "1px solid #ccc");
+                }
+                if (email.val().trim().length == 0) {
+                    email.css("border", "3px solid red");
+                } else {
+                    email.css("border", "1px solid #ccc");
+                }
+                if (mensaje.val().trim().length == 0) {
+                    mensaje.css("border", "3px solid red");
+                } else {
+                    mensaje.css("border", "1px solid #ccc");
+                }
+                if (nombre.val().trim().length > 0 && email.val().trim().length > 0 && mensaje.val().trim().length > 0) {
+                    if (isEmail(email.val())) {
+                        $.ajax({
+                            url: "<?= URL; ?>contenido/enviarFrmContactoFooter",
+                            type: "post",
+                            dataType: "json",
+                            data: $("#frmContactoFooter").serialize(),
+                            success: function (data) {
+                                $(".genericModal .modal-header").addClass("modal-header bg-black");
+                                $(".genericModal .modal-title").html('Formulario de Contacto');
+                                $(".genericModal .modal-body").html('Su mensaje se ha enviado correctamente.');
+                                $(".genericModal").modal("toggle");
+                            }
+                        }); //END AJAX
+                    } else {
+                        email.css("border", "3px solid red");
+                    }
+                }
+            }
+            e.handled = true;
+        });
+        $(document).on("click", "#btn-submit-cv", function (e) {
+            if (e.handled !== true) {
+                e.preventDefault();
+                var nombre = $("input[name='cv-name']");
+                var email = $("input[name='cv-email']");
+                var telefono = $("input[name='cv-telephone']");
+                var mensaje = $("textarea[name='cv-message']");
+                var archivo = $("input[name='file']");
+                if (nombre.val().trim().length == 0) {
+                    nombre.css("border", "3px solid red");
+                } else {
+                    nombre.css("border", "1px solid #ccc");
+                }
+                if (email.val().trim().length == 0) {
+                    email.css("border", "3px solid red");
+                } else {
+                    email.css("border", "1px solid #ccc");
+                }
+                if (telefono.val().trim().length == 0) {
+                    telefono.css("border", "3px solid red");
+                } else {
+                    telefono.css("border", "1px solid #ccc");
+                }
+                if (mensaje.val().trim().length == 0) {
+                    mensaje.css("border", "3px solid red");
+                } else {
+                    mensaje.css("border", "1px solid #ccc");
+                }
+                if (archivo.val().trim().length == 0) {
+                    $('.html5fileupload').css("border", "3px solid red");
+                } else {
+                    $('.html5fileupload').css("border", "1px solid #dddddd");
+                }
+                if (nombre.val().trim().length > 0 && email.val().trim().length > 0 && telefono.val().trim().length > 0 && mensaje.val().trim().length > 0 && archivo.val().trim().length > 0) {
+                    if (isEmail(email.val())) {
+                        $.ajax({
+                            url: "<?= URL; ?>contenido/trabajaConNosotros",
+                            dataType: 'text', // what to expect back from the PHP script, if anything
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: $("#frmTrabaja").serialize(),
+                            type: 'post',
+                            success: function (data) {
+                                $(".genericModal .modal-header").addClass("modal-header bg-black");
+                                $(".genericModal .modal-title").html('Formulario de Trabaja con Nosotros');
+                                $(".genericModal .modal-body").html('Su datos se han almacenado en nuestra base de datos. Gracias por confiar en nuestra empresa.');
+
+                            }
+                        }); //END AJAX
+                    } else {
+                        email.css("border", "3px solid red");
+                    }
+                }
+            }
+            e.handled = true;
+        });
         $('.gl-item').hover(function () {
             $(this).find('.divTitulosPost:first').hide()
         }, function () {
             $(this).find('.divTitulosPost:first').show();
         });
+        function isEmail(email) {
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        }
+        var navigationFn = {
+            goToSection: function (id) {
+                $('html, body').animate({
+                    scrollTop: $(id).offset().top
+                }, 0);
+            }
+        }
     });
 </script>
 <?php
