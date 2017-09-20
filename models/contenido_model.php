@@ -198,7 +198,7 @@ class Contenido_Model extends Model {
                             <td>Este mensaje tambien lo puede leer en el administrador del sitio.</td>
                         </tr>
                     </table>";
-        //$this->helper->sendMail($destinatario, $asuntoMail, $message);
+        $this->helper->sendMail($destinatario, $asuntoMail, $message);
         return json_encode(TRUE);
     }
 
@@ -240,7 +240,7 @@ class Contenido_Model extends Model {
                             <td>Este mensaje tambien lo puede leer en el administrador del sitio.</td>
                         </tr>
                     </table>";
-        //$this->helper->sendMail($destinatario, $asuntoMail, $message);
+        $this->helper->sendMail($destinatario, $asuntoMail, $message);
         return json_encode(TRUE);
     }
 
