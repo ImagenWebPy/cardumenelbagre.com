@@ -267,7 +267,7 @@ class Contenido_Model extends Model {
                             <td>Gracias por enviarnos tu C.V..</td>
                         </tr>
                     </table>";
-        //$this->helper->sendMail($data['email'], $asuntoMail, $message);
+        $this->helper->sendMail($data['email'], $asuntoMail, $message);
 
         $sql = $this->db->select("select email from config_sitio where id = 1");
         $emailBagre = $sql[0]['email'];
@@ -292,7 +292,7 @@ class Contenido_Model extends Model {
                             <td>Puedes ver el C.V. adjuntado desde el administrador</td>
                         </tr>
                     </table>";
-        //$this->helper->sendMail($emailBagre, $asuntoMailbBagre, $messageBagre);
+        $this->helper->sendMail($emailBagre, $asuntoMailbBagre, $messageBagre);
         return $datos;
     }
 
