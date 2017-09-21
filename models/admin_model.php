@@ -204,6 +204,16 @@ class Admin_Model extends Model {
         $this->db->update('config_sitio', $update, "id = $id");
         return json_encode(true);
     }
+ 
+    public function editTextoTrabaja($data) {
+        $id = 1;
+        $update = array(
+            "titulo_trabaja" => trim(utf8_decode($data['titulo_trabaja'])),
+            "texto_trabaja" => trim(utf8_decode($data['texto_trabaja']))
+        );
+        $this->db->update('config_sitio', $update, "id = $id");
+        return json_encode(true);
+    }
 
     public function editMetas($data) {
         $id = 1;
@@ -2136,6 +2146,11 @@ class Admin_Model extends Model {
     public function textoCliente() {
         $sql = $this->db->select("select texto_cliente from config_sitio where id = 1");
         return $sql[0]['texto_cliente'];
+    }
+
+    public function datosTrabaja() {
+        $sql = $this->db->select("select titulo_trabaja, texto_trabaja from config_sitio where id = 1");
+        return $sql[0];
     }
 
 }

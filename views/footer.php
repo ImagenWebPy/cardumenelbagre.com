@@ -198,63 +198,7 @@ async defer></script>
             }
             e.handled = true;
         });
-        $(document).on("click", "#btn-submit-cv", function (e) {
-            if (e.handled !== true) {
-                e.preventDefault();
-                var nombre = $("input[name='cv-name']");
-                var email = $("input[name='cv-email']");
-                var telefono = $("input[name='cv-telephone']");
-                var mensaje = $("textarea[name='cv-message']");
-                var archivo = $("input[name='file']");
-                if (nombre.val().trim().length == 0) {
-                    nombre.css("border", "3px solid red");
-                } else {
-                    nombre.css("border", "1px solid #ccc");
-                }
-                if (email.val().trim().length == 0) {
-                    email.css("border", "3px solid red");
-                } else {
-                    email.css("border", "1px solid #ccc");
-                }
-                if (telefono.val().trim().length == 0) {
-                    telefono.css("border", "3px solid red");
-                } else {
-                    telefono.css("border", "1px solid #ccc");
-                }
-                if (mensaje.val().trim().length == 0) {
-                    mensaje.css("border", "3px solid red");
-                } else {
-                    mensaje.css("border", "1px solid #ccc");
-                }
-                if (archivo.val().trim().length == 0) {
-                    $('.html5fileupload').css("border", "3px solid red");
-                } else {
-                    $('.html5fileupload').css("border", "1px solid #dddddd");
-                }
-                if (nombre.val().trim().length > 0 && email.val().trim().length > 0 && telefono.val().trim().length > 0 && mensaje.val().trim().length > 0 && archivo.val().trim().length > 0) {
-                    if (isEmail(email.val())) {
-                        $.ajax({
-                            url: "<?= URL; ?>contenido/trabajaConNosotros",
-                            dataType: 'text', // what to expect back from the PHP script, if anything
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            data: $("#frmTrabaja").serialize(),
-                            type: 'post',
-                            success: function (data) {
-                                $(".genericModal .modal-header").addClass("modal-header bg-black");
-                                $(".genericModal .modal-title").html('Formulario de Trabaja con Nosotros');
-                                $(".genericModal .modal-body").html('Su datos se han almacenado en nuestra base de datos. Gracias por confiar en nuestra empresa.');
-
-                            }
-                        }); //END AJAX
-                    } else {
-                        email.css("border", "3px solid red");
-                    }
-                }
-            }
-            e.handled = true;
-        });
+        
         $('.gl-item').hover(function () {
             $(this).find('.divTitulosPost:first').hide()
         }, function () {

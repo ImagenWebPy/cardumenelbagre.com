@@ -58,26 +58,29 @@ class Contenido extends Controller {
         $insert = $this->model->subir_datos_trabaja($datos);
         $id = $insert['id'];
         #SUBIMOS EL ARCHIVO
-        $absolutedir = dirname(__FILE__);
         $dir = 'public/archivos/cv/';
         $serverdir = $dir;
-        $tmp = explode(',', $_POST['file']);
-        $file = base64_decode($tmp[1]);
-        $ext = explode('.', $_POST['filename']);
-        $extension = strtolower(end($ext));
-        $name = $_POST['name'];
-        $filename = $this->helper->cleanUrl($name);
-        $filename = $filename . '.' . $extension;
-        //$filename				= $file.'.'.substr(sha1(time()),0,6).'.'.$extension;
-        $handle = fopen($serverdir . $filename, 'w');
-        fwrite($handle, $file);
-        fclose($handle);
+        $filename = "";
+        foreach ($_FILES as $inputname => $file) {
+            $newname = $this->helper->cleanUrl($_POST[$inputname . '_name']);
+            //$extension = strtolower(end(explode('.', $file['name'])));
+            $ext = explode('.', $file['name']);
+            $extension = strtolower(end($ext));
+            $fname = $id . '_' . $newname . '.' . $extension;
+            $contents = file_get_contents($file['tmp_name']);
+
+            $handle = fopen($serverdir . $fname, 'w');
+            fwrite($handle, $contents);
+            fclose($handle);
+
+            $filename = $fname;
+        }
         $update = array(
             'id' => $id,
             'archivo' => $filename
         );
-        header('Content-type: application/json; charset=utf-8');
-        echo TRUE;
+        $this->model->updateTrabaja($update);
+        header('Location:' . URL);
     }
 
 }

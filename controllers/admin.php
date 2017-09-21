@@ -158,6 +158,16 @@ class Admin extends Controller {
         echo $datos;
     }
 
+    public function editTextoTrabaja() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'titulo_trabaja' => $this->helper->cleanInput($_POST['titulo_trabaja']),
+            'texto_trabaja' => $this->helper->cleanInput($_POST['texto_trabaja'])
+        );
+        $datos = $this->model->editTextoTrabaja($data);
+        echo $datos;
+    }
+
     public function editElEquipo() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -755,6 +765,7 @@ class Admin extends Controller {
         $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
         $this->view->public_js = array("plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
         $this->view->title = 'Trabaja con nosotros';
+        $this->view->datosTrabaja = $this->model->datosTrabaja();
         $this->view->render('admin/header');
         $this->view->render('admin/trabaja_nosotros/index');
         $this->view->render('admin/footer');

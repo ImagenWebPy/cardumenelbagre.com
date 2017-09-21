@@ -12,18 +12,18 @@ class Contenido_Model extends Model {
                         <h3 class="SourceSansPro-Regular">Envíanos tus datos y adjuntá tu CV</h3>
                     </div>
                     <div class="col-md-12">
-                        <form method="post" id="frmTrabaja" enctype="multipart/form-data">
+                        <form method="post" action="' . URL . 'contenido/trabajaConNosotros" enctype="multipart/form-data">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="cv-name" placeholder="Nombre Completo *" required="">
+                                <input type="text" class="form-control" name="cv-name" placeholder="Nombre Completo *" required=>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" name="cv-email" placeholder="Dirección de Email *" required="">
+                                <input type="email" class="form-control" name="cv-email" placeholder="Dirección de Email *" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="cv-telephone" placeholder="Teléfono *" required="">
+                                <input type="text" class="form-control" name="cv-telephone" placeholder="Teléfono *" required>
                             </div>
                             <div class="form-group">
-                                <textarea rows="8" class="form-control" name="cv-message" placeholder="Mensaje"></textarea>
+                                <textarea rows="8" class="form-control" name="cv-message" placeholder="Mensaje" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Adjunte su C.V.</label>
@@ -31,14 +31,14 @@ class Contenido_Model extends Model {
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="Archivos Pdf"><img src="' . ASSETS . 'img/pdf-icon.png" alt="PDF"></a>/'
                 . '             <a href="#" data-toggle="tooltip" data-placement="top" title="Archivos de Word"><img src="' . ASSETS . 'img/word-icon.png" alt="Word"></a>
                                 <div class="html5fileupload trabajaFile" data-form="true" data-valid-extensions="pdf,PDF,doc,DOC,docx,DOCX" style="width: 100%;">
-                                    <input type="file" name="file" />
+                                    <input type="file" name="file" required />
                                 </div>
                                 <script type="text/javascript">
                                     $(".html5fileupload.trabajaFile").html5fileupload();
                                 </script>
                             </div>
                             <div class="form-group">
-                                <input type="submit" class="btn btn-block btn-primary" id="btn-submit-cv" value="Enviar">
+                                <input type="submit" class="btn btn-block btn-primary" value="Enviar">
                             </div>
                         </form>
                     </div>';
@@ -253,10 +253,47 @@ class Contenido_Model extends Model {
             'fecha' => date('Y-m-d H:i:s')
         ));
         $idTrabaja = $this->db->lastInsertId();
-        $data = array(
+        $datos = array(
             'id' => $idTrabaja
         );
-        return $data;
+        $asuntoMail = 'Gracias por enviarnos tu CV';
+        $message = "<h2>Hemoes adjunta tu C.V. a nuestra base de datos</h2>
+                    <table>
+                        <tr>
+                            <td>Hola</td>
+                            <td>" . $data['nombre'] . "</td>
+                        </tr>
+                        <tr>
+                            <td>Gracias por enviarnos tu C.V..</td>
+                        </tr>
+                    </table>";
+        //$this->helper->sendMail($data['email'], $asuntoMail, $message);
+
+        $sql = $this->db->select("select email from config_sitio where id = 1");
+        $emailBagre = $sql[0]['email'];
+        $asuntoMailbBagre = 'Nuevo CV adjuntado desde el sitio web';
+        $messageBagre = "<h2>Hola, se ha adjuntado un nuevo cv desde el sitio web</h2>
+                    <table>
+                        <tr>
+                            <td>Nombre</td>
+                            <td>" . $data['nombre'] . "</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>" . $data['email'] . "</td>
+                        <tr>
+                            <td>Telefono</td>
+                            <td>" . $data['telefono'] . "</td>
+                        <tr>
+                            <td>Mensaje</td>
+                            <td>" . $data['mensaje'] . "</td>
+                        </tr>
+                        <tr>
+                            <td>Puedes ver el C.V. adjuntado desde el administrador</td>
+                        </tr>
+                    </table>";
+        //$this->helper->sendMail($emailBagre, $asuntoMailbBagre, $messageBagre);
+        return $datos;
     }
 
     public function updateTrabaja($update) {
