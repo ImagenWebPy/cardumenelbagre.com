@@ -81,6 +81,34 @@ class Admin_Model extends Model {
         return $json;
     }
 
+    public function cargarDTUsuarios() {
+        $IdUsuario = $_SESSION['usuario']['id'];
+        $datos = array();
+        $sql = $this->db->select('SELECT * from admin_usuario where id != 1');
+        foreach ($sql as $item) {
+            $id = $item['id'];
+            if ($id == $IdUsuario) {
+                $btn = '<a class="btn btn-app pointer btnEditarUsuario btnSmall" data-id="' . $item['id'] . '"><i class="fa fa-edit"></i> Editar</a>';
+            } else {
+                $btn = '';
+            }
+            if ($item['estado'] == 1) {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="1"><span class="label label-success">Activo</span></a>';
+            } else {
+                $estado = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
+            }
+            array_push($datos, array(
+                'DT_RowId' => 'usuario' . $id,
+                'nombre' => utf8_encode($item['nombre']),
+                'email' => utf8_encode($item['email']),
+                'estado' => $estado,
+                'accion' => $btn
+            ));
+        }
+        $json = '{"data": ' . json_encode($datos) . '}';
+        return $json;
+    }
+
     public function cargarDTCategorias() {
         $datos = array();
         $sql = $this->db->select('SELECT c.*
@@ -204,7 +232,7 @@ class Admin_Model extends Model {
         $this->db->update('config_sitio', $update, "id = $id");
         return json_encode(true);
     }
- 
+
     public function editTextoTrabaja($data) {
         $id = 1;
         $update = array(
@@ -414,6 +442,48 @@ class Admin_Model extends Model {
         return json_encode($datos);
     }
 
+    public function modalAgregarUsuario() {
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Agregar Usuario</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" action="' . URL . 'admin/frmAddUsuario">
+                    <div class="form-group">
+                        <label>Nombre Usuario</label>
+                        <input type="text" name="usuario[nombre]" class="form-control" placeholder="Nombre Usuario" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" name="usuario[email]" class="form-control" placeholder="Email" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" name="usuario[contrasena]" class="form-control" placeholder="Contraseña" value="">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="usuario[estado]" value="1" checked>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Agregar Usuario',
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
     public function modalAgregarCategoria() {
         $form = '<div class="box box-primary">
             <div class="box-header with-border">
@@ -603,6 +673,53 @@ class Admin_Model extends Model {
         return json_encode($datos);
     }
 
+    public function modalEditarUsuario($data) {
+        $id = $data['id'];
+        $sql = $this->db->select("select * from admin_usuario where id = $id");
+        $checked = ($sql[0]['estado'] == 1) ? 'checked' : '';
+        $form = '<div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Editar Red Social</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <form role="form" method="POST" id="frmEditarUsuario">
+                    <input type="hidden" name="usuario[id]" value="' . $id . '">
+                    <div class="form-group">
+                        <label>Nombre Usuario</label>
+                        <input type="text" name="usuario[nombre]" class="form-control" placeholder="Nombre Usuario" value="' . utf8_encode($sql[0]['nombre']) . '">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" name="usuario[email]" class="form-control" placeholder="Email" value="' . utf8_encode($sql[0]['email']) . '">
+                    </div>';
+        $form .= $this->helper->messageAlert('info', 'Solo si ingresa una valor en el campo contraseña este se modificará');
+        $form .= '  <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" name="usuario[contrasena]" class="form-control" placeholder="Contraseña" value="">
+                    </div>
+                    <!-- checkbox -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="usuario[estado]" value="1" ' . $checked . '>
+                                Estado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+          </div>';
+        $datos = array(
+            'titulo' => 'Editar Usuario ' . utf8_encode($sql[0]['nombre']),
+            'contenido' => $form
+        );
+        return json_encode($datos);
+    }
+
     public function modalEditarCategoria($data) {
         $id = $data['id'];
         $sql = $this->db->select("select * from categoria where id = $id");
@@ -744,6 +861,17 @@ class Admin_Model extends Model {
         return $id;
     }
 
+    public function frmAddUsuario($data) {
+        $this->db->insert('admin_usuario', array(
+            'nombre' => utf8_decode($data['nombre']),
+            'email' => utf8_decode($data['email']),
+            'contrasena' => Hash::create('sha256', utf8_decode($data['contrasena']), HASH_PASSWORD_KEY),
+            'estado' => $data['estado']
+        ));
+        $id = $this->db->lastInsertId();
+        return $id;
+    }
+
     public function frmAddCategoria($data) {
         $this->db->insert('categoria', array(
             'descripcion' => utf8_decode($data['descripcion']),
@@ -782,31 +910,38 @@ class Admin_Model extends Model {
         return $datos;
     }
 
-    public function editRed($data) {
+    public function editUsuario($data) {
         $id = $data['id'];
         $estado = 1;
         if (empty($data['estado'])) {
             $estado = 0;
         }
-        $update = array(
-            'descripcion' => utf8_decode($data['descripcion']),
-            'fontawesome' => $data['fontawesome'],
-            'url' => $data['url'],
-            'estado' => $estado
-        );
-        $this->db->update('config_redes', $update, "id = $id");
+        if (empty($data['contrasena'])) {
+            $update = array(
+                'nombre' => utf8_decode($data['nombre']),
+                'email' => $data['email'],
+                'estado' => $estado
+            );
+        } else {
+            $update = array(
+                'nombre' => utf8_decode($data['nombre']),
+                'email' => $data['email'],
+                'contrasena' => Hash::create('sha256', $data['contrasena'], HASH_PASSWORD_KEY),
+                'estado' => $estado
+            );
+        }
+        $this->db->update('admin_usuario', $update, "id = $id");
         #obtenemos la fila
-        $sql = $this->db->select("SELECT * FROM config_redes where id = $id");
+        $sql = $this->db->select("SELECT * FROM admin_usuario where id = $id");
         if ($sql[0]['estado'] == 1) {
             $estadoEdit = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-success">Activo</span></a>';
         } else {
             $estadoEdit = '<a class="pointer btnCambiarEstado" data-id="' . $id . '" data-estado="0"><span class="label label-danger">Inactivo</span></a>';
         }
-        $row = '<td class="sorting_1">' . utf8_encode($sql[0]['descripcion']) . '</td>'
-                . '<td>' . utf8_encode($sql[0]['url']) . '</td>'
+        $row = '<td class="sorting_1">' . utf8_encode($sql[0]['nombre']) . '</td>'
+                . '<td>' . utf8_encode($sql[0]['email']) . '</td>'
                 . '<td>' . $estadoEdit . '</td>'
-                . '<td><a class="btn btn-app pointer btnEditarRed btnSmall" data-id="' . $id . '"><i class="fa fa-edit"></i> Editar</a> | '
-                . '<a class="btn btn-app pointer btnEliminarRed btnSmall" data-id="' . $id . '"><i class="fa fa-ban" aria-hidden="true"></i> Eliminar</a></td>';
+                . '<td><a class="btn btn-app pointer btnEditarUsuario btnSmall" data-id="' . $id . '"><i class="fa fa-edit"></i> Editar</a>';
         $datos = array(
             'type' => 'success',
             'id' => $id,

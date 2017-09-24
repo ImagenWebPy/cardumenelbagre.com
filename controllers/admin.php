@@ -29,6 +29,17 @@ class Admin extends Controller {
             unset($_SESSION['message']);
     }
 
+    public function usuarios() {
+        $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
+        $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
+        $this->view->title = 'Usuarios';
+        $this->view->render('admin/header');
+        $this->view->render('admin/usuarios/index');
+        $this->view->render('admin/footer');
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
     public function unidades_negocio() {
         $this->view->public_css = array("plugins/datatables/dataTables.bootstrap.css");
         $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/datatables/jquery.dataTables.min.js", "plugins/datatables/dataTables.bootstrap.min.js");
@@ -108,6 +119,12 @@ class Admin extends Controller {
     public function cargarDTRedes() {
         header('Content-type: application/json; charset=utf-8');
         $data = $this->model->cargarDTRedes();
+        echo $data;
+    }
+
+    public function cargarDTUsuarios() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = $this->model->cargarDTUsuarios();
         echo $data;
     }
 
@@ -424,6 +441,12 @@ class Admin extends Controller {
         echo $datos;
     }
 
+    public function modalAgregarUsuario() {
+        header('Content-type: application/json; charset=utf-8');
+        $datos = $this->model->modalAgregarUsuario();
+        echo $datos;
+    }
+
     public function modalAgregarCategoria() {
         header('Content-type: application/json; charset=utf-8');
         $datos = $this->model->modalAgregarCategoria();
@@ -480,6 +503,30 @@ class Admin extends Controller {
                 ));
             }
             header('Location:' . URL . 'admin/redes/');
+        }
+    }
+
+    public function frmAddUsuario() {
+        if (!empty($_POST)) {
+            $data = array(
+                'nombre' => $this->helper->cleanInput($_POST['usuario']['nombre']),
+                'email' => $_POST['usuario']['email'],
+                'contrasena' => $_POST['usuario']['email'],
+                'estado' => (!empty($_POST['usuario']['estado'])) ? $_POST['usuario']['estado'] : 0
+            );
+            $datos = $this->model->frmAddUsuario($data);
+            if (!empty($datos)) {
+                Session::set('message', array(
+                    'type' => 'success',
+                    'mensaje' => 'Se ha agregado correctamente el Usuario'
+                ));
+            } else {
+                Session::set('message', array(
+                    'type' => 'error',
+                    'mensaje' => 'Lo sentimos ha ocurrido un error...'
+                ));
+            }
+            header('Location:' . URL . 'admin/usuarios/');
         }
     }
 
@@ -573,6 +620,15 @@ class Admin extends Controller {
         echo $datos;
     }
 
+    public function modalEditarUsuario() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['id'])
+        );
+        $datos = $this->model->modalEditarUsuario($data);
+        echo $datos;
+    }
+
     public function modalEditarCategoria() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -613,6 +669,20 @@ class Admin extends Controller {
             'estado' => (!empty($_POST['red']['estado'])) ? $this->helper->cleanInput($_POST['red']['estado']) : 0
         );
         $data = $this->model->editRed($data);
+        echo json_encode($data);
+    }
+
+
+    public function editUsuario() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'id' => $this->helper->cleanInput($_POST['usuario']['id']),
+            'nombre' => $this->helper->cleanInput($_POST['usuario']['nombre']),
+            'email' => $this->helper->cleanInput($_POST['usuario']['email']),
+            'contrasena' => (!empty($_POST['usuario']['contrasena'])) ? $this->helper->cleanInput($_POST['usuario']['contrasena']) : '',
+            'estado' => (!empty($_POST['usuario']['estado'])) ? $this->helper->cleanInput($_POST['usuario']['estado']) : 0
+        );
+        $data = $this->model->editUsuario($data);
         echo json_encode($data);
     }
 

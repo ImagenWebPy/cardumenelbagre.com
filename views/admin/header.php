@@ -3,6 +3,8 @@ $helper = new Helper();
 $pagina = $helper->getPage();
 $activeDashboard = '';
 $activeConfiguraciones = '';
+$activeDatos = '';
+$activeMetas = '';
 $activeContenido = '';
 $activeContacto = '';
 $activeQuienesomos = '';
@@ -47,6 +49,14 @@ switch ($seccionActual) {
     case 'unidades_negocio':
         $activeContenido = 'active';
         $activeUnidadesNegocio = 'active';
+        break;
+    case 'datos':
+        $activeDatos = 'active';
+        $activeConfiguraciones = 'active';
+        break;
+    case 'metas':
+        $activeMetas = 'active';
+        $activeConfiguraciones = 'active';
         break;
     default :
         $activeDashboard = 'active';
@@ -166,10 +176,10 @@ switch ($seccionActual) {
                     <ul class="sidebar-menu">
                         <li class="header">MENU PRINCIPAL</li>
                         <li class="<?= $activeDashboard; ?>"><a href="<?= URL; ?>admin/"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-                        <li class="treeview"><a href="#"><i class="fa fa-gears" aria-hidden="true"></i> <span>Configuraciones</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <li class="<?= $activeConfiguraciones; ?> treeview"><a href="#"><i class="fa fa-gears" aria-hidden="true"></i> <span>Configuraciones</span> <i class="fa fa-angle-left pull-right"></i></a>
                             <ul class="treeview-menu">
-                                <li><a href="<?= URL; ?>admin/datos"><i class="fa fa-circle-o"></i> <span>Datos Generales</span></a></li>
-                                <li><a href="<?= URL; ?>admin/metas"><i class="fa fa-circle-o"></i> <span>Meta Etiquetas   </span></a></li>
+                                <li class="<?= $activeDatos; ?>"><a href="<?= URL; ?>admin/datos"><i class="fa fa-circle-o"></i> <span>Datos Generales</span></a></li>
+                                <li class="<?= $activeMetas; ?>"><a href="<?= URL; ?>admin/metas"><i class="fa fa-circle-o"></i> <span>Meta Etiquetas   </span></a></li>
                                 <li><a href="<?= URL; ?>admin/usuarios"><i class="fa fa-circle-o"></i> <span>Usuarios </span></a></li>
                             </ul>
                         </li>
