@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2017-09-18 21:16:19
+Date: 2017-09-24 16:50:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,8 @@ CREATE TABLE `admin_usuario` (
   `contrasena` varchar(255) NOT NULL,
   `imagen` varchar(80) DEFAULT NULL,
   `estado` int(1) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_unique_email` (`email`) USING BTREE
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -64,7 +65,7 @@ CREATE TABLE `clientes` (
   `url` varchar(120) DEFAULT NULL,
   `estado` int(1) unsigned DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of clientes
@@ -82,10 +83,22 @@ INSERT INTO `clientes` VALUES ('10', 'Johnson& Johnson', 'johnson&johnson.png', 
 INSERT INTO `clientes` VALUES ('11', 'Kia', 'kia.png', null, '1');
 INSERT INTO `clientes` VALUES ('12', 'La Consolidada', 'la-consolidada.png', null, '1');
 INSERT INTO `clientes` VALUES ('13', 'Nestle', 'nestle.png', null, '1');
-INSERT INTO `clientes` VALUES ('14', 'Pro Canal de la Produccion', 'pro_canal.png', null, '1');
+INSERT INTO `clientes` VALUES ('38', 'telefuturo', '38_logo_telefuturo.png', '', '1');
 INSERT INTO `clientes` VALUES ('15', 'RPC', 'rpc.png', null, '1');
 INSERT INTO `clientes` VALUES ('16', 'Tigo Sports', 'tigo_sports.png', null, '1');
-INSERT INTO `clientes` VALUES ('22', 'BBVA', '22_bbva.png', '', '1');
+INSERT INTO `clientes` VALUES ('25', 'Garden', '25_logo-garden.png', '', '1');
+INSERT INTO `clientes` VALUES ('24', 'Shopping Mariano', '24_marianoportada.png', '', '1');
+INSERT INTO `clientes` VALUES ('26', 'Pinedo Shopping', '26_pinedoportada.png', '', '1');
+INSERT INTO `clientes` VALUES ('27', 'Frigorífico Guaraní', '27_logo_guarani.png', '', '1');
+INSERT INTO `clientes` VALUES ('28', 'Mitsubishi', '28_mitsubishi.png', '', '1');
+INSERT INTO `clientes` VALUES ('29', 'Shopping Mariscal', '29_logo_mcal.png', '', '1');
+INSERT INTO `clientes` VALUES ('30', 'urba inmobiliaria', '30_urba.png', '', '1');
+INSERT INTO `clientes` VALUES ('31', 'Shopping Multiplaza', '31_multiplaza.png', '', '1');
+INSERT INTO `clientes` VALUES ('32', 'Lácteos trebol', '32_trebol1.png', '', '1');
+INSERT INTO `clientes` VALUES ('34', 'SNT', '34_SNT_LOGO.jpg', '', '1');
+INSERT INTO `clientes` VALUES ('35', 'Banco Regional', '35_regional.png', '', '1');
+INSERT INTO `clientes` VALUES ('36', 'Tonina', '36_logo_tonina.png', '', '1');
+INSERT INTO `clientes` VALUES ('37', 'Canal Pro', '37_canal_pro_icono.jpg', '', '1');
 
 -- ----------------------------
 -- Table structure for config_redes
@@ -415,6 +428,6 @@ CREATE TABLE `unidades_negocio` (
 -- ----------------------------
 -- Records of unidades_negocio
 -- ----------------------------
-INSERT INTO `unidades_negocio` VALUES ('1', 'PUBLICIDAD', '<p>Un equipo de realizadores trabaja en la producción de varias propuestas publicitarias en anuencia con las agencias más importantes de la región.</p>', '1');
-INSERT INTO `unidades_negocio` VALUES ('2', 'TELEVISIÓN', '<p>Las posibilidades en televisión al contar con estudios han maximizado las oportunidades de productos televisivos de la productora. En campo nuestros programas traen la frescura que por lo general lo canales no tienen y estos productos marcan una diferencia, una mirada distinta y arriesgada que atrapa.</p>', '1');
+INSERT INTO `unidades_negocio` VALUES ('1', 'PUBLICIDAD', '<ul>\r\n	<li>Spots de TV</li>\r\n	<li>Spots radiales</li>\r\n	<li>Documentales</li>\r\n	<li>Institucionales</li>\r\n	<li>Virales digitales</li>\r\n	<li>Adaptaciones de productos</li>\r\n	<li>Cobertura de eventos</li>\r\n	<li>Streaming</li>\r\n	<li>Servicios de producci&oacute;n</li>\r\n	<li>Postproducci&oacute;n</li>\r\n	<li>Postaudio</li>\r\n</ul>\r\n', '1');
+INSERT INTO `unidades_negocio` VALUES ('2', 'TELEVISIÓN', '<ul>\r\n	<li>Desarrollo integral de contenidos</li>\r\n	<li>Servicios de Producci&oacute;n</li>\r\n	<li>Adaptaci&oacute;n de formatos</li>\r\n	<li>Producci&oacute;n integral de eventos especiales para la televisi&oacute;n</li>\r\n	<li>Streaming</li>\r\n	<li>Estudio de TV de 400 metros cuadrados</li>\r\n</ul>\r\n', '1');
 SET FOREIGN_KEY_CHECKS=1;
