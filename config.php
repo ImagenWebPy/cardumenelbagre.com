@@ -29,6 +29,20 @@ switch ($host) {
         define('DB_PASS', '');
         define('DB_NAME', 'cardumen_db');
         break;
+    case 'cardumenelbagre.com':
+        define('URL', 'http://cardumenelbagre.com/');
+        define('URL_ADMIN', 'http://cardumenelbagre.com/admin/');
+        define('DB_USER', 'cardumen_user');
+        define('DB_PASS', '6}qb@SnAK.$@7xmTTL');
+        define('DB_NAME', 'cardumen_db');
+        break;
+    case 'www.cardumenelbagre.com':
+        define('URL', 'http://www.cardumenelbagre.com/');
+        define('URL_ADMIN', 'http://www.cardumenelbagre.com/admin/');
+        define('DB_USER', 'cardumen_user');
+        define('DB_PASS', '6}qb@SnAK.$@7xmTTL');
+        define('DB_NAME', 'cardumen_db');
+        break;
     default :
         define('URL', 'http://192.168.90.195/institucional/');
         define('URL_ADMIN', 'http://192.168.90.195/institucional/admin/');
