@@ -16,6 +16,8 @@ $activeClientes = '';
 $activeContactoPage = '';
 $activeRedes = '';
 $activeContenido = '';
+$activeUsuarios = '';
+$activeColores = '';
 $seccionActual = (!empty($pagina[1])) ? $pagina[1] : '';
 switch ($seccionActual) {
     case 'contacto':
@@ -57,6 +59,14 @@ switch ($seccionActual) {
     case 'metas':
         $activeMetas = 'active';
         $activeConfiguraciones = 'active';
+        break;
+    case 'usuarios':
+        $activeConfiguraciones = 'active';
+        $activeUsuarios = 'active';
+        break;
+    case 'colores':
+        $activeConfiguraciones = 'active';
+        $activeColores = 'active';
         break;
     default :
         $activeDashboard = 'active';
@@ -180,7 +190,8 @@ switch ($seccionActual) {
                             <ul class="treeview-menu">
                                 <li class="<?= $activeDatos; ?>"><a href="<?= URL; ?>admin/datos"><i class="fa fa-circle-o"></i> <span>Datos Generales</span></a></li>
                                 <li class="<?= $activeMetas; ?>"><a href="<?= URL; ?>admin/metas"><i class="fa fa-circle-o"></i> <span>Meta Etiquetas   </span></a></li>
-                                <li><a href="<?= URL; ?>admin/usuarios"><i class="fa fa-circle-o"></i> <span>Usuarios </span></a></li>
+                                <li class="<?= $activeUsuarios; ?>"><a href="<?= URL; ?>admin/usuarios"><i class="fa fa-circle-o"></i> <span>Usuarios </span></a></li>
+                                <li class="<?= $activeColores; ?>"><a href="<?= URL; ?>admin/colores"><i class="fa fa-circle-o"></i> <span>Colores </span></a></li>
                             </ul>
                         </li>
                         <li class="<?= $activeContacto; ?> treeview"><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> <span>Contacto</span> <i class="fa fa-angle-left pull-right"></i></a>

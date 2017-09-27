@@ -11,7 +11,6 @@ $video = $helper->getVideo();
 <!--[if lt IE 9]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
 <div id="wrapper" class="no-menubar">
     <div id="main">
         <div class="section st-no-padding">
@@ -50,8 +49,8 @@ $video = $helper->getVideo();
             <section>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-8">
-                            <h3 class="Oswald" data-animate="flipInX" style="color:#ccc;">Quiénes Somos</h3>
+                        <div class="col-md-8 textoQuienesSomos">
+                            <h3 class="Oswald" data-animate="flipInX">Quiénes Somos</h3>
                             <?= utf8_encode($quienesSomos['quienes_somos']); ?>
                         </div>
                     </div>
@@ -60,7 +59,7 @@ $video = $helper->getVideo();
         </div> <!-- section -->
         <div id="equipo" class="section st-bg-grey-lighter">
             <section>
-                <div class="section-title">
+                <div class="section-title textoElEquipo">
                     <h2 data-animate="fadeInLeftBig" class="Oswald">El Equipo</h2>
                     <div class="col-md-8 col-centered">
                         <?= utf8_encode($quienesSomos['el_equipo']); ?>
@@ -87,7 +86,7 @@ $video = $helper->getVideo();
         <div class="section st-invert">
             <section>
                 <div class="container container-800 text-center">
-                    <div class="section-title">
+                    <div class="section-title textoDemoReel">
                         <h2 data-animate="fadeInDown" class=""> Demo Reel</h2>
                     </div>
                 </div>
@@ -99,11 +98,11 @@ $video = $helper->getVideo();
         <div id="unidades" class="section">
             <section>
                 <div class="container">
-                    <div class="section-title">
+                    <div class="section-title textoServicios">
                         <h2 data-animate="fadeInDown" class="Oswald">Servicios</h2>
                     </div>
 
-                    <div class="row services-block">
+                    <div class="row services-block textoServiciosList">
                         <?php
                         $colServicio = count($unidadesNegocio);
                         if ($colServicio == 2) {
@@ -128,7 +127,7 @@ $video = $helper->getVideo();
         </div> <!-- section -->
         <div class="section st-padding-xl parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/<?= $configSitio['img_frase']; ?>');">
             <section>
-                <div class="container testimonial" data-animate="bounceIn">
+                <div class="container testimonial textoFrase" data-animate="bounceIn">
                     <h3 class="citation-big" style="color:#fff;">“<?= utf8_encode($configSitio['frase']); ?>” </h3>
                     <p class="author-big" style="color:#fff;"><?= utf8_encode($configSitio['autor_frase']); ?></p>
                 </div> <!-- container -->
@@ -137,7 +136,7 @@ $video = $helper->getVideo();
         <div id="trabajos" class="section st-invert no-padding">
             <section>
 
-                <ul class="gallety-filters Oswald">
+                <ul class="gallety-filters Oswald textoTrabajosTitulo">
                     <li class="active"><a data-filter="*" href="#">TODOS</a></li>
                     <?php foreach ($helper->getCategorias() as $item): ?>
                         <li><a data-filter="<?= strtolower(utf8_encode($item['tag'])); ?>" href="#"><?= utf8_encode($item['descripcion']); ?></a></li>
@@ -218,10 +217,10 @@ $video = $helper->getVideo();
                                         </div>
                                     <?php endif; ?>
                                     <?php $textoResumido = (strlen($contenido['contenido']) > 180) ? substr(utf8_encode($contenido['contenido']), 0, 180) . '...' : $contenido['contenido']; ?>
-                                    <div class="col-sm-4 lg-preview-descr sourcePro">
+                                    <div class="col-sm-4 lg-preview-descr sourcePro textoTrabajosContenido">
                                         <h4><?= utf8_encode($contenido['titulo']); ?></h4>
                                         <p><?= strip_tags($textoResumido); ?></p>
-                                        <a href="<?= URL; ?>post/contenido/<?= $contenido['id'] . '/' . $this->helper->getPostTitle($contenido['id'])['url']; ?>" class="btn btn-primary glp-readmore linkWhite">Leer màs</a>
+                                        <!--<a href="<?= URL; ?>post/contenido/<?= $contenido['id'] . '/' . $this->helper->getPostTitle($contenido['id'])['url']; ?>" class="btn btn-primary glp-readmore linkWhite">Leer màs</a>-->
                                     </div>
                                 </div>
                             </div> <!-- gl-preview -->
@@ -236,7 +235,7 @@ $video = $helper->getVideo();
         </div> <!-- section -->
         <div id="clientes" class="section st-bg-grey-lighter">
             <section>
-                <div class="container">
+                <div class="container textoClientes">
                     <h2 class="section-title Oswald" data-animate="fadeInDown">Clientes</h2>
                     <p class="section-descr"><?= utf8_encode($configSitio['texto_cliente']); ?></p>
                     <section class="center slider">
@@ -253,7 +252,7 @@ $video = $helper->getVideo();
         <div id="trabaja" class="section st-invert">
             <section>
                 <div class="container container-800 text-center">
-                    <div class="section-title">
+                    <div class="section-title textoTrabaja">
                         <h2 data-animate="fadeInDown" class="Oswald"><?= utf8_encode($configSitio['titulo_trabaja']); ?></h2>
                         <p data-animate="flipInX"><?= utf8_encode($configSitio['texto_trabaja']); ?></p>
                     </div>
@@ -269,7 +268,7 @@ $video = $helper->getVideo();
         </div> <!-- section -->
         <div id="contacto" class="section st-invert parallax" data-stellar-background-ratio="0.5"  data-stellar-vertical-offset="-150" style="background-image: url('<?= ASSETS; ?>img/fondos/<?= utf8_encode($configSitio['img_contacto']); ?>');">
             <section>
-                <div class="container">
+                <div class="container textoContacto">
                     <h2 class="section-title Oswald" data-animate="fadeInDown">Contacto</h2>
                     <div class="row">
                         <div class="col-md-8">
@@ -350,7 +349,7 @@ $video = $helper->getVideo();
         <div id="footer" class="widget-footer">
             <footer>
                 <div class="container">
-                    <div class="row">
+                    <div class="row textoFooter">
                         <div class="col-lg-3 col-md-6">
                             <div class="widget">
                                 <h3 class="wg-title sourcePro">Nosotros</h3>

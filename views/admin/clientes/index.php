@@ -44,7 +44,7 @@ $helper = new Helper();
                     <div class="box-header">
                         <h3 class="box-title">Listado de Clientes</h3>
                         <div class="col-xs-6 pull-right">
-                            <button type="button" class="btn btn-block btn-primary btnAgregarCliente">Agregar Nueva Cliente</button>
+                            <button type="button" class="btn btn-block btn-primary btnAgregarCliente">Agregar Nuevo Cliente</button>
                         </div>
                     </div>
                     <!-- /.box-header -->

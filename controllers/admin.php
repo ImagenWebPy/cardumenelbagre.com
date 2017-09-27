@@ -90,9 +90,22 @@ class Admin extends Controller {
         $this->view->public_css = array("plugins/html5fileupload/html5fileupload.css");
         $this->view->publicHeader_js = array("plugins/html5fileupload/html5fileupload.min.js");
         $this->view->public_js = array("plugins/ckeditor/ckeditor.js", "plugins/html5fileupload/html5fileupload.min.js");
-        $this->view->title = 'Dato Generales';
+        $this->view->title = 'Datos Generales';
         $this->view->render('admin/header');
         $this->view->render('admin/datos/index');
+        $this->view->render('admin/footer');
+        if (!empty($_SESSION['message']))
+            unset($_SESSION['message']);
+    }
+
+    public function colores() {
+        $this->view->getColores = $this->helper->getColores();
+        $this->view->public_css = array("plugins/colorpicker/bootstrap-colorpicker.min.css");
+        $this->view->public_js = array("plugins/colorpicker/bootstrap-colorpicker.min.js");
+        $this->view->js = array("admin/colores/js/init.js");
+        $this->view->title = 'Colores';
+        $this->view->render('admin/header');
+        $this->view->render('admin/colores/index');
         $this->view->render('admin/footer');
         if (!empty($_SESSION['message']))
             unset($_SESSION['message']);
@@ -672,7 +685,6 @@ class Admin extends Controller {
         echo json_encode($data);
     }
 
-
     public function editUsuario() {
         header('Content-type: application/json; charset=utf-8');
         $data = array(
@@ -1242,6 +1254,18 @@ class Admin extends Controller {
             'autor' => $this->helper->cleanInput($_POST['autor'])
         );
         $datos = $this->model->editFrase($data);
+        echo $datos;
+    }
+
+    public function editColores() {
+        header('Content-type: application/json; charset=utf-8');
+        $data = array(
+            'titulo_id' => $this->helper->cleanInput($_POST['titulo_id']),
+            'titulo_hex' => $this->helper->cleanInput($_POST['titulo_hex']),
+            'contenido_id' => (!empty($_POST['contenido_id'])) ? $this->helper->cleanInput($_POST['contenido_id']) : '',
+            'contenido_hex' => (!empty($_POST['contenido_hex'])) ? $this->helper->cleanInput($_POST['contenido_hex']) : ''
+        );
+        $datos = $this->model->editColores($data);
         echo $datos;
     }
 

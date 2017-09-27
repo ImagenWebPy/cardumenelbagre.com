@@ -1880,8 +1880,9 @@ class Admin_Model extends Model {
                     <div class="form-group">
                         <label>URL</label>
                         <input type="text" name="cliente[url]" class="form-control" placeholder="Ingrese la marca" value="">
-                    </div>
-                    <div class="form-group">
+                    </div>';
+        $form .= $this->helper->messageAlert('warning', 'Tamaño de imagen recomendada: 350px x 300px.');
+        $form .= '  <div class="form-group">
                         <label>Imagen</label>
                         <div class="html5fileupload fileMarca" data-form="true" data-url="html5fileupload.php" data-valid-extensions="JPG,JPEG,jpg,png,jpeg" style="width: 100%;">
                             <input type="file" name="file_archivo" />
@@ -1962,8 +1963,9 @@ class Admin_Model extends Model {
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary">Edita Contenido</button>
                     </div>
-                </form>
-                <div class="form-group">
+                </form>';
+        $form .= $this->helper->messageAlert('warning', 'Tamaño de imagen recomendada: 350px x 300px.');
+        $form .= ' <div class="form-group">
                         <label>Imagen</label>
                         <div class="html5fileupload fileUploadCliente" data-url="' . URL . 'admin/uploadImgCliente" data-valid-extensions="JPG,JPEG,jpg,png,jpeg" style="width: 100%;">
                             <input type="file" name="file" />
@@ -2286,6 +2288,33 @@ class Admin_Model extends Model {
     public function datosTrabaja() {
         $sql = $this->db->select("select titulo_trabaja, texto_trabaja from config_sitio where id = 1");
         return $sql[0];
+    }
+
+    public function getColores() {
+        $sql = $this->db->select("SELECT * FROM `config_colores` where estado = 1;");
+        return $sql;
+    }
+
+    public function editColores($data) {
+        $idTitulo = $data['titulo_id'];
+        $updateTitulo = array(
+            'hex' => $data['titulo_hex']
+        );
+        $this->db->update('config_colores', $updateTitulo, "id = $idTitulo");
+        if (!empty($data['contenido_id'])) {
+            $idContenido = $data['contenido_id'];
+            $updateContenido = array(
+                'hex' => $data['contenido_hex']
+            );
+            $this->db->update('config_colores', $updateContenido, "id = $idContenido");
+        }
+        $sql = $this->db->select("select seccion from config_colores where id = $idTitulo");
+        $datos = array(
+            'type' => 'success',
+            'titulo' => $sql[0]['seccion'],
+            'contenido' => 'Se han actualizado correctamente los coleres de la sección'
+        );
+        return json_encode($datos);
     }
 
 }

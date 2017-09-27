@@ -559,4 +559,9 @@ class Helper {
         $sql = $this->db->select("SELECT count(*) as cant FROM post where estado = 1;");
         return $sql[0]['cant'];
     }
+    
+    public function getColores() {
+        $sql = $this->db->select("SELECT * FROM `config_colores` where estado = 1;");
+        return $sql;
+    }
 }

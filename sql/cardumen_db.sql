@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2017-09-24 16:50:32
+Date: 2017-09-26 22:10:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -83,22 +83,58 @@ INSERT INTO `clientes` VALUES ('10', 'Johnson& Johnson', 'johnson&johnson.png', 
 INSERT INTO `clientes` VALUES ('11', 'Kia', 'kia.png', null, '1');
 INSERT INTO `clientes` VALUES ('12', 'La Consolidada', 'la-consolidada.png', null, '1');
 INSERT INTO `clientes` VALUES ('13', 'Nestle', 'nestle.png', null, '1');
-INSERT INTO `clientes` VALUES ('38', 'telefuturo', '38_logo_telefuturo.png', '', '1');
+INSERT INTO `clientes` VALUES ('38', 'telefuturo', '38_logo-telefuturo.png', '', '1');
 INSERT INTO `clientes` VALUES ('15', 'RPC', 'rpc.png', null, '1');
 INSERT INTO `clientes` VALUES ('16', 'Tigo Sports', 'tigo_sports.png', null, '1');
-INSERT INTO `clientes` VALUES ('25', 'Garden', '25_logo-garden.png', '', '1');
+INSERT INTO `clientes` VALUES ('25', 'Garden', '25_logo-garden2.png', '', '1');
 INSERT INTO `clientes` VALUES ('24', 'Shopping Mariano', '24_marianoportada.png', '', '1');
 INSERT INTO `clientes` VALUES ('26', 'Pinedo Shopping', '26_pinedoportada.png', '', '1');
-INSERT INTO `clientes` VALUES ('27', 'Frigorífico Guaraní', '27_logo_guarani.png', '', '1');
-INSERT INTO `clientes` VALUES ('28', 'Mitsubishi', '28_mitsubishi.png', '', '1');
-INSERT INTO `clientes` VALUES ('29', 'Shopping Mariscal', '29_logo_mcal.png', '', '1');
-INSERT INTO `clientes` VALUES ('30', 'urba inmobiliaria', '30_urba.png', '', '1');
-INSERT INTO `clientes` VALUES ('31', 'Shopping Multiplaza', '31_multiplaza.png', '', '1');
-INSERT INTO `clientes` VALUES ('32', 'Lácteos trebol', '32_trebol1.png', '', '1');
+INSERT INTO `clientes` VALUES ('27', 'Frigorífico Guaraní', '27_logo-frigo-guarani.png', '', '1');
+INSERT INTO `clientes` VALUES ('28', 'Mitsubishi', '28_logo-mitsubishi.png', '', '1');
+INSERT INTO `clientes` VALUES ('29', 'Shopping Mariscal', '29_shopping-mariscal.png', '', '1');
+INSERT INTO `clientes` VALUES ('30', 'urba inmobiliaria', '30_urba-logo.png', '', '1');
+INSERT INTO `clientes` VALUES ('31', 'Shopping Multiplaza', '31_logo-multiplaza.png', '', '1');
+INSERT INTO `clientes` VALUES ('32', 'Lácteos trebol', '32_lacteos-trebol-logo.png', '', '1');
 INSERT INTO `clientes` VALUES ('34', 'SNT', '34_SNT_LOGO.jpg', '', '1');
 INSERT INTO `clientes` VALUES ('35', 'Banco Regional', '35_regional.png', '', '1');
-INSERT INTO `clientes` VALUES ('36', 'Tonina', '36_logo_tonina.png', '', '1');
+INSERT INTO `clientes` VALUES ('36', 'Tonina', '36_logo-tonina.png', '', '1');
 INSERT INTO `clientes` VALUES ('37', 'Canal Pro', '37_canal_pro_icono.jpg', '', '1');
+
+-- ----------------------------
+-- Table structure for config_colores
+-- ----------------------------
+DROP TABLE IF EXISTS `config_colores`;
+CREATE TABLE `config_colores` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `seccion` varchar(60) DEFAULT NULL,
+  `tipo` enum('Titulo','Contenido') DEFAULT NULL,
+  `hex` varchar(30) DEFAULT NULL,
+  `estado` int(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of config_colores
+-- ----------------------------
+INSERT INTO `config_colores` VALUES ('1', 'Quienes Somos', 'Titulo', '#ccc', '1');
+INSERT INTO `config_colores` VALUES ('2', 'Quienes Somos', 'Contenido', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('3', 'El Equipo', 'Titulo', '#444649', '1');
+INSERT INTO `config_colores` VALUES ('4', 'El Equipo', 'Contenido', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('5', 'Demo Reel', 'Titulo', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('6', 'Servicios', 'Titulo', '#444649', '1');
+INSERT INTO `config_colores` VALUES ('7', 'Servicios ', 'Contenido', '#333', '1');
+INSERT INTO `config_colores` VALUES ('8', 'Frase', 'Titulo', '#fff', '1');
+INSERT INTO `config_colores` VALUES ('9', 'Frase', 'Contenido', '#fff', '1');
+INSERT INTO `config_colores` VALUES ('10', 'Trabajos', 'Titulo', '#C54C7B', '1');
+INSERT INTO `config_colores` VALUES ('11', 'Trabajos', 'Contenido', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('12', 'Clientes', 'Titulo', '#444649', '1');
+INSERT INTO `config_colores` VALUES ('13', 'Clientes', 'Contenido', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('14', 'Trabaja', 'Titulo', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('15', 'Trabaja', 'Contenido', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('16', 'Contacto', 'Titulo', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('17', 'Contacto', 'Contenido', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('18', 'Footer', 'Titulo', '#8e9095', '1');
+INSERT INTO `config_colores` VALUES ('19', 'Footer', 'Contenido', '#8e9095', '1');
 
 -- ----------------------------
 -- Table structure for config_redes
@@ -111,7 +147,7 @@ CREATE TABLE `config_redes` (
   `url` varchar(180) DEFAULT NULL,
   `estado` int(1) unsigned DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of config_redes
@@ -186,12 +222,16 @@ CREATE TABLE `contacto` (
   `fecha` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
   `estado` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of contacto
 -- ----------------------------
 INSERT INTO `contacto` VALUES ('1', 'Raul', 'raul.chuky@gmail.com', 'Prueba', 'Esto es una prueba', '2017-09-05 21:05:44', '1');
+INSERT INTO `contacto` VALUES ('2', '', '', '', '', '2017-09-26 13:36:03', '0');
+INSERT INTO `contacto` VALUES ('3', '', '', null, '', '2017-09-26 13:37:22', '0');
+INSERT INTO `contacto` VALUES ('4', '', '', '', '', '2017-09-26 14:52:26', '0');
+INSERT INTO `contacto` VALUES ('5', '', '', null, '', '2017-09-26 14:53:48', '0');
 
 -- ----------------------------
 -- Table structure for locales
@@ -206,7 +246,7 @@ CREATE TABLE `locales` (
   `casa_central` int(1) DEFAULT '0',
   `estado` int(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of locales
@@ -367,7 +407,7 @@ CREATE TABLE `quienes_somos` (
 -- ----------------------------
 -- Records of quienes_somos
 -- ----------------------------
-INSERT INTO `quienes_somos` VALUES ('1', '<p><strong>Cardumen el bagre</strong>&nbsp;es una compa&ntilde;&iacute;a dedicada a la realizaci&oacute;n de las m&aacute;s diversas producciones audiovisuales incluyendo programas de TV, institucionales, comerciales publicitarios, postproducci&oacute;n y postaudio para m&uacute;ltiples plataformas (radio, TV, digital, etc.)</p>\r\n\r\n<p>Nos desarrollamos con &eacute;xito desde el a&ntilde;o 2008 y producimos desde entonces para los canales m&aacute;s importantes de Paraguay.</p>\r\n\r\n<p>En publicidad y TV, la creatividad de un equipo humano liderado por j&oacute;venes realizadores y generadores de contenidos audiovisuales nos han permitido contar con importantes reconocimientos tanto a nivel nacional como internacional en el &aacute;mbito p&uacute;blico y privado.</p>\r\n\r\n<p>Tenemos 2 estudios de cine y TV con los cuales brindamos servicios publicitarios y televisivos y en los que trabajamos con los m&aacute;s importantes medios de comunicaci&oacute;n del pa&iacute;s.</p>\r\n\r\n<p>Con un estilo fresco y descontracturado en&nbsp;<strong>Cardumen el Bagre</strong>&nbsp;trabajamos incansablemente en ofrecer cada vez mayores productos audiovisuales, entretenidos y &oacute;ptimos para un mercado global cada vez m&aacute;s competitivo.</p>\r\n\r\n<p>Para el a&ntilde;o 2018 se vienen nuevos desaf&iacute;os fieles a nuestra principal caracter&iacute;stica: la innovaci&oacute;n constante, y en ese camino VAMOS CONTRA CORRIENTE.</p>\r\n', '<p>Apostamos por los nuevos formatos y buscamos nuevas experiencias para el espectador. De esta manera nuestro staff integrado por productores, realizadores y guionistas trabaja en la puesta en marcha de nuevos formatos audiovisuales atentos a las innovaciones artísticas y tecnológicas para seguir conquistando al público. Aprovechamos todos los formatos y todas las pantallas disponibles para contar historias, experiencias y emociones.</p>', 'equipo.jpg', 'FACHADA2.jpg');
+INSERT INTO `quienes_somos` VALUES ('1', '<p><strong>Cardumen el bagre</strong>&nbsp;es una compa&ntilde;&iacute;a dedicada a la realizaci&oacute;n de las m&aacute;s diversas producciones audiovisuales incluyendo programas de TV, institucionales, comerciales publicitarios, postproducci&oacute;n y postaudio para m&uacute;ltiples plataformas (radio, TV, digital, etc.)</p>\r\n\r\n<p>Nos desarrollamos con &eacute;xito desde el a&ntilde;o 2008 y producimos desde entonces para los canales m&aacute;s importantes de Paraguay.</p>\r\n\r\n<p>En publicidad y TV, la creatividad de un equipo humano liderado por j&oacute;venes realizadores y generadores de contenidos audiovisuales nos han permitido contar con importantes reconocimientos tanto a nivel nacional como internacional en el &aacute;mbito p&uacute;blico y privado.</p>\r\n\r\n<p>Tenemos 2 estudios de cine y TV con los cuales brindamos servicios publicitarios y televisivos y en los que trabajamos con los m&aacute;s importantes medios de comunicaci&oacute;n del pa&iacute;s.</p>\r\n\r\n<p>Con un estilo fresco y descontracturado en&nbsp;<strong>Cardumen el Bagre</strong>&nbsp;trabajamos incansablemente en ofrecer cada vez mayores productos audiovisuales, entretenidos y &oacute;ptimos para un mercado global cada vez m&aacute;s competitivo.</p>\r\n\r\n<p>Para el a&ntilde;o 2018 se vienen nuevos desaf&iacute;os fieles a nuestra principal caracter&iacute;stica: la innovaci&oacute;n constante, y en ese camino VAMOS CONTRA CORRIENTE.</p>\r\n', '<p>Apostamos por los nuevos formatos y buscamos nuevas experiencias para el espectador. De esta manera nuestro staff integrado por productores, realizadores y guionistas trabaja en la puesta en marcha de nuevos formatos audiovisuales atentos a las innovaciones artísticas y tecnológicas para seguir conquistando al público. Aprovechamos todos los formatos y todas las pantallas disponibles para contar historias, experiencias y emociones.</p>', 'equipo.jpg', 'estudio_2bcd.jpg');
 
 -- ----------------------------
 -- Table structure for tipo_archivo
@@ -423,11 +463,11 @@ CREATE TABLE `unidades_negocio` (
   `contenido` text,
   `estado` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of unidades_negocio
 -- ----------------------------
 INSERT INTO `unidades_negocio` VALUES ('1', 'PUBLICIDAD', '<ul>\r\n	<li>Spots de TV</li>\r\n	<li>Spots radiales</li>\r\n	<li>Documentales</li>\r\n	<li>Institucionales</li>\r\n	<li>Virales digitales</li>\r\n	<li>Adaptaciones de productos</li>\r\n	<li>Cobertura de eventos</li>\r\n	<li>Streaming</li>\r\n	<li>Servicios de producci&oacute;n</li>\r\n	<li>Postproducci&oacute;n</li>\r\n	<li>Postaudio</li>\r\n</ul>\r\n', '1');
-INSERT INTO `unidades_negocio` VALUES ('2', 'TELEVISIÓN', '<ul>\r\n	<li>Desarrollo integral de contenidos</li>\r\n	<li>Servicios de Producci&oacute;n</li>\r\n	<li>Adaptaci&oacute;n de formatos</li>\r\n	<li>Producci&oacute;n integral de eventos especiales para la televisi&oacute;n</li>\r\n	<li>Streaming</li>\r\n	<li>Estudio de TV de 400 metros cuadrados</li>\r\n</ul>\r\n', '1');
+INSERT INTO `unidades_negocio` VALUES ('2', 'TELEVISIÓN', '<ul>\r\n	<li>Desarrollo integral de contenidos</li>\r\n	<li>Servicios de Producci&oacute;n</li>\r\n	<li>Adaptaci&oacute;n de formatos</li>\r\n	<li>Producci&oacute;n integral de programas de televisi&oacute;n</li>\r\n	<li>Streaming</li>\r\n	<li>Estudio de TV 1 --&nbsp;400 metros cuadrados</li>\r\n	<li>Estudio de TV 2 -- 200 metros cuadrados</li>\r\n</ul>\r\n', '1');
 SET FOREIGN_KEY_CHECKS=1;
